@@ -1,0 +1,35 @@
+doctype html
+html
+  head
+    title #{title}
+    link(rel='stylesheet', href='/css/login.css')
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+  body
+    div#banner 
+      a
+        img(
+          src='./images/logo.png'
+          style='width:300px; height:300px'
+        )
+    div.login 
+      h1 Sign In
+      br
+      form 
+        input(
+          type="text"
+          name=""
+          placeholder="Username"
+          required
+        )
+        input(
+          type="text"
+          name=""
+          placeholder="Password"
+          required
+        )
+        a 
+          input(
+            type="submit"
+            name=""
+            value="Login"
+          )
