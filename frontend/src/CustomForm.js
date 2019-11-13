@@ -42,18 +42,33 @@ class CustomForm extends React.Component
 
 		event.preventDefault();
 	}
+
+	deleteEntry(event)
+	{
+		axios.delete('http://localhost:' + API_PORT +  '/api/mapping',
+		{
+			data:
+			{
+				id1: this.state.textBoxes[0].state.value,
+				id2: this.state.textBoxes[1].state.value
+			}
+		})
+		.then(function (response)
+		{
+			console.log(response);
+		})
+		.catch(function (error)
+		{
+			console.log(error);
+		});
+
+		event.preventDefault();
+	}
   
 	render() {
 	  return (
-		// <form onSubmit={this.handleSubmit}>
-		//   <label>
-		// 	Name:
-		// 	<input type="text" value={this.state.value} onChange={this.handleChange} />
-		//   </label>
-		//   <input type="submit" value="Submit" />
-		// </form>
 
-		<form onSubmit={this.handleSubmit}>
+		<form>
 			<div className="form-group">
 				<label>id1</label>
 				{this.state.textBoxes[0].render()}
@@ -62,7 +77,8 @@ class CustomForm extends React.Component
 				<label >id2</label>
 				{this.state.textBoxes[1].render()}
 			</div>
-			<button type="submit" className="btn btn-primary" value="Submit">Submit mapping</button>
+			<button className="btn btn-primary" onClick={(event) => {this.handleSubmit(event);}}>Submit mapping</button>
+			<button className="btn btn-primary" onClick={(event) => {this.deleteEntry(event);}}>Delete mapping</button>
 		</form>
 	  );
 	}
