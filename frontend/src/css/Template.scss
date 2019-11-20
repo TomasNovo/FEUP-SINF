@@ -100,7 +100,8 @@
   border-left: 3px solid rgb(25,48,93);
   /* border-bottom: 1px solid #23282e; */
 }
-.nav-side-menu li a {
+.nav-side-menu li a 
+{ left: 5%;
   text-decoration: none;
   color: #e1ffff;
 }
@@ -155,7 +156,8 @@ body {
   background-color: rgb(25,48,93);
 }
 
-.nav-side-menu .settings li a 
+.menu-list .settings
 {
-  text-align: center;
+  position: absolute;
+  bottom: 20%;
 }

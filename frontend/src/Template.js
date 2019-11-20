@@ -55,7 +55,7 @@ class Template extends React.Component
                                 </ul>
 
                             <li>
-                            <a href="#" classe="settings">
+                            <a href="#" class="settings">
                             ⚙️ Settings
                             </a>
                             </li>
