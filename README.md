@@ -1,2 +1,2 @@
 # FEUP-SINF
-Programming in Node.js and Primavera SINF 2019/2020 at FEUP.
+Programming in Node.js and React with Primavera SINF 2019/2020 at FEUP.
