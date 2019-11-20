@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 
 import CustomForm from './CustomForm';
+import Template from './Template.js';
 
 const API_PORT = 7000;
 
@@ -44,22 +45,23 @@ class App extends React.Component
 	
 	render() {
 		return (
-			<Container className="p-3">
-				<Jumbotron>
-					<h1 className="header">Welcome To React-Bootstrap</h1>
-					<CustomForm />
-				</Jumbotron>
+			<Template />
+			// <Container className="p-3">
+			// 	<Jumbotron>
+			// 		<h1 className="header">Welcome To React-Bootstrap</h1>
+			// 		<CustomForm />
+			// 	</Jumbotron>
 
-				<Jumbotron>
-					<Button variant="primary" onClick={() => {this.getDataFromDb();}}>
-						Fetch mapping
-					</Button>
-					<h1><br></br>Result:</h1>
-					<div>
-						{this.state.data}
-					</div>
-				</Jumbotron>
-			</Container>
+			// 	<Jumbotron>
+			// 		<Button variant="primary" onClick={() => {this.getDataFromDb();}}>
+			// 			Fetch mapping
+			// 		</Button>
+			// 		<h1><br></br>Result:</h1>
+			// 		<div>
+			// 			{this.state.data}
+			// 		</div>
+			// 	</Jumbotron>
+			// </Container>
 		);
 	}
 };
