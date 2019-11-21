@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 
 import CustomForm from './CustomForm';
-import Template from './Template.js';
+import Settings from './Settings.js';
 
 const API_PORT = 7000;
 
@@ -45,7 +45,7 @@ class App extends React.Component
 	
 	render() {
 		return (
-			<Template />
+			<Settings />
 			// <Container className="p-3">
 			// 	<Jumbotron>
 			// 		<h1 className="header">Welcome To React-Bootstrap</h1>

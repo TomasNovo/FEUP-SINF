@@ -1,0 +1,115 @@
+.accountInfo
+{
+    color: white;
+    font-size: 2em;
+    margin-left: 10%;
+    margin-top: 2%;
+    width: 35%;
+    height: 50%;
+}
+
+.grant, .clientId, .clientSecret
+{
+    color: grey;
+    background-color: white;
+    width: 80%;
+}
+
+.grant > p, .clientId > p, .clientSecret > p
+{
+    margin-left: 10%;
+    font-size: 0.5em;
+}
+
+.grant > p > input, .clientId > p > input, .clientSecret > p > input
+{
+    float: right;
+    font-size: 0.82em;
+}
+
+input[type=text], input[type=password] 
+{
+    text-align: right;
+}
+
+.Intercompany
+{
+    background-color: rgb(127,149,181);
+    margin-left: 10%;
+    margin-top: 7%;
+    display: flex;
+    height: 30%;
+}
+
+.Intercompany .Originating 
+{
+    background-color: rgb(127,149,181);
+    width: 50%;
+    float: left;
+}
+
+.Intercompany .Destination 
+{
+    background-color: rgb(127,149,181);
+    width: 50%;
+    float: right;
+    margin-bottom: 2%;
+    margin-right: 2%;
+} 
+
+.Intercompany .Originating > h1, .Intercompany .Destination > h1 
+{
+    margin-left: 6%;
+    color: white;
+} 
+
+.Intercompany .Originating > p, .Intercompany .Destination > p 
+{
+    margin-left: 10%;
+    color: white;
+    margin-bottom: -0.3%;
+} 
+
+.Intercompany .Originating > input, .Intercompany .Destination > input 
+{
+    margin-left: 7%;
+    width: 91%;
+} 
+
+
+.Debit
+{
+    margin-top: 3%;
+    width: 50%;
+    float: left;
+}
+
+.Credit
+{
+    margin-top: 3%;
+    width: 50%;
+    float: right;
+}
+
+.Debit > p, .Credit > p 
+{
+    margin-left: 20%;
+    color: white;
+    margin-bottom: -0.3%;
+} 
+
+.Debit > input, .Credit > input 
+{
+    margin-left: 14%;
+} 
+
+.Update > input[type="submit"]
+{
+    float: right;
+    margin-top: 3%;
+    width: 21%;
+    color: white;
+    background-color: rgb(254,0,0);
+    border: solid 0.6em rgb(254,0,0);
+    border-radius: 0.4em;
+}
