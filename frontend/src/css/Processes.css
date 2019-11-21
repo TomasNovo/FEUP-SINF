@@ -1,0 +1,56 @@
+.addProcess
+{
+    margin-top: 3%;
+    width: 20%;
+    margin-left: 10%;
+    font-size: 1.5em;
+}
+
+
+.addProcess > p
+{
+    color: white;
+}
+
+p > input[type="submit"]
+{
+    margin-right: 3%;
+    background-color: rgb(53,102,166);
+    color: white;
+    border: solid 0.2em rgb(53,102,166);
+    border-radius: 0.2em;
+}
+
+p > input[type="submit"]:hover
+{
+    color: rgb(254,0,0);
+}
+
+#accordion
+{
+    margin-top: 2%;
+    margin-left: 45%;
+}
+
+#headingOne, #headingTwo
+{
+    background-color: rgb(53,102,166);
+    text-align: center;
+}
+
+button[type="button"] 
+{
+    color: white;
+}
+
+button[type="button"]:hover 
+{
+    border: solid 0.1em rgb(254,0,0);
+    color: white;
+}
+
+.card
+{
+    width: 50%;
+    margin-bottom: 5em;
+}

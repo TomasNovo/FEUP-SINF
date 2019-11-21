@@ -7,6 +7,7 @@ import axios from 'axios';
 
 import CustomForm from './CustomForm';
 import Settings from './Settings.js';
+import Processes from './Processes.js';
 
 const API_PORT = 7000;
 
@@ -45,7 +46,11 @@ class App extends React.Component
 	
 	render() {
 		return (
-			<Settings />
+			
+			<Processes />
+			
+			// <Settings />
+			
 			// <Container className="p-3">
 			// 	<Jumbotron>
 			// 		<h1 className="header">Welcome To React-Bootstrap</h1>
