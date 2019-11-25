@@ -2,7 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from "react-bootstrap/Container";
 import './css/Settings.css'
-import Template from './Template.js';
+import Template from '../templates/Template.js';
 
 class Settings extends React.Component 
 {

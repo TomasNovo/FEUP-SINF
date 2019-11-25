@@ -1,13 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Jumbotron from "react-bootstrap/Jumbotron";
-import Container from "react-bootstrap/Container";
-import Button from 'react-bootstrap/Button';
 import axios from 'axios';
-
-import CustomForm from './CustomForm';
-import Settings from './Settings.js';
-import Processes from './Processes.js';
+import Processes from './pages/Processes.js';
 
 const API_PORT = 7000;
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from "react-bootstrap/Container";
-import './css/Processes.css'
-import Template from './Template.js';
+import '../css/Processes.css'
+import Template from '../templates/Template.js';
 
 class Processes extends React.Component 
 {
