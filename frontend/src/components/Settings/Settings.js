@@ -1,15 +1,15 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from "react-bootstrap/Container";
-import './css/Settings.css'
-import Template from '../templates/Template.js';
+import './Settings.css'
+import PageTemplate from '../PageTemplate/PageTemplate';
 
 class Settings extends React.Component 
 {
 	render() {
 		return (
             <body>
-                <Template/>
+                <PageTemplate/>
                 <Container>
                     <div className="accountInfo">
                         <p>Account Info</p>

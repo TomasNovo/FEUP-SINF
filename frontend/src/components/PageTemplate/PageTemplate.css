@@ -1,0 +1,25 @@
+.logo
+{
+  margin-left: 0%;
+  border-bottom: solid 0.2em rgb(254,0,0);
+  background-color: white;
+  display: block;
+}
+
+@media (max-width: 767px) 
+{
+  .brand 
+  {
+    text-align: left !important;
+    font-size: 22px;
+    padding-left: 20px;
+    line-height: 50px !important;
+  }
+}
+
+body 
+{
+  margin: 0px;
+  padding: 0px;
+  background-color: rgb(25,48,93);
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import CustomTextBox from './CustomTextBox';
+import CustomTextBox from '../CustomTextBox/CustomTextBox';
 import axios from 'axios';
 
 const API_PORT = 7000;

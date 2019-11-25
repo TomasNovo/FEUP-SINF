@@ -1,15 +1,15 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from "react-bootstrap/Container";
-import '../css/Processes.css'
-import Template from '../templates/Template.js';
+import './Processes.css';
+import PageTemplate from '../PageTemplate/PageTemplate';
 
 class Processes extends React.Component 
 {
-	render() {
-		return (
-            <body>
-                <Template/>
+    render() 
+    {
+        return (
+            <PageTemplate page="processes">
                 <Container>
                     <div className="addProcess">
                         <p>
@@ -50,8 +50,7 @@ class Processes extends React.Component
                         </div>
                     </div>
                 </Container>
-            </body>
-
+            </PageTemplate>    
         );
 	}
 };
