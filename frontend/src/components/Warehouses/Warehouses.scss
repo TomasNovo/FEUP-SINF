@@ -1,0 +1,113 @@
+.all
+{
+    margin-left: 10%;
+    margin-top: 7%;
+    display: flex;
+    height: 30%;
+}
+
+.all .left 
+{
+    margin-top: -5%;
+    width: 50%;
+    float: left;
+}
+
+.all .right 
+{
+    background-color: rgb(127,149,181);
+    width: 50%;
+    float: right;
+    margin-right: 2%;
+    margin-top: -5%;
+} 
+
+.all .left > h1, .all .right > h1 
+{
+    margin-left: 6%;
+    color: white;
+} 
+
+.left h1
+{
+    font-size: 2em;
+    float: right;
+    margin-right: 7%;
+    margin-top: -8%;
+}
+
+.btn
+{
+    border-radius: none;
+    width: 10em;
+    font-size: 1.2em;
+}
+
+.btn-group
+{
+    width: 100%;
+}
+
+.show > .btn-secondary.dropdown-toggle
+{
+    background-color: rgb(25,48,93);
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: solid 0.1em white;
+}
+
+#dropdownMenuLink:hover 
+{
+    background-color: rgb(26, 63, 138);
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: solid 0.1em white;
+}
+
+#dropdownMenuLink:active    
+{
+  background-color: rgb(26, 63, 138);
+  border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: solid 0.1em white;
+}
+
+// Tirar aquela paneleiragem daquela border cinzenta
+#dropdownMenuLink:focus    
+{
+    background-color: rgb(26, 63, 138);
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: solid 0.1em white;
+}
+
+.localization
+{
+    margin-top: 8%;
+}
+
+.localization > p
+{
+    margin-left: 10%;
+    margin-top: -5% ;
+}
+
+p 
+{
+    color: white;
+}
+
+.assets
+{
+    margin-top: 15%;
+    font-size: 2em;
+    color: white;
+}
+
+.assets > p
+{
+}
