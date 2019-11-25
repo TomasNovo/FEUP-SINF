@@ -1,7 +1,6 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
-import Processes from './pages/Processes.js';
+import Processes from '../Processes/Processes';
 
 const API_PORT = 7000;
 
@@ -41,7 +40,7 @@ class App extends React.Component
 	render() {
 		return (
 			
-			<Processes />
+			<Processes/>
 			
 			// <Settings />
 			
