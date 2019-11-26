@@ -26,7 +26,7 @@
     font-size: 30pt;
     color: inherit;
     background-color: #6795D1;
-    border-radius: 0;
+    border-radius: 50%;
     height: 1em;
     width: 1em;
     line-height: 35px;
@@ -36,45 +36,88 @@
 .addProcess > span:last-child
 {
     font-size: 14pt;
-}
-
-p > input[type="submit"]
-{
-    margin-right: 3%;
-    
-    color: white;
-    border: solid 0.2em rgb(53,102,166);
-}
-
-p > input[type="submit"]:hover
-{
-    color: rgb(254,0,0);
+    position: relative;
+    top: 5px;
 }
 
 #accordion
 {
-    margin-top: 2%;
-    margin-left: 45%;
-}
-
-#headingOne, #headingTwo
-{
-    background-color: rgb(53,102,166);
-    text-align: center;
-}
-
-button[type="button"] 
-{
-    color: white;
-}
-
-button[type="button"]:hover 
-{
-    
+    width: 100%;
+    margin-top: 4em;
 }
 
 .card
 {
+    background-color: rgb(50, 84, 128);
+    border-radius: 1em !important;
     width: 50%;
-    margin-bottom: 5em;
+    margin: 5em auto;
+    border: none;
+    color: white;
+}
+
+.card-header
+{
+    background-color:#3566A6;
+}
+
+.card-header button
+{
+
+    font-size: 18pt;
+    width: 100%;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+}
+
+.card-header button:hover, .card-header button:focus
+{
+    text-decoration: none;
+    color: white;
+}
+
+.card-header button.collapsed::after
+{
+    font-family: 'Glyphicons Halflings'; 
+    content:"\e114";
+    float: right;          
+}
+
+.card-header button::after
+{
+    font-family: 'Glyphicons Halflings'; 
+    content: "\e113";   
+    float: right;  
+}
+
+.card-body
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.step, .card-body > i
+{
+    font-size: 16pt;
+    text-align: center;
+    margin-bottom: 1em;
+}
+
+.step > i
+{
+    font-size: 20pt;
+}
+
+.step > i:last-child
+{
+    margin-left: 1em;
+    color: rgb(8, 255, 8);
+
+}
+
+.step > i:first-child
+{
+    margin-right: 1em;
+    color: red;
 }

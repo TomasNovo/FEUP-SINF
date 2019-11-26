@@ -11,12 +11,12 @@ class Navbar extends React.Component
 		this.state = 
 		{
 			page: props.page
-		};
+        };
 	}
 
 	componentDidMount()
 	{
-		//TODO set hover effect depending on the page
+        document.getElementById("nav-" + this.state.page).classList.add("active");
 	}
 
 	render()
@@ -29,45 +29,26 @@ class Navbar extends React.Component
                 
                 <div className="menu-list">
                     <ul id="menu-content" className="menu-content collapse out">
-                        <li>
+                        <li id="nav-processes">
                             <a href="./">
                                 <span role="img" aria-label="Processes">🔨</span>
                                 Processes
                             </a>
                         </li>
-                        <li data-toggle="collapse" data-target="sub" role="button" className="collapsed active" aria-expanded="false" aria-controls="products">
+                        <li data-toggle="collapse" data-target="sub" role="button" className="collapsed" aria-expanded="false" aria-controls="products">
                             <a href="#products"> 
                                 <span role="img" aria-label="Master Data">📁</span>
                             		Master Data
                                 <span className="arrow"></span>
                             </a>
-                        </li>
-
-                        <ul className="sub-menu collapse" id="products">
-                            <li className="active"><a href="./">CSS3 Animation</a></li>
-                            <li><a href="./">General</a></li>
-                            <li><a href="./">Buttons</a></li>
-                            <li><a href="./">Tabs & Accordions</a></li>
-                            <li><a href="./">Typography</a></li>
-                            <li><a href="./">FontAwesome</a></li>
-                            <li><a href="./">Slider</a></li>
-                            <li><a href="./">Panels</a></li>
-                            <li><a href="./">Widgets</a></li>
-                            <li><a href="./">Bootstrap Model</a></li>
-                        </ul>
-        
-                        <li data-toggle="collapse" data-target="#service" className="collapsed">
+                        </li>        
+                        <li id="nav-logs" data-toggle="collapse" data-target="#service" className="collapsed">
                             <a href="./">  
                                 <span role="img" aria-label="Logs">📋</span>
                                 Logs
                             </a>
                         </li>  
-                        <ul className="sub-menu collapse" id="service">
-                            <li>New Service 1</li>
-                            <li>New Service 2</li>
-                            <li>New Service 3</li>
-                        </ul>
-                        <li>
+                        <li id="nav-settings">
                             <a href="./" className="settings">
                                 <span role="img" aria-label="Settings">⚙️</span>
                                 Settings
