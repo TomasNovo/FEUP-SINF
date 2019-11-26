@@ -24,7 +24,7 @@ class Navbar extends React.Component
 		return (
 			<nav className="nav-side-menu">
 				<div className="logo">
-					<img src={logo} height="90"></img>
+					<img src={logo} alt="Intercomp"></img>
 				</div>
                 
                 <div className="menu-list">

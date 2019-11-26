@@ -1,6 +1,5 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Container from "react-bootstrap/Container";
 import './Processes.css';
 import PageTemplate from '../PageTemplate/PageTemplate';
 
@@ -10,13 +9,10 @@ class Processes extends React.Component
     {
         return (
             <PageTemplate page="processes">
-                <Container>
-                    <div className="addProcess">
-                        <p>
-                        <input type="submit" value="+"/>
-                          Add Process
-                        </p>
-                    </div>
+                    <button className="addProcess btn" type="button">
+                        <span className="btn">+</span>
+                        <span>Add Process</span>
+                    </button>
                     <div class="accordion" id="accordion">
                         <div class="card">
                             <div class="card-header" id="headingOne">
@@ -49,7 +45,6 @@ class Processes extends React.Component
                             </div>
                         </div>
                     </div>
-                </Container>
             </PageTemplate>    
         );
 	}

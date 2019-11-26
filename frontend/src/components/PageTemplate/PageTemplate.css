@@ -14,3 +14,10 @@
   margin: 0px;
   padding: 0px;
 }
+
+.content
+{
+  width: 85%;
+  position: relative;
+  left: 15%;
+}

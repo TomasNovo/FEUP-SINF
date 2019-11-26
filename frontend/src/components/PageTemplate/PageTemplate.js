@@ -10,7 +10,6 @@ class PageTemplate extends React.Component
         return (
             <div className="page">
                 <Navbar page={this.props.page}/>
-                <div className="info"></div>
                 <div className="content">
                     {this.props.children}
                 </div>
