@@ -1,5 +1,6 @@
 import React from 'react';
 import './Navbar.scss';
+import logo from '../../assets/logo.png';
 
 class Navbar extends React.Component 
 {
@@ -10,62 +11,54 @@ class Navbar extends React.Component
 		this.state = 
 		{
 			page: props.page
-		};
+        };
 	}
 
 	componentDidMount()
 	{
-		//TODO set hover effect depending on the page
+        document.getElementById("nav-" + this.state.page).classList.add("active");
 	}
 
 	render()
 	{
 		return (
-			<nav class="nav-side-menu">
-                <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
-                <div class="menu-list">
-                    <ul id="menu-content" class="menu-content collapse out">
-                        <li>
+			<nav className="nav-side-menu">
+				<div className="logo">
+					<img src={logo} alt="Intercomp"></img>
+				</div>
+                
+                <div className="menu-list">
+                    <ul id="menu-content" className="menu-content collapse out">
+                        <li id="nav-processes">
                             <a href="./">
                                 <span role="img" aria-label="Processes">🔨</span>
                                 Processes
                             </a>
                         </li>
-                        <li data-toggle="collapse" data-target="sub" role="button" class="collapsed active" aria-expanded="false" aria-controls="products">
-                            <a href="#products"> 
-                                <span role="img" aria-label="Master Data">📁</span>
-                                Master Data
-                                <span class="arrow"></span>
-                            </a>
-                        </li>
-                                
-                        <ul class="sub-menu collapse" id="products">
-                            <li class="active"><a href="./">CSS3 Animation</a></li>
-                            <li><a href="./">General</a></li>
-                            <li><a href="./">Buttons</a></li>
-                            <li><a href="./">Tabs & Accordions</a></li>
-                            <li><a href="./">Typography</a></li>
-                            <li><a href="./">FontAwesome</a></li>
-                            <li><a href="./">Slider</a></li>
-                            <li><a href="./">Panels</a></li>
-                            <li><a href="./">Widgets</a></li>
-                            <li><a href="./">Bootstrap Model</a></li>
-                        </ul>
-        
-                        <li data-toggle="collapse" data-target="#service" class="collapsed">
+                        <li className="accordion" id="master-data">
+                            <div className="card">
+                                <div className="card-header" id="inventory">
+                                    <h2 className="mb-0">
+                                        <button className="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseMasterData" aria-expanded="true" aria-controls="collapseMasterData">
+                                            <span role="img" aria-label="Master Data">📁</span>
+                            		        Master Data
+                                        </button>
+                                    </h2>
+                                </div>   
+                                <div id="collapseMasterData" className="collapse" aria-labelledby="inventory" data-parent="#master-data">
+                                    <a href="./">Inventory</a>
+                                    <a href="./">Warehouses</a>
+                                </div>
+                            </div> 
+                        </li>        
+                        <li id="nav-logs" data-toggle="collapse" data-target="#service" className="collapsed">
                             <a href="./">  
                                 <span role="img" aria-label="Logs">📋</span>
                                 Logs
-                                <span class="arrow"></span>
                             </a>
                         </li>  
-                        <ul class="sub-menu collapse" id="service">
-                            <li>New Service 1</li>
-                            <li>New Service 2</li>
-                            <li>New Service 3</li>
-                        </ul>
-                        <li>
-                            <a href="./" class="settings">
+                        <li id="nav-settings">
+                            <a href="./" className="settings">
                                 <span role="img" aria-label="Settings">⚙️</span>
                                 Settings
                             </a>
