@@ -1,5 +1,6 @@
 import React from 'react';
 import './Navbar.scss';
+import logo from '../../assets/logo.png';
 
 class Navbar extends React.Component 
 {
@@ -21,26 +22,29 @@ class Navbar extends React.Component
 	render()
 	{
 		return (
-			<nav class="nav-side-menu">
-                <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
-                <div class="menu-list">
-                    <ul id="menu-content" class="menu-content collapse out">
+			<nav className="nav-side-menu">
+				<div className="logo">
+					<img src={logo} height="90"></img>
+				</div>
+                
+                <div className="menu-list">
+                    <ul id="menu-content" className="menu-content collapse out">
                         <li>
                             <a href="./">
                                 <span role="img" aria-label="Processes">🔨</span>
                                 Processes
                             </a>
                         </li>
-                        <li data-toggle="collapse" data-target="sub" role="button" class="collapsed active" aria-expanded="false" aria-controls="products">
+                        <li data-toggle="collapse" data-target="sub" role="button" className="collapsed active" aria-expanded="false" aria-controls="products">
                             <a href="#products"> 
                                 <span role="img" aria-label="Master Data">📁</span>
-                                Master Data
-                                <span class="arrow"></span>
+                            		Master Data
+                                <span className="arrow"></span>
                             </a>
                         </li>
-                                
-                        <ul class="sub-menu collapse" id="products">
-                            <li class="active"><a href="./">CSS3 Animation</a></li>
+
+                        <ul className="sub-menu collapse" id="products">
+                            <li className="active"><a href="./">CSS3 Animation</a></li>
                             <li><a href="./">General</a></li>
                             <li><a href="./">Buttons</a></li>
                             <li><a href="./">Tabs & Accordions</a></li>
@@ -52,20 +56,19 @@ class Navbar extends React.Component
                             <li><a href="./">Bootstrap Model</a></li>
                         </ul>
         
-                        <li data-toggle="collapse" data-target="#service" class="collapsed">
+                        <li data-toggle="collapse" data-target="#service" className="collapsed">
                             <a href="./">  
                                 <span role="img" aria-label="Logs">📋</span>
                                 Logs
-                                <span class="arrow"></span>
                             </a>
                         </li>  
-                        <ul class="sub-menu collapse" id="service">
+                        <ul className="sub-menu collapse" id="service">
                             <li>New Service 1</li>
                             <li>New Service 2</li>
                             <li>New Service 3</li>
                         </ul>
                         <li>
-                            <a href="./" class="settings">
+                            <a href="./" className="settings">
                                 <span role="img" aria-label="Settings">⚙️</span>
                                 Settings
                             </a>
