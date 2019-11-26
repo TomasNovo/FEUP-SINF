@@ -46,7 +46,7 @@
     margin-top: 4em;
 }
 
-.card
+#processes > .card
 {
     background-color: rgb(50, 84, 128);
     border-radius: 1em !important;
@@ -56,12 +56,12 @@
     color: white;
 }
 
-.card-header
+#processes .card-header
 {
     background-color:#3566A6;
 }
 
-.card-header button
+#processes .card-header button
 {
 
     font-size: 18pt;
@@ -71,33 +71,33 @@
     text-decoration: none;
 }
 
-.card-header button:hover, .card-header button:focus
+#processes .card-header button:hover, #processes .card-header button:focus
 {
     text-decoration: none;
     color: white;
 }
 
-.card-header button.collapsed::after
+#processes .card-header button.collapsed::after
 {
     font-family: 'Glyphicons Halflings'; 
     content:"\e114";
     float: right;          
 }
 
-.card-header button::after
+#processes .card-header button::after
 {
     font-family: 'Glyphicons Halflings'; 
     content: "\e113";   
     float: right;  
 }
 
-.card-body
+#processes .card-body
 {
     display: flex;
     flex-direction: column;
 }
 
-.step, .card-body > i
+.step, #processes .card-body > i
 {
     font-size: 16pt;
     text-align: center;

@@ -18,7 +18,7 @@ class Processes extends React.Component
                         <span className="btn">+</span>
                         <span>Add Process</span>
                     </button>
-                    <div className="accordion" id="accordion">
+                    <div className="accordion" id="processes">
                         <div className="card">
                             <div className="card-header" id="headingOne">
                                 <h2 className="mb-0">
@@ -27,7 +27,7 @@ class Processes extends React.Component
                                     </button>
                                 </h2>
                             </div>   
-                            <div id="collapseOne" className="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                            <div id="collapseOne" className="collapse show" aria-labelledby="headingOne" data-parent="#processes">
                                 <div className="card-body">
                                    <div className="step">
                                         <i className="glyphicon glyphicon-arrow-right"></i>
@@ -58,7 +58,7 @@ class Processes extends React.Component
                                 </button>
                             </h2>
                             </div>
-                            <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                            <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#processes">
                             <div className="card-body">
                                 <div className="step">
                                     <i className="glyphicon glyphicon-arrow-right"></i>

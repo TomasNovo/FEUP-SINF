@@ -103,43 +103,10 @@
      }
 }
 
-.nav-side-menu ul :not(collapsed) .arrow:before,
-.nav-side-menu li :not(collapsed) .arrow:before 
-{
-  font-family: FontAwesome;
-  content: "\f078";
-  display: inline-block;
-  padding-left: 10px;
-  padding-right: 10px;
-  vertical-align: middle;
-  float: right;
-}
-
 .nav-side-menu ul .active,
 .nav-side-menu li .active 
 {
   background-color: red;
-}
-
-.nav-side-menu ul .sub-menu li,
-.nav-side-menu li .sub-menu li 
-{
-  background-color: rgb(25,48,93);
-  border: none;
-  line-height: 28px;
-  /* border-bottom: 1px solid #23282e; */
-  margin-left: 0px;
-}
-
-.nav-side-menu ul .sub-menu li:before,
-.nav-side-menu li .sub-menu li:before 
-{
-  font-family: FontAwesome;
-  content: "\f105";
-  display: inline-block;
-  padding-left: 10px;
-  padding-right: 10px;
-  vertical-align: middle;
 }
 
 .nav-side-menu li 
@@ -165,7 +132,7 @@
   padding-right: 20px;
 }
 
-.nav-side-menu li:hover 
+.nav-side-menu li:hover, #master-data > .card:hover, #master-data > .card .card-header:hover
 {
   background-color: red;
   -webkit-transition: all 0.5s ease;
@@ -175,7 +142,7 @@
   transition: all 0.5s ease;
 }
 
-.nav-side-menu li:hover a 
+.nav-side-menu li:hover a, #master-data .card-header:hover button
 {
   color: white;
   -webkit-transition: all 0.2s ease;
@@ -189,4 +156,61 @@ span[role=img]
 {
   margin-right: 1em;
   margin-left: 0.5em;
+}
+
+#master-data > .card
+{
+  background-color: white;
+}
+
+#master-data .card-header
+{
+  padding: 0;
+  padding-top: 0.6em;
+  background-color: white;
+  color: black;
+  height: 50px;
+}
+
+#master-data .card-header button
+{
+  padding: 0;
+  font-size: 12pt;
+  font-weight: bold;
+  text-decoration: none;
+  color: black;
+  width: 90%;
+  text-align: left;
+}
+
+#master-data .card-header button.collapsed::after
+{
+    font-family: 'Glyphicons Halflings'; 
+    content:"\e114";
+    float: right;          
+}
+
+#master-data .card-header button::after
+{
+    font-family: 'Glyphicons Halflings'; 
+    content: "\e113";   
+    float: right;  
+}
+
+#collapseMasterData
+{
+  background-color: white;
+}
+
+#collapseMasterData > a
+{
+  display: block;
+  padding-left: 3em;
+  color: black;
+}
+
+#collapseMasterData > a:hover
+{
+  background-color: red;
+  color: white;
 }
