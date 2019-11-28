@@ -1,8 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 var cors = require('cors');
+var request = require('request');
 
-require('./database/mongo');
+// require('./database/mongo');
 const schema = require('./database/schema');
 
 const app = express();
@@ -130,3 +131,94 @@ const server = app.listen(7000, () =>
 {
 	console.log(`Express running → PORT ${server.address().port}`);
 });
+
+
+const appId = 'FEUP-SINF-B';
+const appSecret = 'cb7c111f-7431-41de-9d77-b67d5de2172c';
+var request = require('request');
+
+function getToken(callback)
+{
+ 
+	request({
+	  url: 'https://identity.primaverabss.com/core/connect/token',
+	  method: 'POST',
+	  auth: {
+		  user: appId, // TODO : put your application client id here
+		  pass: appSecret // TODO : put your application client secret here
+	  },
+	  form: {
+	    'grant_type': 'client_credentials',
+	    'scope': 'application',
+	  }
+	}, function(err, res) {
+	  if (!err) {
+		var json = JSON.parse(res.body);
+		// console.log("Received: " + res.body);
+		console.log("Created new token!");
+
+		callback(json.access_token);
+	  }
+	  else {
+		console.log(err);
+		token = undefined;
+	  }
+	});
+}
+
+
+function getItems()
+{
+	getToken((token) => 
+	{
+		request({
+			url: 'http://my.jasminsoftware.com/api/226454/226454-0001/sales/orders',
+		method: 'GET',
+		headers:
+		{
+			Authorization: "bearer " + token,
+			'Content-Type': 'application/json'
+		}
+	},
+		function (err, res) {
+			if (!err) {
+				// console.log("Received: " + JSON.stringify(res));
+
+				if (res.body !== undefined) {
+					let json = tryParseJSON(res.body);
+
+					console.log("Status code: " + res.statusCode);
+
+					if (json)
+						console.log("Body:\n" + res.body);
+				}
+
+				if (res.headers !== undefined) {
+					console.log(JSON.stringify(res.headers));
+				}
+			}
+			else {
+				console.log(err);
+				return undefined;
+			}
+		})});
+}
+
+// getItems();
+
+function tryParseJSON(jsonString) {
+	try {
+		var o = JSON.parse(jsonString);
+
+		// Handle non-exception-throwing cases:
+		// Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking,
+		// but... JSON.parse(null) returns null, and typeof null === "object", 
+		// so we must check for that, too. Thankfully, null is falsey, so this suffices:
+		if (o && typeof o === "object") {
+			return o;
+		}
+	}
+	catch (e) { }
+
+	return false;
+};
