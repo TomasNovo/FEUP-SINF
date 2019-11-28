@@ -20,7 +20,7 @@ class Navbar extends React.Component
 	componentDidMount()
 	{
         document.getElementById("nav-" + this.state.page).classList.add("active");
-	}
+    }
 
 	render()
 	{
