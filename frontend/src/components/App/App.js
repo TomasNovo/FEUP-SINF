@@ -2,6 +2,9 @@ import React from 'react';
 import axios from 'axios';
 import Processes from '../Processes/Processes';
 import Logs from '../Logs/Logs';
+import Settings from '../Settings/Settings';
+
+import { Route, Switch, BrowserRouter} from "react-router-dom";
 
 const API_PORT = 7000;
 
@@ -40,8 +43,26 @@ class App extends React.Component
 	
 	render() {
 		return (
-			
-			<Logs/>
+
+			<BrowserRouter>
+            	<Switch>
+            		<Route
+            			path="/"
+            			component={Processes}
+            			exact={true}
+            		/>
+    				<Route
+            			path="/logs"
+            			component={Logs}
+            			exact={true}
+            		/>
+            		<Route
+            			path="/settings"
+            			component={Settings}
+            			exact={true}
+            		/>
+            	</Switch>
+            </BrowserRouter>
 			
 			// <Settings />
 			
