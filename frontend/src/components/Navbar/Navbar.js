@@ -1,6 +1,10 @@
 import React from 'react';
 import './Navbar.scss';
 import logo from '../../assets/logo.png';
+import Accordion from 'react-bootstrap/Accordion';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
+import { Link } from 'react-router-dom';
 
 class Navbar extends React.Component 
 {
@@ -17,7 +21,7 @@ class Navbar extends React.Component
 	componentDidMount()
 	{
         document.getElementById("nav-" + this.state.page).classList.add("active");
-	}
+    }
 
 	render()
 	{
@@ -30,38 +34,38 @@ class Navbar extends React.Component
                 <div className="menu-list">
                     <ul id="menu-content" className="menu-content collapse out">
                         <li id="nav-processes">
-                            <a href="./">
+                            <Link to="/">
                                 <span role="img" aria-label="Processes">🔨</span>
                                 Processes
-                            </a>
+                            </Link>
                         </li>
-                        <li className="accordion" id="master-data">
-                            <div className="card">
-                                <div className="card-header" id="inventory">
-                                    <h2 className="mb-0">
-                                        <button className="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseMasterData" aria-expanded="true" aria-controls="collapseMasterData">
-                                            <span role="img" aria-label="Master Data">📁</span>
-                            		        Master Data
-                                        </button>
-                                    </h2>
-                                </div>   
-                                <div id="collapseMasterData" className="collapse" aria-labelledby="inventory" data-parent="#master-data">
-                                    <a href="./">Inventory</a>
-                                    <a href="./">Warehouses</a>
-                                </div>
-                            </div> 
-                        </li>        
+                        <Accordion id="master-data">
+                            <Card>
+                                <Card.Header id="inventory">
+                                    <Accordion.Toggle as={Button} variant="link" eventKey="master-data">
+                                        <span role="img" aria-label="Master Data">📁</span>
+                            		    Master Data
+                                    </Accordion.Toggle>
+                                </Card.Header>   
+                                <Accordion.Collapse id="collapseMasterData" eventKey="master-data">
+                                    <Card.Body>
+                                        <Link to="/">Inventory</Link>
+                                        <Link to="/">Warehouses</Link>
+                                    </Card.Body>
+                                </Accordion.Collapse>
+                            </Card> 
+                        </Accordion>        
                         <li id="nav-logs" data-toggle="collapse" data-target="#service" className="collapsed">
-                            <a href="./">  
+                            <Link to="/logs">
                                 <span role="img" aria-label="Logs">📋</span>
                                 Logs
-                            </a>
+                            </Link>
                         </li>  
                         <li id="nav-settings">
-                            <a href="./" className="settings">
+                            <Link to="/settings">
                                 <span role="img" aria-label="Settings">⚙️</span>
                                 Settings
-                            </a>
+                            </Link>
                         </li>
                     </ul>
                 </div>

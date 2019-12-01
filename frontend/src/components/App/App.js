@@ -1,6 +1,14 @@
 import React from 'react';
 import axios from 'axios';
+<<<<<<< HEAD
 import Wharehouses from '../Warehouses/Warehouses';
+=======
+import Processes from '../Processes/Processes';
+import Logs from '../Logs/Logs';
+import Settings from '../Settings/Settings';
+
+import { Route, Switch, BrowserRouter} from "react-router-dom";
+>>>>>>> master
 
 const API_PORT = 7000;
 
@@ -39,8 +47,31 @@ class App extends React.Component
 	
 	render() {
 		return (
+<<<<<<< HEAD
 			
 			<Wharehouses/>
+=======
+
+			<BrowserRouter>
+            	<Switch>
+            		<Route
+            			path="/"
+            			component={Processes}
+            			exact={true}
+            		/>
+    				<Route
+            			path="/logs"
+            			component={Logs}
+            			exact={true}
+            		/>
+            		<Route
+            			path="/settings"
+            			component={Settings}
+            			exact={true}
+            		/>
+            	</Switch>
+            </BrowserRouter>
+>>>>>>> master
 			
 			// <Settings />
 			
