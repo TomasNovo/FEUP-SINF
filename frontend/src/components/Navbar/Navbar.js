@@ -50,7 +50,7 @@ class Navbar extends React.Component
                                 <Accordion.Collapse id="collapseMasterData" eventKey="master-data">
                                     <Card.Body>
                                         <Link to="/">Inventory</Link>
-                                        <Link to="/">Warehouses</Link>
+                                        <Link id="nav-warehouses" to="/warehouses">Warehouses</Link>
                                     </Card.Body>
                                 </Accordion.Collapse>
                             </Card> 

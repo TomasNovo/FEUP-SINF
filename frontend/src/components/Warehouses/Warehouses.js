@@ -11,7 +11,7 @@ class Warehouses extends React.Component
 	render() {
 		return (
             <body>
-                <PageTemplate page="wharehouses">
+                <PageTemplate page="warehouses">
                     <Container>
                         <div className="all">
                             <div className="left">
