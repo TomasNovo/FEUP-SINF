@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import Processes from '../Processes/Processes';
+import Logs from '../Logs/Logs';
 
 const API_PORT = 7000;
 
@@ -40,7 +41,7 @@ class App extends React.Component
 	render() {
 		return (
 			
-			<Processes/>
+			<Logs/>
 			
 			// <Settings />
 			
