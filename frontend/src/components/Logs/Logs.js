@@ -10,6 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 import './Logs.css';
+import TableStyled from './table';
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -47,30 +48,7 @@ class Logs extends Component{
 	render(){
 		return(
 			<PageTemplate page="logs">
-				<Paper className="root">
-      				<Table className="table" aria-label="customized table">
-        				<TableHead>
-          					<TableRow>
-            					<StyledTableCell>Log</StyledTableCell>
-            					<StyledTableCell align="right">Process</StyledTableCell>
-            					<StyledTableCell align="right">Step</StyledTableCell>
-            					<StyledTableCell align="right">Message</StyledTableCell>
-          					</TableRow>
-        				</TableHead>
-        				<TableBody>
-          					{rows.map(row => (
-            				<StyledTableRow key={row.message}>
-              					<StyledTableCell component="th" scope="row">
-                					{row.type}
-              					</StyledTableCell>
-              					<StyledTableCell align="right">{row.proccessId}</StyledTableCell>
-              					<StyledTableCell align="right">{row.stepId}</StyledTableCell>
-              					<StyledTableCell align="right">{row.message}</StyledTableCell>
-            				</StyledTableRow>
-          					))}
-        				</TableBody>
-      				</Table>
-   				 </Paper>
+				<TableStyled></TableStyled>
 			</PageTemplate>
 		);
 	}
