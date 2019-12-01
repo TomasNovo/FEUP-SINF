@@ -9,7 +9,7 @@ class Settings extends React.Component
 	render() {
 		return (
             <body>
-                <PageTemplate/>
+                <PageTemplate page="settings"/>
                 <Container>
                     <div className="accountInfo">
                         <p>Account Info</p>

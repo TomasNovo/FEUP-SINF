@@ -62,7 +62,7 @@ class Navbar extends React.Component
                             </Link>
                         </li>  
                         <li id="nav-settings">
-                            <Link to="/settings">
+                            <Link id="nav-settings" to="/settings">
                                 <span role="img" aria-label="Settings">⚙️</span>
                                 Settings
                             </Link>
