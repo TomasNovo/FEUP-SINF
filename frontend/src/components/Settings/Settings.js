@@ -8,8 +8,7 @@ class Settings extends React.Component
 {
 	render() {
 		return (
-            <body>
-                <PageTemplate page="settings"/>
+            <PageTemplate page="settings">
                 <Container>
                     <div className="accountInfo">
                         <p>Account Info</p>
@@ -66,8 +65,7 @@ class Settings extends React.Component
                         <input type="submit" value="Update"/>
                     </div>
                 </Container>
-            </body>
-
+            </PageTemplate>   
         );
 	}
 };

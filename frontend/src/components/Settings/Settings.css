@@ -1,7 +1,7 @@
 .accountInfo
 {
-    color: white;
-    font-size: 2em;
+    color: black;
+    font-size: 3em;
     margin-left: 10%;
     margin-top: 2%;
     width: 35%;
@@ -19,6 +19,7 @@
 {
     margin-left: 10%;
     font-size: 0.5em;
+    color: black;
 }
 
 .grant > p > input, .clientId > p > input, .clientSecret > p > input
@@ -54,12 +55,12 @@ input[type=text], input[type=password]
     width: 50%;
     float: right;
     margin-bottom: 2%;
-    margin-right: 2%;
 } 
 
 .Intercompany .Originating > h1, .Intercompany .Destination > h1 
 {
     margin-left: 6%;
+    font-size: 4.7em;
     color: white;
 } 
 
@@ -68,6 +69,7 @@ input[type=text], input[type=password]
     margin-left: 10%;
     color: white;
     margin-bottom: -0.3%;
+    font-size: 4em;
 } 
 
 .Intercompany .Originating > input, .Intercompany .Destination > input 
@@ -79,23 +81,24 @@ input[type=text], input[type=password]
 
 .Debit
 {
-    margin-top: 3%;
+    margin-top: 12.5%;
     width: 50%;
     float: left;
 }
 
 .Credit
 {
-    margin-top: 3%;
+    margin-top: 12.5%;
     width: 50%;
     float: right;
 }
 
 .Debit > p, .Credit > p 
 {
-    margin-left: 20%;
+    margin-left: 15%;
     color: white;
     margin-bottom: -0.3%;
+    font-size: 3em;
 } 
 
 .Debit > input, .Credit > input 
@@ -103,8 +106,27 @@ input[type=text], input[type=password]
     margin-left: 14%;
 } 
 
+
+.Intercompany .Originating  > input[type="text"],
+.Intercompany .Destination  > input[type="text"]
+{
+    font-size: 3em;
+    text-align: left;
+}
+
+.Intercompany .Originating .Debit > input[type="text"],
+.Intercompany .Originating .Credit > input[type="text"],
+.Intercompany .Destination .Debit > input[type="text"],
+.Intercompany .Destination .Credit > input[type="text"]
+{
+    width: 80%;
+    font-size: 3em;
+    text-align: left;
+}
+
 .Update > input[type="submit"]
 {
+    font-size: 3em;
     float: right;
     margin-top: 3%;
     width: 21%;
