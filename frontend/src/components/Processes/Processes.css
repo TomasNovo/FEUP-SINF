@@ -4,33 +4,27 @@
     width: 20%;
     margin-left: 4em;
     color: white;
+    background: none;
     text-align: left;
     padding: 0;
     border: 0;
 }
 
-.addProcess:hover
+.addProcess > :first-child:focus
 {
-    border: none;
-    color: white;
+    outline: none;
 }
 
 .addProcess:focus
 {
     box-shadow: none;
+    outline: none;
 }
 
-.addProcess > span:first-child
+.addProcess > span
 {
-    padding: 0;
-    font-size: 30pt;
-    color: inherit;
-    background-color: #6795D1;
-    border-radius: 50%;
-    height: 1em;
-    width: 1em;
-    line-height: 35px;
-    margin-right: 0.5em;
+    margin-left: 1em;
+    cursor: default;
 }
 
 .addProcess > span:last-child
@@ -109,6 +103,7 @@
 {
     width: 100%;
     border: solid 1px white;
+    margin: 2em 0;
 }
 
 .step, #processes .card-body > i

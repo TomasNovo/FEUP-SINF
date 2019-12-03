@@ -7,6 +7,8 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+import Fab from '@material-ui/core/Fab';
+import Add from '@material-ui/icons/Add';
 import logo from '../../assets/logo.png';
 import jasmin from '../../assets/jasmin-logo.png';
 
@@ -42,10 +44,13 @@ class Processes extends React.Component
     {
         return (
             <PageTemplate page="processes">
-                    <button className="addProcess btn" type="button">
-                        <span className="btn">+</span>
+                    <div className="addProcess">
+                        <Fab color="primary" aria-label="add">
+                            <Add fontSize="large"/>
+                        </Fab>
                         <span>Add Process</span>
-                    </button>
+                    </div>
+                   
                     <Accordion id="processes">
                         <Card>
                             <Card.Header id="headingOne">
