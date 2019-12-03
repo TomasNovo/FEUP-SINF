@@ -33,7 +33,7 @@ class Processes extends React.Component
             alt = "Jasmin";
         }
             
-        return <OverlayTrigger placement="left" delay={{ show: 250, hide: 250 }} overlay={tooltip}>
+        return <OverlayTrigger placement="top" delay={{ show: 250, hide: 250 }} overlay={tooltip}>
                     <img src={image} alt={alt}/>
                 </OverlayTrigger>
     }
@@ -56,27 +56,35 @@ class Processes extends React.Component
                             <Accordion.Collapse eventKey="1">
                                 <Card.Body>
                                    <div className="step">
+                                        <span>1</span>
                                         {this.addTooltip(jasmin)}
                                         <span>Company A</span>
                                         <i className="glyphicon glyphicon-arrow-right"></i>
                                         <span>Sales Order</span>
                                    </div>
-                                   <i className="glyphicon glyphicon-arrow-down"></i>
+                                   <hr/>
                                    <div className="step">
+                                       <span>2</span>
                                         {this.addTooltip(logo)}
-                                        <span>Stock retrieval / Production</span>
+                                        <span>Company B</span>
+                                        <i className="glyphicon glyphicon-arrow-right"></i>
+                                        <span>Stock retrieval</span>
                                    </div>
-                                   <i className="glyphicon glyphicon-arrow-down"></i>
+                                   <hr/>
                                    <div className="step">
+                                       <span>3</span>
                                         {this.addTooltip(logo)}
+                                        <span>Company B</span>
+                                        <i className="glyphicon glyphicon-arrow-right"></i>
                                         <span>Sale Invoice</span>
-                                        <i className="glyphicon glyphicon-arrow-right"></i>
                                    </div>
-                                   <i className="glyphicon glyphicon-arrow-down"></i>
+                                   <hr/>
                                    <div className="step">
+                                       <span>4</span>
                                         {this.addTooltip(logo)}
-                                        <span>Purchase Invoice</span>
+                                        <span>Company A</span>
                                         <i className="glyphicon glyphicon-arrow-right"></i>
+                                        <span>Purchase Invoice</span>
                                    </div>
                                 </Card.Body>
                             </Accordion.Collapse> 
@@ -90,31 +98,43 @@ class Processes extends React.Component
                             <Accordion.Collapse eventKey="2">
                                 <Card.Body>
                                     <div className="step">
+                                        <span>1</span>
                                         {this.addTooltip(jasmin)}
+                                        <span>Company B</span>
                                         <i className="glyphicon glyphicon-arrow-right"></i>
                                         <span>Delivery Order</span>
                                     </div>
-                                    <i className="glyphicon glyphicon-arrow-down"></i>
+                                    <hr/>
                                     <div className="step">
+                                        <span>2</span>
                                         {this.addTooltip(logo)}
+                                        <span>Company A</span>
+                                        <i className="glyphicon glyphicon-arrow-right"></i>
                                         <span>Purchase Verification</span>
                                     </div>
-                                    <i className="glyphicon glyphicon-arrow-down"></i>
+                                    <hr/>
                                     <div className="step">
-                                        {this.addTooltip(logo)}
+                                        <span>3</span>
+                                        {this.addTooltip(jasmin)}
+                                        <span>Company A</span>
+                                        <i className="glyphicon glyphicon-arrow-right"></i>
                                         <span>Delivery</span>
                                     </div>
-                                    <i className="glyphicon glyphicon-arrow-down"></i>
+                                    <hr/>
                                     <div className="step">
-                                        {this.addTooltip(logo)}
-                                        <span>Service Invoice</span>
+                                        <span>4</span>
+                                        {this.addTooltip(jasmin)}
+                                        <span>Company A</span>
                                         <i className="glyphicon glyphicon-arrow-left"></i>
+                                        <span>Service Invoice</span>  
                                     </div>
-                                    <i className="glyphicon glyphicon-arrow-down"></i>
+                                    <hr/>
                                     <div className="step">
+                                        <span>5</span>
                                         {this.addTooltip(logo)}
-                                        <span>Service Provided Invoice</span>
+                                        <span>Company B</span>
                                         <i className="glyphicon glyphicon-arrow-right"></i>
+                                        <span>Service Provided Invoice</span>
                                     </div>
                                 </Card.Body>
                             </Accordion.Collapse>
