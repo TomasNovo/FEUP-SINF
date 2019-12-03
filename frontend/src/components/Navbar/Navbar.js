@@ -21,6 +21,12 @@ class Navbar extends React.Component
 	componentDidMount()
 	{
         document.getElementById("nav-" + this.state.page).classList.add("active");
+
+        if(this.state.page === "warehouses" || this.state.page === "inventory"){
+            document.querySelector("#master-data > .card .card-header").classList.add("active");
+            document.querySelector("#master-data > .card").classList.add("active");
+        }
+            
     }
 
 	render()
@@ -49,7 +55,7 @@ class Navbar extends React.Component
                                 </Card.Header>   
                                 <Accordion.Collapse id="collapseMasterData" eventKey="master-data">
                                     <Card.Body>
-                                        <Link to="/">Inventory</Link>
+                                        <Link id="nav-inventory" to="/inventory">Inventory</Link>
                                         <Link id="nav-warehouses" to="/warehouses">Warehouses</Link>
                                     </Card.Body>
                                 </Accordion.Collapse>

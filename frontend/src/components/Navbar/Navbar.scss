@@ -104,9 +104,10 @@
 }
 
 .nav-side-menu ul .active,
-.nav-side-menu li .active 
+.nav-side-menu li .active
 {
   background-color: red;
+  color: white !important;
 }
 
 .nav-side-menu li 
@@ -132,7 +133,8 @@
   padding-right: 20px;
 }
 
-.nav-side-menu li:hover, #master-data > .card:hover, #master-data > .card .card-header:hover
+.nav-side-menu li:hover, #master-data > .card:hover,  #master-data > .card.active, 
+#master-data > .card .card-header:hover, #master-data > .card .card-header.active
 {
   background-color: red;
   -webkit-transition: all 0.5s ease;
@@ -142,7 +144,8 @@
   transition: all 0.5s ease;
 }
 
-.nav-side-menu li:hover a, #master-data .card-header:hover button
+.nav-side-menu li:hover a, #master-data .card-header:hover button, 
+#master-data > .card .card-header.active button
 {
   color: white;
   -webkit-transition: all 0.2s ease;

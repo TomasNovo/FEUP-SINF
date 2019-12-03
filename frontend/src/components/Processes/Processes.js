@@ -1,5 +1,4 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import './Processes.css';
 import PageTemplate from '../PageTemplate/PageTemplate';
 import Accordion from 'react-bootstrap/Accordion';
