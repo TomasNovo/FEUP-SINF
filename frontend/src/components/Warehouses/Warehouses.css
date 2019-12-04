@@ -34,10 +34,24 @@
     margin-left: 2em;
 }
 
-.warehouse-picker
+#warehouse-picker
 {
     width: 100%;
     max-width: 450px;
+}
+
+#warehouse-picker .dropdown-toggle
+{
+    font-size: 14pt;
+    background-color: #19305D;
+    border: none;
+    border-bottom: solid 1px white;
+    box-shadow: none;
+}
+
+#warehouse-picker .dropdown-toggle:hover, #warehouse-picker .dropdown-toggle:focus
+{
+    border-bottom: solid 0.1em red;
 }
 
 .btn
@@ -47,77 +61,32 @@
     font-size: 1.2em;
 }
 
-.dropdown-menu
+#warehouse-picker .dropdown-menu
 {
     width: 100%;
 }
 
-.dropdown-item
+#warehouse-picker .dropdown-item
 {
-    font-size: 2.4em;
+    font-size: 14pt;
     color: black;
     background-color: white;
     width: 100%;
-    padding-left: 1.7em;
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    -ms-transition: all 0.2s;
+    transition: all 0.2s;
 }
 
-.dropdown-item:not(:last-child)
+#warehouse-picker .dropdown-item:not(:last-child)
 {
     border-bottom: 1px solid rgb(187, 197, 216);
 }
 
-.dropdown-item:hover
+#warehouse-picker .dropdown-item:hover
 {
-    background-color: rgb(214, 214, 214);
-}
-
-.btn-secondary
-{
-    border: none;
-    border-bottom: solid 0.1em white;
-    font-size: 2.5em;
-    box-shadow: none;
-    background-color: #19305D;
-}
-
-.show > .btn-secondary.dropdown-toggle
-{
-    background-color: #19305D;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    border-bottom: solid 0.1em white;
-}
-
-.btn-secondary:hover 
-{
-    background-color: #19305D;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    border-bottom: solid 0.1em red;
-    color: white;
-}
-
-#dropdownMenuLink:active    
-{
-  background-color: #19305D;
-  border-top: none;
-    border-left: none;
-    border-right: none;
-    border-bottom: solid 0.1em white;
-}
-
-#dropdownMenuLink:focus    
-{
-    background-color: #19305D;
-    text-decoration: none;
-    color: white;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    border-bottom: solid 0.1em white;
-    box-shadow: none;
+    background-color: rgb(214, 214, 214) !important;
 }
 
 #warehouse-company,  #warehouse-address
@@ -132,12 +101,7 @@
     margin-right: 1em;
 }
 
-#warehouse-company
-{
-    margin-top: 2em;
-}
-
-#warehouse-address, #warehouse-assets
+#warehouse-company, #warehouse-address, #warehouse-assets
 {
     margin-top: 1em;
 }

@@ -1,9 +1,8 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Container from "react-bootstrap/Container";
 import './Warehouses.css'
 import PageTemplate from '../PageTemplate/PageTemplate';
-import localization from '../../assets/localization.png';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import Dropdown from 'react-bootstrap/Dropdown';
 import graphic from '../../assets/distribution.png';
 
 class Warehouses extends React.Component 
@@ -13,19 +12,19 @@ class Warehouses extends React.Component
             <PageTemplate page="warehouses">
                 <div className="all">
                     <div className="left">
-                        <div className="warehouse-picker">
-                            <div className="btn-group">
-                                <div className="dropdown show">
-                                    <a className="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div id="warehouse-picker">
+                            <ButtonGroup>
+                                <Dropdown>
+                                    <Dropdown.Toggle>
                                         Warehouse 1
-                                    </a>
-                                    <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <a className="dropdown-item" href="./">Warehouse 2</a>
-                                        <a className="dropdown-item" href="./">Warehouse 3</a>
-                                        <a className="dropdown-item" href="./">Warehouse 4</a>
-                                    </div>
-                                </div>
-                            </div>
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu>
+                                        <Dropdown.Item href="./">Warehouse 2</Dropdown.Item>
+                                        <Dropdown.Item href="./">Warehouse 3</Dropdown.Item>
+                                        <Dropdown.Item href="./">Warehouse 4</Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>
+                            </ButtonGroup>
                         </div>
                         <div id="warehouse-company">
                             <span>Owner:</span> 
