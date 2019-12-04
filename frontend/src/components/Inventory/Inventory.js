@@ -19,7 +19,37 @@ class Inventory extends React.Component
                         <span>Price / Unit</span>
                     </div>
                     <div id="inventory-data">
-                        <div class="inventory-row">
+                        <div className="inventory-row">
+                            <span>Grape Juice Can</span>
+                            <span>TAN</span>
+                            <span>29</span>
+                            <span>33</span>
+                            <span>77</span>
+                            <span>3526</span>
+                            <span>0.80€</span>
+                        </div>
+                        <hr/>
+                        <div className="inventory-row">
+                            <span>Grape Juice Can</span>
+                            <span>TAN</span>
+                            <span>29</span>
+                            <span>33</span>
+                            <span>77</span>
+                            <span>3526</span>
+                            <span>0.80€</span>
+                        </div>
+                        <hr/>
+                        <div className="inventory-row">
+                            <span>Grape Juice Can</span>
+                            <span>TAN</span>
+                            <span>29</span>
+                            <span>33</span>
+                            <span>77</span>
+                            <span>3526</span>
+                            <span>0.80€</span>
+                        </div>
+                        <hr/>
+                        <div className="inventory-row">
                             <span>Grape Juice Can</span>
                             <span>TAN</span>
                             <span>29</span>
