@@ -117,9 +117,12 @@
 }
 
 .nav-side-menu li a 
-{ left: 5%;
+{ 
+  display: inline-block;
+  left: 5%;
   text-decoration: none;
-  color: black;
+  color: black; 
+  width: 100%;
 }
 
 .nav-side-menu li.active a
