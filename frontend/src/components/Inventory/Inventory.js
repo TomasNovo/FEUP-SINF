@@ -1,4 +1,10 @@
 import React from 'react';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow'
+import Paper from '@material-ui/core/Paper';
 import './Inventory.css';
 import PageTemplate from '../PageTemplate/PageTemplate';
 
@@ -8,59 +14,82 @@ class Inventory extends React.Component
     {
         return (
             <PageTemplate page="inventory">
-                <div id="inventory">
-                    <div id="inventory-header">
-                        <span>Name</span>
-                        <span>Category</span>
-                        <span>ID Company A</span>
-                        <span>ID Company B</span>
-                        <span>Stock A</span>
-                        <span>Stock B</span>
-                        <span>Price / Unit</span>
-                    </div>
-                    <div id="inventory-data">
-                        <div className="inventory-row">
-                            <span>Grape Juice Can</span>
-                            <span>TAN</span>
-                            <span>29</span>
-                            <span>33</span>
-                            <span>77</span>
-                            <span>3526</span>
-                            <span>0.80€</span>
-                        </div>
-                        <hr/>
-                        <div className="inventory-row">
-                            <span>Grape Juice Can</span>
-                            <span>TAN</span>
-                            <span>29</span>
-                            <span>33</span>
-                            <span>77</span>
-                            <span>3526</span>
-                            <span>0.80€</span>
-                        </div>
-                        <hr/>
-                        <div className="inventory-row">
-                            <span>Grape Juice Can</span>
-                            <span>TAN</span>
-                            <span>29</span>
-                            <span>33</span>
-                            <span>77</span>
-                            <span>3526</span>
-                            <span>0.80€</span>
-                        </div>
-                        <hr/>
-                        <div className="inventory-row">
-                            <span>Grape Juice Can</span>
-                            <span>TAN</span>
-                            <span>29</span>
-                            <span>33</span>
-                            <span>77</span>
-                            <span>3526</span>
-                            <span>0.80€</span>
-                        </div>
-                        
-                    </div>
-                </div>
+                <Paper id="inventory-paper">
+                    <Table  stickyHeader id="inventory-table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>
+                                    <p>Name</p>
+                                    <p>Company A</p>
+                                </TableCell>
+                                <TableCell>
+                                    <p>ID</p>
+                                    <p>Company A</p>
+                                </TableCell>
+                                <TableCell>
+                                    <p>Stock</p>
+                                    <p>Company A</p>
+                                </TableCell>
+                                <TableCell>
+                                    <p>Price / Unit</p>
+                                    <p>Company A</p>
+                                </TableCell>
+                                <TableCell>Category</TableCell>
+                                <TableCell>
+                                    <p>Name</p>
+                                    <p>Company B</p>
+                                </TableCell>
+                                <TableCell>
+                                    <p>ID</p>
+                                    <p>Company B</p>
+                                </TableCell>
+                                <TableCell>
+                                    <p>Stock</p>
+                                    <p>Company B</p>
+                                </TableCell>
+                                <TableCell>
+                                    <p>Price / Unit</p>
+                                    <p>Company B</p>
+                                </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            <TableRow>
+                                <TableCell>Juice A</TableCell>
+                                <TableCell>1</TableCell> 
+                                <TableCell>3000</TableCell> 
+                                <TableCell>0.70€</TableCell> 
+                                <TableCell className="category">TAN</TableCell> 
+                                <TableCell>Juice B</TableCell>
+                                <TableCell>3</TableCell> 
+                                <TableCell>1000</TableCell> 
+                                <TableCell>1.20€</TableCell> 
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>Juice A</TableCell>
+                                <TableCell>1</TableCell> 
+                                <TableCell>3000</TableCell> 
+                                <TableCell>0.70€</TableCell> 
+                                <TableCell className="category">TAN</TableCell> 
+                                <TableCell>Juice B</TableCell>
+                                <TableCell>3</TableCell> 
+                                <TableCell>1000</TableCell> 
+                                <TableCell>1.20€</TableCell> 
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>Juice A</TableCell>
+                                <TableCell>1</TableCell> 
+                                <TableCell>3000</TableCell> 
+                                <TableCell>0.70€</TableCell> 
+                                <TableCell className="category">TAN</TableCell> 
+                                <TableCell>Juice B</TableCell>
+                                <TableCell>3</TableCell> 
+                                <TableCell>1000</TableCell> 
+                                <TableCell>1.20€</TableCell> 
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </Paper>
             </PageTemplate>
         );
     }

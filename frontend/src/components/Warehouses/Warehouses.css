@@ -161,7 +161,13 @@
     -moz-box-shadow: -26px 1px 85px -39px rgba(0,0,0,1);
     box-shadow: -26px 1px 85px -39px rgba(0,0,0,1);
     border-radius: 0.3em;
-    background-color: rgb(12, 18, 49);
+
+}
+
+.my-custom-scrollbar thead > tr > th
+{
+    background-color: rgb(5, 15, 50);
+    color: white;
 }
 
 .all > .right table
@@ -173,7 +179,6 @@
 {
     border-bottom: 2px solid red;
     font-weight: bold;
-    color: black;
 }
 
 .right table th, .right table td
@@ -184,5 +189,6 @@
 
 .right table td
 {
-    color: white;
+    background-color: white;
+    color: black;
 }
