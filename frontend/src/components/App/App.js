@@ -4,6 +4,7 @@ import axios from 'axios';
 import Warehouses from '../Warehouses/Warehouses';
 // =======
 import Processes from '../Processes/Processes';
+import Inventory from '../Inventory/Inventory';
 import Logs from '../Logs/Logs';
 import Settings from '../Settings/Settings';
 
@@ -45,10 +46,10 @@ class App extends React.Component
 
 	};
 	
-	render() {
+	render() 
+	{
 		return (
 // <<<<<<< HEAD
-			
 			<BrowserRouter>
             	<Switch>
             		<Route
@@ -56,19 +57,24 @@ class App extends React.Component
             			component={Processes}
             			exact={true}
             		/>
-    				<Route
+					<Route
+            			path="/warehouses"
+            			component={Warehouses}
+            			exact={true}
+            		/>
+					<Route
+            			path="/inventory"
+            			component={Inventory}
+            			exact={true}
+            		/>
+					<Route
             			path="/logs"
             			component={Logs}
             			exact={true}
             		/>
-            		<Route
+					<Route
             			path="/settings"
             			component={Settings}
-            			exact={true}
-            		/>
-					<Route
-            			path="/warehouses"
-            			component={Warehouses}
             			exact={true}
             		/>
             	</Switch>

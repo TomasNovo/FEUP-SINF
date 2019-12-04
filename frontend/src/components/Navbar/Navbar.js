@@ -47,7 +47,7 @@ class Navbar extends React.Component
                         </li>
                         <Accordion id="master-data">
                             <Card>
-                                <Card.Header id="inventory">
+                                <Card.Header>
                                     <Accordion.Toggle as={Button} variant="link" eventKey="master-data">
                                         <span role="img" aria-label="Master Data">📁</span>
                             		    Master Data

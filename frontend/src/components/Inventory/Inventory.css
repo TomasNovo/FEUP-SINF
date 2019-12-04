@@ -1,0 +1,58 @@
+@media (max-width: 961px)
+{
+    #inventory
+    {
+        font-size: 9pt !important;
+    }
+}
+
+@media (max-width: 562px)
+{
+    #inventory
+    {
+        font-size: 5pt !important;
+    }
+}
+
+#inventory
+{
+    width: 90%;
+    margin: 1em auto;
+    border: solid 1px black;
+    border-radius: 0.5em;
+    font-size: 14pt;
+}
+
+#inventory-header
+{
+    width: 100%;
+    border-radius: 0.5em 0.5em 0 0;
+    border-bottom: solid 1px red;
+    background-color: rgb(50, 84, 128);
+    color: white;
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+#inventory-header > *, .inventory-row > *
+{
+    display: inline-block;
+    width: 14%;
+    text-align: center;
+    min-width: 5em;
+    white-space: normal; 
+}
+
+#inventory-data
+{
+    background-color: white;
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+.inventory-row
+{
+    width: 100%;
+
+
+}
