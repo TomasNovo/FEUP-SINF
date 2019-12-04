@@ -4,6 +4,7 @@
     {
       width: 100%;
       margin-bottom: 10px;
+      font-size: 9pt !important;
     }
 
     .nav-side-menu > .logo:first-child, .nav-side-menu > .logo:first-child > img 
@@ -72,7 +73,6 @@
   line-height: 50px;
   display: block;
   text-align: center;
-  font-size: 14px;
 }
 
 .nav-side-menu .toggle-btn 
@@ -180,7 +180,6 @@ span[role=img]
 #master-data .card-header button
 {
   padding: 0;
-  font-size: 12pt;
   font-weight: bold;
   text-decoration: none;
   color: black;

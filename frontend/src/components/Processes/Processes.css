@@ -1,7 +1,33 @@
+@media (max-width: 800px) and (min-width: 767px)
+{
+    .step
+    {
+        font-size: 12pt !important;
+    }
+
+    #processes > .card
+    {
+        width: 90% !important;
+    }
+}
+
+@media (max-width: 767px) 
+{
+  .step
+  {
+      flex-direction: column !important;
+  }
+
+  .step > *
+  {
+    margin: 1em 0 !important;
+  }
+}
+
 .addProcess
 {
     margin-top: 3%;
-    width: 20%;
+    width: 100%;
     margin-left: 4em;
     color: white;
     background: none;
@@ -71,21 +97,6 @@
     color: white;
 }
 
-/*
-#processes .card-header button.collapsed::after
-{
-    font-family: 'Glyphicons Halflings'; 
-    content:"\e114";
-    float: right;          
-}
-
-#processes .card-header button::after
-{
-    font-family: 'Glyphicons Halflings'; 
-    content: "\e113";   
-    float: right;  
-} */
-
 #processes .card-body
 {
     display: flex;
@@ -128,7 +139,7 @@
     font-size: 24pt;
     background-color: red;
     border-radius: 50%;
-    width: 1.5em;
+    min-width: 1.5em;
 }
 
 .step > i
@@ -142,6 +153,7 @@
 .step > img
 {
     width: 3em;
+    min-width: 2em;
     margin-right: 3em;
     border: transparent 1px black;
     border-radius: 50%;
