@@ -2,17 +2,18 @@
 {
     width: 80%;
     margin: 3em auto;
-    border-radius: 0.3em !important;
 }
 
 #logs-table > :first-child
 {
-    border-radius: 0.3em !important;
+    border-radius: 0.3em;
 }
 
-#logs-table thead
+#logs-table thead th
 {
-    border-bottom: 5px solid red;
+    border-bottom: 2px solid red;
+    background-color: rgb(5, 15, 50);
+    color: white;
 }
 
 #logs-table th, #logs-table td
