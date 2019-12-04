@@ -1,9 +1,13 @@
 const mongoose = require('mongoose');
+const MasterData = require('./models/masterData');
  
 const dbName = 'masterData';
 const url = 'mongodb://localhost:27017/' + dbName;
 
-mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(url, { 
+  useNewUrlParser: true, 
+  useUnifiedTopology: true,
+  useCreateIndex: true, });
 
 let db = mongoose.connection;
 
