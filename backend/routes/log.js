@@ -1,0 +1,14 @@
+'use strict';
+
+const router = require('express').Router();
+const controller = require('../controllers/log');
+
+router.post('/', controller.create);
+
+router.get('/:_id', controller.read);
+
+router.put('/:_id', controller.update);
+
+router.delete('/:_id', controller.remove);
+
+module.exports = router;

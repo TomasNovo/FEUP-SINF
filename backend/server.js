@@ -4,6 +4,7 @@ var cors = require('cors');
 require('./database/mongo');
 const schema = require('./database/schema');
 const masterDataRouter = require('./routes/masterData');
+const logRouter = require('./routes/log');
 
 const app = express();
 app.use(express.static(__dirname + '/public'));
@@ -121,6 +122,7 @@ router.delete('/mapping', (req, res) =>
 });
 
 app.use('/api/masterData', masterDataRouter);
+app.use('/api/log', logRouter);
 app.use('/api', router);
 
 const server = app.listen(7000, () => 

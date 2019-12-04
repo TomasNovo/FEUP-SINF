@@ -17,7 +17,7 @@ const logSchema = new Schema(
 );
 
 const Log = mongoose.model(
-  'masterData',
+  'log',
   logSchema,
 );
 
