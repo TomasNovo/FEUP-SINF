@@ -60,13 +60,15 @@ class Navbar extends React.Component
                                     </Card.Body>
                                 </Accordion.Collapse>
                             </Card> 
-                        </Accordion>        
+                        </Accordion>
+                            
                         <li id="nav-logs" data-toggle="collapse" data-target="#service" className="collapsed">
-                            <Link to="/logs">
-                                <span role="img" aria-label="Logs">📋</span>
-                                Logs
+                            <Link to="/logs">  
+                            <span role="img" aria-label="Logs">📋</span>
+                            Logs
                             </Link>
                         </li>  
+                        
                         <li id="nav-settings">
                             <Link id="nav-settings" to="/settings">
                                 <span role="img" aria-label="Settings">⚙️</span>
