@@ -40,10 +40,9 @@ function readAll(req, res) {
 }
 
 function update(req, res) {
-  const { idA, idB } = req.body;
   const { id } = req.params;
   
-  MasterData.updateOne({$or:[{ idA: id }, { idB: id }]}, { idA, idB }).orFail()
+  MasterData.updateOne({$or:[{ idA: id }, { idB: id }]}, req.body).orFail()
   .then(info => {
     res.status(200).send(info);
   })
