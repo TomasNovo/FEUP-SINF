@@ -1,9 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 var cors = require('cors');
-
 require('./database/mongo');
 const schema = require('./database/schema');
+const masterDataRouter = require('./routes/masterData');
 
 const app = express();
 app.use(express.static(__dirname + '/public'));
@@ -11,9 +11,6 @@ const router = express.Router();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
-
-
-
 
 // API
 router.get('/', (req, res) => 
@@ -46,7 +43,6 @@ router.get('/mapping/:id1/:id2/', (req, res) =>
 		return (err) ? res.json({ success: false, error: err }) : res.json({ success: true, data: data });
 	});
 });
-
 
 router.post('/mapping', (req, res) =>
 {
@@ -124,8 +120,9 @@ router.delete('/mapping', (req, res) =>
     
 });
 
-
+app.use('/api/masterData', masterDataRouter);
 app.use('/api', router);
+
 const server = app.listen(7000, () => 
 {
 	console.log(`Express running → PORT ${server.address().port}`);
