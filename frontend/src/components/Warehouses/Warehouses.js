@@ -3,7 +3,17 @@ import './Warehouses.css'
 import PageTemplate from '../PageTemplate/PageTemplate';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow'
 import graphic from '../../assets/distribution.png';
+
+function rowStyleFormat(row, rowIdx) {
+    return { backgroundColor: rowIdx % 2 === 0 ? 'red' : 'blue' };
+  }
+  
 
 class Warehouses extends React.Component 
 {
@@ -45,83 +55,83 @@ class Warehouses extends React.Component
                     </div>
                     <div className="right">
                         <div className="table-wrapper-scroll-y my-custom-scrollbar">
-                            <table className="table table-bordered table-striped mb-0">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">ID</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Units in Stock</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">4</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">5</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">6</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">6</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">6</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">6</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">6</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">6</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">6</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <Table stickyHeader> 
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell scope="col">ID</TableCell>
+                                        <TableCell scope="col">Name</TableCell>
+                                        <TableCell scope="col">Units in Stock</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell scope="row">1</TableCell>
+                                        <TableCell>Mark</TableCell>
+                                        <TableCell>Otto</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell scope="row">2</TableCell>
+                                        <TableCell>Jacob</TableCell>
+                                        <TableCell>TableCellornton</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell scope="row">3</TableCell>
+                                        <TableCell>Larry</TableCell>
+                                        <TableCell>TableCelle Bird</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell scope="row">4</TableCell>
+                                        <TableCell>Mark</TableCell>
+                                        <TableCell>Otto</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell scope="row">5</TableCell>
+                                        <TableCell>Jacob</TableCell>
+                                        <TableCell>TableCellornton</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell scope="row">6</TableCell>
+                                        <TableCell>Larry</TableCell>
+                                        <TableCell>TableCelle Bird</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell scope="row">6</TableCell>
+                                        <TableCell>Larry</TableCell>
+                                        <TableCell>TableCelle Bird</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell scope="row">6</TableCell>
+                                        <TableCell>Larry</TableCell>
+                                        <TableCell>TableCelle Bird</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell scope="row">6</TableCell>
+                                        <TableCell>Larry</TableCell>
+                                        <TableCell>TableCelle Bird</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell scope="row">6</TableCell>
+                                        <TableCell>Larry</TableCell>
+                                        <TableCell>TableCelle Bird</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell scope="row">6</TableCell>
+                                        <TableCell>Larry</TableCell>
+                                        <TableCell>TableCelle Bird</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell scope="row">6</TableCell>
+                                        <TableCell>Larry</TableCell>
+                                        <TableCell>TableCelle Bird</TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
                         </div>
                     </div>
                 </div>
             </PageTemplate>
         );
-	}
+    }
 };
 
 export default Warehouses;
