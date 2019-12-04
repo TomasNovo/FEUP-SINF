@@ -113,7 +113,6 @@
 .nav-side-menu li 
 {
   padding-left: 0px;
-  /* border-bottom: 1px solid #23282e; */
 }
 
 .nav-side-menu li a 
@@ -167,6 +166,7 @@ span[role=img]
 #master-data > .card
 {
   background-color: white;
+  border: none;
 }
 
 #master-data .card-header
@@ -180,6 +180,7 @@ span[role=img]
 #master-data .card-header button
 {
   padding: 0;
+  font-size: 12pt;
   font-weight: bold;
   text-decoration: none;
   color: black;
