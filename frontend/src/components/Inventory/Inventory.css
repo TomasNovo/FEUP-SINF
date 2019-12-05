@@ -1,68 +1,27 @@
-@media (max-width: 961px)
+#inventory-paper
 {
-    #inventory
-    {
-        font-size: 9pt !important;
-    }
+    width: 95%;
+    max-height: 30em;
+    margin: 2em auto;
+    overflow: auto !important;
 }
 
-@media (max-width: 562px)
+#inventory-table th, #inventory-table td
 {
-    #inventory
-    {
-        font-size: 5pt !important;
-    }
-}
-
-#inventory
-{
-    width: 90%;
-    margin: 1em auto;
-    border: solid 1px black;
-    border-radius: 0.3em;
-    font-size: 14pt;
-}
-
-#inventory-header
-{
-    width: 100%;
-    padding: 0.5em 0;
-    border-radius: 0.3em 0.3em 0 0;
-    border-bottom: solid 1px red;
-    background-color: rgb(50, 84, 128);
-    color: white;
-    white-space: nowrap;
-    overflow-x: auto;
-}
-
-#inventory-header > *, .inventory-row > *
-{
-    display: inline-block;
-    width: 14%;
+    font-size: 11pt;
     text-align: center;
-    min-width: 5em;
-    white-space: normal; 
 }
 
-#inventory-data
+#inventory-table th
 {
-    background-color: white;
-    white-space: nowrap;
-    overflow-x: auto;
-    border-radius: 0 0 0.3em 0.3em;
+    background-color: rgb(5, 15, 50);
+    color: white;
+    font-weight: bold;
+    border-bottom: solid 2px red;
 }
 
-.inventory-row
+#inventory-table .category
 {
-    width: 100%;
-}
-
-.inventory-row:first-child
-{
-    margin-top: 0.5em;
-}
-
-.inventory-row:last-child
-{
-    margin-bottom: 0.5em;
+    border-left: solid 2px red;
+    border-right: solid 2px red;
 }

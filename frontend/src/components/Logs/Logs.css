@@ -1,0 +1,33 @@
+#logs-table
+{
+    width: 80%;
+    margin: 3em auto;
+}
+
+#logs-table > :first-child
+{
+    border-radius: 0.3em;
+}
+
+#logs-table thead th
+{
+    border-bottom: 2px solid red;
+    background-color: rgb(5, 15, 50);
+    color: white;
+}
+
+#logs-table th, #logs-table td
+{
+    font-size: 14pt;
+    text-align: center;
+}
+
+#logs-table th
+{
+    font-weight: bold;
+}
+
+#logs-table td
+{
+    background-color: white;
+}
