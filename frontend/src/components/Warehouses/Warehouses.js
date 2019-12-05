@@ -132,6 +132,11 @@ class Warehouses extends React.Component
             </PageTemplate>
         );
     }
+
+    componentDidMount()
+    {
+        document.title = "Warehouses";
+    }
 };
 
 export default Warehouses;

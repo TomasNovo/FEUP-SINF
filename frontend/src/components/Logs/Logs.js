@@ -15,6 +15,11 @@ class Logs extends Component{
 		);
 	}
 
+	componentDidMount()
+    {
+        document.title = "Logs";
+    }
+
 }
 
 export default Logs;

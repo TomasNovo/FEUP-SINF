@@ -65,7 +65,12 @@ class Settings extends React.Component
                     </div>
             </PageTemplate>   
         );
-	}
+    }
+    
+    componentDidMount()
+    {
+        document.title = "Settings";
+    }
 };
 
 export default Settings;
