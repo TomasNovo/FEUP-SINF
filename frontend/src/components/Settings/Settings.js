@@ -9,7 +9,6 @@ class Settings extends React.Component
 	render() {
 		return (
             <PageTemplate page="settings">
-                <Container>
                     <div className="accountInfo">
                         <p>Account Info</p>
                         <div className="grant">
@@ -64,7 +63,6 @@ class Settings extends React.Component
                     <div className="Update">
                         <input type="submit" value="Update"/>
                     </div>
-                </Container>
             </PageTemplate>   
         );
 	}
