@@ -1,200 +1,79 @@
-.accountInfo
+@media (max-width: 1000px)
 {
-    color: black;
-    font-size: 3.2em;
-    margin-top: 2%;
-    margin-left: 2em;
-    /* width: 35%;
-    height: 50%; */
+    #settings-wrapper
+    {
+        width: 70% !important;
+        flex-direction: column !important;
+    }
+
+    #settings-wrapper > *:not(:first-child):not(:last-child)
+    {
+        margin-top: 2em;
+    }
 }
 
- .accountInfo > p 
+#settings-wrapper
 {
+    width: 85%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
     color: white;
+    margin: 2em auto;
+    margin-top: 2em;
+    font-size: 14pt;
 }
 
-
-/*
-.grant, .clientId, .clientSecret
+#accountInfo > p:first-child, #originating > p:first-child
 {
-    color: grey;
-    background-color: white;
-     /* width: 80%;  
-} */
+    font-size: 18pt;
+}
 
-
-/*
-.grant > p, .clientId > p, .clientSecret > p
-{
-    /* margin-left: 10%; 
-    font-size: 0.5em;
+input[type=text]#grant::placeholder, input[type=text]#clientId::placeholder, input[type=password]#clientSecret::placeholder 
+{ 
     color: white;
-    /* background-color: white; 
-    width: 20%;
-}*/
+    opacity: 0.5;
+}
 
-.grant > input[type=text]::placeholder, .clientId > input[type=text]::placeholder, .clientSecret > input[type=password]::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: white;
-    opacity: 0.5; /* Firefox */
-  }
-
-.grant > input[type=text], .clientId > input[type=text] , .clientSecret > input[type=password]
+input[type=text]#grant, input[type=text]#clientId , input[type=password]#clientSecret, 
+#originating > input, #destination > input 
 {
+    display: block;
     color: white;
     border: none;
     background-color: #19305D;
     margin-bottom: 10px;
     text-align: left;
-    font-size: 17px;
     border-bottom: 2px solid red;
 }
 
-.accounting
+#originating > input::placeholder, #destination > input::placeholder
 {
- 
-    margin-left: 2em;
-    color: white;
-    font-size: 3.2em;
-    margin-top: 2%;
-}
-
-.Intercompany
-{
-    margin-left: 6em;
-    margin-right: 6em;   
-    background-color: rgb(51, 77, 129);
-    /* margin-left: auto;    */
-    display: flex;
-    height: 20%;
-}
-
-.Intercompany .Originating 
-{
-    margin-top: 1em;
-    background-color: rgb(51, 77, 129);
-    width: 50%;
-    float: left;
-}
-
-.Intercompany .Destination 
-{
-    margin-top: 1em;
-    background-color: rgb(51, 77, 129);
-    width: 50%;
-    float: right;
-    margin-bottom: 2%;
-} 
-
-.Intercompany .Originating > h1, .Intercompany .Destination > h1 
-{
-    text-align: center;
-    /* background-color: #19305D; */
-    margin-left: 6%;
-    font-size: 2.7em;
-    color: white;
-} 
-
-/* .Intercompany .Originating > p, .Intercompany .Destination > p 
-{
-    margin-left: 10%;
-    color: white;
-    margin-bottom: -0.3%;
-    font-size: 2.7em;
-}  */
-
-
-.Intercompany .Originating > input::placeholder, .Intercompany .Destination > input::placeholder
-{
-    font-size: 1.5em;
     opacity: 0.6;
 } 
 
-.Intercompany .Originating > input, .Intercompany .Destination > input 
-{
-    margin-top: 2em;
-    color: white;
-    background-color: rgb(51, 77, 129);
-    border: none;
-    border-bottom: 2px solid red;
-    margin-left: 6%;
-    width: 40%;
-} 
-
-
-.Debit
-{
-    margin-top: 10%;
-    width: 50%;
-    float: left;
-}
-
-.Credit
-{
-    margin-top: 10%;
-    width: 50%;
-    float: right;
-}
-
-.Debit > p, .Credit > p 
-{
-    margin-left: 15%;
-    color: white;
-    margin-bottom: -0.3%;
-    font-size: 3em;
-} 
-
-.Debit > input, .Credit > input 
-{
-    margin-left: 14%;
-} 
-
-
-.Intercompany .Originating  > input[type="text"],
-.Intercompany .Destination  > input[type="text"]
+#intercompany #originating  > input[type="text"],
+#intercompany #destination  > input[type="text"]
 {
     font-size: 1.6em;
     text-align: left;
 }
 
-.Intercompany .Originating .Debit > input[type="text"],
-.Intercompany .Originating .Credit > input[type="text"],
-.Intercompany .Destination .Debit > input[type="text"],
-.Intercompany .Destination .Credit > input[type="text"]
+#update
 {
-    text-align: left;
-    margin-top: 2em;
-    color: white;
-    background-color: rgb(51, 77, 129);
-    border: none;
-    border-bottom: 2px solid red;
-    margin-left: 12%;
-    width: 80%;
+    font-size: 14pt;
+    line-height: 0;
+    margin-top: 1em;
     height: 2em;
-}
-
-.Intercompany .Originating .Debit > input[type="text"]::placeholder,
-.Intercompany .Originating .Credit > input[type="text"]::placeholder,
-.Intercompany .Destination .Debit > input[type="text"]::placeholder,
-.Intercompany .Destination .Credit > input[type="text"]::placeholder
-{
-    color: white;
-    opacity: 0.6; /* Firefox */
-    /* width: 80%;
-    font-size: 1.8em;
-    text-align: left; */
-    font-size: 2.5em;
-}
-
-
-.Update > input[type="submit"]
-{
-    margin-right: 4em;
-    font-size: 1.5em;
-    float: right;
-    margin-top: 3%;
-    width: 21%;
+    width: 5em;
     color: white;
     background-color: rgb(254,0,0);
     border: solid 0.6em rgb(254,0,0);
-    border-radius: 0.4em;
+    border-radius: 0.2em;
+}
+
+.break 
+{
+    flex-basis: 100%;
+    height: 0;
 }
