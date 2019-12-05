@@ -61,10 +61,11 @@ const useStyles = makeStyles({
     width: '83%',
     marginLeft: '100px',
     marginTop: '80px',
-
   },
+
   tableWrapper: {
-    maxHeight: 440,
+    maxHeight: 623,
+    minHeight: 623,
     overflow: 'auto',
     backgroundColor: '#C0C0C0',
   },
