@@ -13,51 +13,51 @@ class Settings extends React.Component
                     <div className="accountInfo">
                         <p>Account Info</p>
                         <div className="grant">
-                            <p>Grant_Type
-                            <input type="text"/>
-                            </p>
-                            {/* <input type="text"/> */}
+                            {/* <p>Grant_Type */}
+                            <input type="text" placeholder="Grant Type"/>
+                            {/* </p> */}
                         </div>
                         <div className="clientId">
-                            <p>Client_ID
-                            <input type="text"/>
-                            </p>
+                            {/* <p>Client_ID */}
+                            <input type="text" placeholder="Client ID"/>
+                            {/* </p> */}
                         </div>
                         <div className="clientSecret">
-                            <p>Client_Secret
-                            <input type="password"/>
-                            </p>
+                            {/* <p>Client_Secret */}
+                            <input type="password" placeholder="Client Secret"/>
+                            {/* </p> */}
                         </div>
                     </div>
+                    <p className="accounting">Intercompany Accounting</p>
                     <div className="Intercompany">
                         <div className="Originating">
-                            <h1>Originatin Company</h1>
+                            <h1>Originating Company</h1>
                             <br/>
-                            <p>Company Name: </p>
-                            <input type="text"/>
+                            {/* <p>Company Name: </p> */}
+                            <input type="text" placeholder="Company Name"/>
                             <br/>
                             <div className="Debit">
-                                <p>Debit Account: </p>
-                                <input type="text"/>
+                                {/* <p>Debit Account: </p> */}
+                                <input type="text" placeholder="Debit Account"/>
                             </div>
                             <div className="Credit">
-                                <p>Credit Account: </p>
-                                <input type="text"/>
+                                {/* <p>Credit Account: </p> */}
+                                <input type="text" placeholder="Credit Account"/>
                             </div>
                         </div>
                         <div className="Destination">
                             <h1>Destination Company</h1>
                             <br/>
-                            <p>Company Name: </p>
-                            <input type="text"/>
+                            {/* <p>Company Name: </p> */}
+                            <input type="text" placeholder="Company Name"/>
                             <br/>
                             <div className="Debit">
-                                <p>Debit Account: </p>
-                                <input type="text"/>
+                                {/* <p>Debit Account: </p> */}
+                                <input type="text" placeholder="Debit Account"/>
                             </div>
                             <div className="Credit">
-                                <p>Credit Account: </p>
-                                <input type="text"/>
+                                {/* <p>Credit Account: </p> */}
+                                <input type="text" placeholder="Credit Account"/>
                             </div>
                         </div>
                     </div>

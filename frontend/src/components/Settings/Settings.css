@@ -1,56 +1,81 @@
 .accountInfo
 {
     color: black;
-    font-size: 3em;
+    font-size: 3.2em;
     margin-top: 2%;
-    width: 35%;
-    height: 50%;
+    /* width: 35%;
+    height: 50%; */
 }
 
+ .accountInfo > p 
+{
+    color: white;
+}
+
+
+/*
 .grant, .clientId, .clientSecret
 {
     color: grey;
     background-color: white;
-    width: 80%;
-}
+     /* width: 80%;  
+} */
 
+
+/*
 .grant > p, .clientId > p, .clientSecret > p
 {
-    margin-left: 10%;
+    /* margin-left: 10%; 
     font-size: 0.5em;
-    color: black;
+    color: white;
+    /* background-color: white; 
+    width: 20%;
+}*/
+
+.grant > input[type=text]::placeholder, .clientId > input[type=text]::placeholder, .clientSecret > input[type=password]::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: white;
+    opacity: 0.5; /* Firefox */
+  }
+
+.grant > input[type=text], .clientId > input[type=text] , .clientSecret > input[type=password]
+{
+    color: white;
+    border: none;
+    background-color: #19305D;
+    margin-bottom: 10px;
+    text-align: left;
+    font-size: 17px;
+    border-bottom: 2px solid red;
 }
 
-.grant > p > input, .clientId > p > input, .clientSecret > p > input
+.accounting
 {
-    float: right;
-    font-size: 0.82em;
+    color: white;
+    font-size: 3.2em;
+    margin-top: 2%;
 }
 
-input[type=text], input[type=password] 
-{
-    text-align: right;
-}
 
 .Intercompany
 {
-    background-color: rgb(127,149,181);
+    background-color: rgb(51, 77, 129);
     margin-left: auto;
-    margin-top: 7%;
     display: flex;
     height: 30%;
 }
 
 .Intercompany .Originating 
 {
-    background-color: rgb(127,149,181);
+    margin-top: 1em;
+    background-color: rgb(51, 77, 129);
     width: 50%;
     float: left;
 }
 
 .Intercompany .Destination 
 {
-    background-color: rgb(127,149,181);
+    margin-top: 1em;
+    background-color: rgb(51, 77, 129);
     width: 50%;
     float: right;
     margin-bottom: 2%;
@@ -58,36 +83,50 @@ input[type=text], input[type=password]
 
 .Intercompany .Originating > h1, .Intercompany .Destination > h1 
 {
+    text-align: center;
+    /* background-color: #19305D; */
     margin-left: 6%;
     font-size: 2.7em;
     color: white;
 } 
 
-.Intercompany .Originating > p, .Intercompany .Destination > p 
+/* .Intercompany .Originating > p, .Intercompany .Destination > p 
 {
     margin-left: 10%;
     color: white;
     margin-bottom: -0.3%;
     font-size: 2.7em;
+}  */
+
+
+.Intercompany .Originating > input::placeholder, .Intercompany .Destination > input::placeholder
+{
+    font-size: 1.5em;
+    opacity: 0.6;
 } 
 
 .Intercompany .Originating > input, .Intercompany .Destination > input 
 {
-    margin-left: 7%;
-    width: 60%;
+    margin-top: 2em;
+    color: white;
+    background-color: rgb(51, 77, 129);
+    border: none;
+    border-bottom: 2px solid red;
+    margin-left: 6%;
+    width: 40%;
 } 
 
 
 .Debit
 {
-    margin-top: 12.5%;
+    margin-top: 10%;
     width: 50%;
     float: left;
 }
 
 .Credit
 {
-    margin-top: 12.5%;
+    margin-top: 10%;
     width: 50%;
     float: right;
 }
@@ -118,10 +157,30 @@ input[type=text], input[type=password]
 .Intercompany .Destination .Debit > input[type="text"],
 .Intercompany .Destination .Credit > input[type="text"]
 {
-    width: 80%;
-    font-size: 1.8em;
     text-align: left;
+    margin-top: 2em;
+    color: white;
+    background-color: rgb(51, 77, 129);
+    border: none;
+    border-bottom: 2px solid red;
+    margin-left: 12%;
+    width: 80%;
+    height: 2em;
 }
+
+.Intercompany .Originating .Debit > input[type="text"]::placeholder,
+.Intercompany .Originating .Credit > input[type="text"]::placeholder,
+.Intercompany .Destination .Debit > input[type="text"]::placeholder,
+.Intercompany .Destination .Credit > input[type="text"]::placeholder
+{
+    color: white;
+    opacity: 0.6; /* Firefox */
+    /* width: 80%;
+    font-size: 1.8em;
+    text-align: left; */
+    font-size: 2.5em;
+}
+
 
 .Update > input[type="submit"]
 {
