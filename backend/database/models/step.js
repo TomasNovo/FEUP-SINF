@@ -10,7 +10,7 @@ const stepSchema = new Schema(
     company: { type: String, required: true },
     fromJasmin: { type: Boolean, required: true },
     document: { type: String, required: true },
-    processId: { type: Schema.Types.ObjectId, ref: 'process' },
+    // processId: { type: Schema.Types.ObjectId, ref: 'process' },
   }, 
   {
     timestamps: true,

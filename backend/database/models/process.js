@@ -6,7 +6,7 @@ const { Schema } = mongoose;
 
 const processSchema = new Schema(
   {
-    steps: [{ type: Schema.Types.ObjectId, ref: 'step' }],
+    steps: [{ type: Schema.Types.ObjectId, ref: 'step', required: true, default: [] }],
   },
   {
     timestamps: false,
