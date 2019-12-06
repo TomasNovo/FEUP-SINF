@@ -20,7 +20,10 @@ class Navbar extends React.Component
 
 	componentDidMount()
 	{
-        document.getElementById("nav-" + this.state.page).classList.add("active");
+        let navLink = document.getElementById("nav-" + this.state.page);
+
+        if(navLink)
+            navLink.classList.add("active");
 
         if(this.state.page === "warehouses" || this.state.page === "inventory"){
             document.querySelector("#master-data > .card .card-header").classList.add("active");
@@ -40,7 +43,7 @@ class Navbar extends React.Component
                 <div className="menu-list">
                     <ul id="menu-content" className="menu-content collapse out">
                         <li id="nav-processes">
-                            <Link to="/">
+                            <Link to="/processes">
                                 <span role="img" aria-label="Processes">🔨</span>
                                 Processes
                             </Link>

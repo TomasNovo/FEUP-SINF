@@ -44,12 +44,11 @@ class Processes extends React.Component
         return (
             <PageTemplate page="processes">
                     <div className="addProcess">
-                        <Fab color="primary" aria-label="add">
+                        <Fab href="./add-process" color="primary" aria-label="add">
                             <Add fontSize="large"/>
                         </Fab>
                         <span>Add Process</span>
                     </div>
-                   
                     <Accordion id="processes">
                         <Card>
                             <Card.Header id="headingOne">

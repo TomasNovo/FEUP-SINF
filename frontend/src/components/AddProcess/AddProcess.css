@@ -1,0 +1,126 @@
+#new-process
+{
+    color: white;
+    font-size: 20pt;
+    width: 90%;
+    margin: 1em auto;
+    border-bottom: 2px solid red;
+}
+#add-process-form
+{
+    width: 90%;
+    margin: 1em auto;
+    color: white;   
+    font-size: 18pt;
+}
+
+#process-name
+{
+    color: white;
+    width: 8em;
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    border-bottom: solid 2px white;
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    -ms-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+
+#process-name:focus
+{
+    border-bottom-color: red;
+}
+
+#add-steps
+{
+    margin-top: 1em;
+}
+
+#add-process-form > #add-steps .step
+{
+    background-color: white;
+    -webkit-box-shadow: -12px 10px 23px -1px rgba(0,0,0,0.75);
+    -moz-box-shadow: -12px 10px 23px -1px rgba(0,0,0,0.75);
+    box-shadow: -12px 10px 23px -1px rgba(0,0,0,0.75);
+    color: black;
+    border: solid 1px rgb(0, 0, 0);
+    border-radius: 0.5em;
+    padding: 0.3em 0.3em;
+    margin: 1em 0;
+}
+
+#add-process-form > #add-steps > .step > span:first-child
+{
+    color: black !important;
+}
+
+#add-process-form > #add-steps > .step > span:first-child
+{
+    color: white;
+}
+
+#add-steps > hr
+{
+    border: solid 1px white;
+}
+
+#add-step
+{
+    border-radius: 0.2em;
+    margin-top: 0.7em;
+    padding: 0.1em 0.3em;
+}
+
+#add-step > #step-template
+{
+    background-color: white;
+    color: black;
+    border-radius: 0.3em;
+    padding: 0.4em 0.3em;
+    margin-bottom: 1.5em;
+    -webkit-box-shadow: -12px 10px 23px -1px rgba(0,0,0,0.75);
+    -moz-box-shadow: -12px 10px 23px -1px rgba(0,0,0,0.75);
+    box-shadow: -12px 10px 23px -1px rgba(0,0,0,0.75);
+}
+
+#step-template > :nth-child(2), #step-template > :nth-child(3), #step-template > :last-child
+{
+    outline: none;
+    border: none;
+    border-bottom: solid 2px red;
+    -moz-appearance:none;
+    -webkit-appearance:none;
+    appearance:none;
+    cursor: pointer;
+    margin-right: 2em;
+}
+
+#step-template > i
+{
+    position: relative;
+    right: 1.1em;
+}
+
+#add-step > button
+{
+    margin-left: 1em;
+    margin-right: 1.5em;
+    background-color: red;
+    color: white;
+}
+
+#add-step > button:focus
+{
+    outline: none;
+}
+
+#create-process
+{
+    background-color: red;
+    font-size: 14pt;
+    margin-top: 1.5em;
+    margin-left: 0 !important;
+}

@@ -1,15 +1,12 @@
 import React from 'react';
 import axios from 'axios';
-// <<<<<<< HEAD
 import Warehouses from '../Warehouses/Warehouses';
-// =======
 import Processes from '../Processes/Processes';
 import Inventory from '../Inventory/Inventory';
 import Logs from '../Logs/Logs';
 import Settings from '../Settings/Settings';
-
+import AddProcess from '../AddProcess/AddProcess';
 import { Route, Switch, BrowserRouter} from "react-router-dom";
-// >>>>>>> master
 
 const API_PORT = 7000;
 
@@ -49,12 +46,21 @@ class App extends React.Component
 	render() 
 	{
 		return (
-// <<<<<<< HEAD
 			<BrowserRouter>
             	<Switch>
             		<Route
             			path="/"
+            			component={Logs}
+            			exact={true}
+            		/>
+					<Route
+            			path="/processes"
             			component={Processes}
+            			exact={true}
+            		/>
+					<Route
+            			path="/add-process"
+            			component={AddProcess}
             			exact={true}
             		/>
 					<Route
@@ -79,26 +85,6 @@ class App extends React.Component
             		/>
             	</Switch>
             </BrowserRouter>
-
-			
-			// <Settings />
-			
-			// <Container className="p-3">
-			// 	<Jumbotron>
-			// 		<h1 className="header">Welcome To React-Bootstrap</h1>
-			// 		<CustomForm />
-			// 	</Jumbotron>
-
-			// 	<Jumbotron>
-			// 		<Button variant="primary" onClick={() => {this.getDataFromDb();}}>
-			// 			Fetch mapping
-			// 		</Button>
-			// 		<h1><br></br>Result:</h1>
-			// 		<div>
-			// 			{this.state.data}
-			// 		</div>
-			// 	</Jumbotron>
-			// </Container>
 		);
 	}
 };

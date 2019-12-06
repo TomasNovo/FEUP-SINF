@@ -10,11 +10,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow'
 import graphic from '../../assets/distribution.png';
 
-function rowStyleFormat(row, rowIdx) {
-    return { backgroundColor: rowIdx % 2 === 0 ? 'red' : 'blue' };
-  }
-  
-
 class Warehouses extends React.Component 
 {
 	render() {
