@@ -12,11 +12,6 @@ import graphic from '../../assets/distribution.png';
 
 class Warehouses extends React.Component 
 {
-    componentDidMount()
-    {
-        document.title = "Warehouses";
-    }
-
 	render() {
 		return (
             <PageTemplate page="warehouses">
