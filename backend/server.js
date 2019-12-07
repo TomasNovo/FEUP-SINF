@@ -1,9 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 var cors = require('cors');
-var request = require('request');
 
-// require('./database/mongo');
+require('./database/mongo');
 const schema = require('./database/schema');
 const jasmin = require('./jasminIntegration');
 
