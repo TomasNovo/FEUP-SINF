@@ -1,6 +1,7 @@
+'use strict'
+
 require('dotenv').config();
 
-const request = require('request');
 const axios = require('axios');
 const querystring = require('querystring');
 
@@ -28,6 +29,7 @@ function getToken(callback, company)
 	.then((res) => {
 
 		console.log("Created new token!");
+		console.log(res.data.access_token);
 		tokens[company] = res.data.token_type + ' ' + res.data.access_token;
 
 		if (callback !== undefined)
@@ -40,28 +42,75 @@ function getToken(callback, company)
 }
 
 
-function getItems(callback, company)
+function getMaterialItems(req, res)
 {
-	axios.get(apiLink + companyIds[company] + '/businesscore/items', {
+	const {company} = req.params;
+
+	if (company === undefined) {
+		res.status(400).json({success: false, error: 'company parameter is required!'});
+		return;
+	}
+
+	if (company !== "0" && company !== "1") {
+		res.status(400).json({success: false, error: 'company is either 0 or 1'});
+		return;
+	}
+
+
+	axios.get(apiLink + companyIds[company] + '/materialscore/materialsitems', {
 		headers: {
 			'Authorization': tokens[company]
 		}
 	})
-	.then((res) => {
+	.then((response) => {
 
-		let data = filterByDate(res.data);
+		let data = filterByDate(response.data);
 
-		if (callback !== undefined)
-			callback(data);
+		res.status(200).json({success: true, result: data});
 	})
 	.catch((error) => {
 
-		if (error.response.status === 401) {
-			getToken(() => getItems(callback, company), company);
+		if (error.response.status !== undefined && error.response.status === 401) {
+			getToken(() => getMaterialItems(req, res), company);
 		} else {
-			console.log('Error ' + error.response.status + ': ' + error.response.statusText);
-		}	
+			res.status(400).json({success: false, error: error.statusText});
+		}
+	});
+}
 
+function getSalesItems(req, res)
+{
+	const {company} = req.params;
+
+	if (company === undefined) {
+		res.status(400).json({success: false, error: 'company parameter is required!'});
+		return;
+	}
+
+	if (company !== "0" && company !== "1") {
+		res.status(400).json({success: false, error: 'company is either 0 or 1'});
+		return;
+	}
+
+
+	axios.get(apiLink + companyIds[company] + '/salescore/salesitems', {
+		headers: {
+			'Authorization': tokens[company]
+		}
+	})
+	.then((response) => {
+
+		let data = filterByDate(response.data);
+
+		res.status(200).json({success: true, result: data});
+	})
+	.catch((error) => {
+
+		if (error.response.status !== undefined && error.response.status === 401) {
+			getToken(() => getSalesItems(req, res), company);
+		} else {
+			res.status(400).json({success: false, error: error.statusText});
+		}
 	});
 }
 
@@ -98,6 +147,7 @@ function tryParseJSON(jsonString) {
 }
 
 module.exports = {
-	getItems: getItems,
+	getMaterialItems: getMaterialItems,
+	getSalesItems: getSalesItems,
 	getToken: getToken
 };
