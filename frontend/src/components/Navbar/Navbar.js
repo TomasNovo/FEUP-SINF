@@ -1,5 +1,5 @@
 import React from 'react';
-import './Navbar.scss';
+import './Navbar.css';
 import logo from '../../assets/logo.png';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
