@@ -1,74 +1,83 @@
 require('dotenv').config();
 
 const request = require('request');
+const axios = require('axios');
+const querystring = require('querystring');
 
+const tokenLink = 'https://identity.primaverabss.com/core/connect/token';
+const apiLink = 'http://my.jasminsoftware.com/api/';
+let tokens = ['', ''];
+let appIds = [process.env.APP_ID_1, process.env.APP_ID_2];
+let appSecrets = [process.env.APP_SECRET_1, process.env.APP_SECRET_2];
+let companyIds = ['226454/226454-0001', '224898/224898-0001'];
 
-function getToken(callback)
+// Company is either 0 or 1
+function getToken(callback, company)
 {
- 
-	request({
-	  url: 'https://identity.primaverabss.com/core/connect/token',
-	  method: 'POST',
-	  auth: {
-		  user: process.env.APP_ID,
-		  pass: process.env.APP_SECRET
-	  },
-	  form: {
-	    'grant_type': 'client_credentials',
-	    'scope': 'application',
-	  }
-	}, function(err, res) {
-	  if (!err) {
-		var json = tryParseJSON(res.body);
-
-		if (json.access_token === undefined)
-			console.log("Error! " + json.error);
-		else
-		{
-			console.log("Created new token! " + res.body);
-
-			callback(json.access_token);
+	// Needs to use use x-www-form-urlencoded so we use querystring as seen in the documentation of axios
+	axios.post(tokenLink, querystring.stringify({
+		grant_type: 'client_credentials',
+		scope: 'application'
+	}), {
+			auth: {
+				username: appIds[company],
+				password: appSecrets[company]
+			}
 		}
-	  }
-	  else {
-		console.log(err);
-		token = undefined;
-	  }
+	)
+	.then((res) => {
+
+		console.log("Created new token!");
+		tokens[company] = res.data.token_type + ' ' + res.data.access_token;
+
+		if (callback !== undefined)
+			callback();
+	})
+	.catch((error) => {
+		console.log(error);
+		tokens[company] = undefined;
 	});
 }
 
 
-function getItems()
+function getItems(callback, company)
 {
-	getToken((token) => 
-	{
-		request({
-			url: 'http://my.jasminsoftware.com/api/226454/226454-0001/businesscore/items',
-			method: 'GET',
-			headers:
-			{
-				Authorization: "bearer " + token,
-				'Content-Type': 'application/json'
-			}
-		},
-		(err, res) => {
-			if (!err) {
-				// console.log("Received: " + JSON.stringify(res));
+	axios.get(apiLink + companyIds[company] + '/businesscore/items', {
+		headers: {
+			'Authorization': tokens[company]
+		}
+	})
+	.then((res) => {
 
-				if (res.body !== undefined) {
-					let json = tryParseJSON(res.body);
+		let data = filterByDate(res.data);
 
-					console.log("Status code: " + res.statusCode);
+		if (callback !== undefined)
+			callback(data);
+	})
+	.catch((error) => {
 
-					if (json)
-						console.log("Body:\n" + res.body);
-				}
-			}
-			else {
-				console.log(err);
-				return undefined;
-			}
-		})});
+		if (error.response.status === 401) {
+			getToken(() => getItems(callback, company), company);
+		} else {
+			console.log('Error ' + error.response.status + ': ' + error.response.statusText);
+		}	
+
+	});
+}
+
+function filterByDate(json) {
+
+	let result = [];
+	const baseDate = new Date('November 1, 2019');
+
+	for (const item of json) {
+		let date = new Date(item.createdOn);
+
+		if (date.getTime() > baseDate.getTime())
+			result.push(item);
+	}
+
+	return result;
 }
 
 function tryParseJSON(jsonString) {
@@ -89,5 +98,6 @@ function tryParseJSON(jsonString) {
 }
 
 module.exports = {
-	getItems: getItems
+	getItems: getItems,
+	getToken: getToken
 };
