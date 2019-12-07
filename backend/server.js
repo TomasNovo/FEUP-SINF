@@ -16,20 +16,10 @@ app.use(bodyParser.json());
 app.use(cors());
 
 
-
-
 // API
 router.get('/', (req, res) => 
 {
 	res.send('Hello! ^^');
-});
-
-router.get('/data', (req, res) =>
-{
-	schema.Data.find((err, data) =>
-	{
-		return (err) ? res.json({ success: false, error: err }) : res.json({ success: true, data: data });
-	});
 });
 
 router.get('/mapping', (req, res) =>
@@ -121,10 +111,6 @@ router.delete('/mapping', (req, res) =>
 		res.status(201);
 		return res.json({ success: true });
 	});
-
-
-
-    
 });
 
 
@@ -133,9 +119,3 @@ const server = app.listen(7000, () =>
 {
 	console.log(`Express running → PORT ${server.address().port}`);
 });
-
-
-
-
-
-jasmin.getItems();
