@@ -47,6 +47,11 @@
     outline: none;
 }
 
+.addProcess > :first-child:hover
+{
+    color: white;
+}
+
 .addProcess:focus
 {
     box-shadow: none;
