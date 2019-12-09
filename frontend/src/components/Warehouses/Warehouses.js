@@ -35,15 +35,16 @@ class Warehouses extends React.Component
 
         // Populate warehouseItems
         let warehouseItems = [];
-        console.log(this.state.items.length);
+        // console.log(this.state.items.length);
         for (const item of this.state.items)
         {
             for (const warehouse of item.materialsItemWarehouses)
             {
-                console.log(warehouse.warehouseId + "===" + this.state.warehouses[warehouseIndex].id);
+                // console.log(warehouse.warehouseId + "===" + this.state.warehouses[warehouseIndex].id);
                 if (warehouse.warehouseId === this.state.warehouses[warehouseIndex].id)
                 {
-                    item.unitsInStock = warehouse.calculatedUnitCost.amount;
+                    item.unitsInStock = warehouse.stockBalance;
+                    item.unitPrice = warehouse.calculatedUnitCost.amount; 
                     warehouseItems.push(item);
                     break;
                 }
@@ -103,6 +104,24 @@ class Warehouses extends React.Component
             return <span></span>;
     }
 
+    renderValue()
+    {
+        if (this.state.isMounted)
+        {
+            let value = 0;
+            for(let i = 0; i < this.state.warehouseItems.length; i++)
+            {
+                console.log(this.state.warehouseItems[i].unitPrice);
+                console.log(this.state.warehouseItems[i].unitsInStock);
+                value += this.state.warehouseItems[i].unitPrice * this.state.warehouseItems[i].unitsInStock;
+            }
+
+            return <span>€{value}</span>;
+        }
+        else
+            return <span>€0</span>;
+    }
+
     renderItems()
     {
         if (this.state.isMounted)
@@ -147,7 +166,7 @@ class Warehouses extends React.Component
                         </div>
                         <div className="totalAssets">
                             <span>Total assets value:</span>
-                            <span>€110.225,30</span>
+                            {this.renderValue()}
                         </div>
                     </div>
                     <div className="right">
@@ -203,7 +222,7 @@ class Warehouses extends React.Component
         }
 
         this.setState({warehouses: warehouses});
-        console.log(warehouses);
+        // console.log(warehouses);
     }
 
     fillItems(companyIndex, requestData)
@@ -217,7 +236,7 @@ class Warehouses extends React.Component
         }
 
         this.setState({items: items});
-        console.log(items);
+        // console.log(items);
     }
 
 
