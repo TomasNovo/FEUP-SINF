@@ -3,13 +3,14 @@
     width: 95%;
     max-height: 30em;
     margin: 2em auto;
-    overflow: auto !important;
+    overflow-x: auto;
 }
 
 #inventory-table th, #inventory-table td
 {
     font-size: 11pt;
     text-align: center;
+    white-space: nowrap;
 }
 
 #inventory-table th

@@ -39,7 +39,7 @@ class Inventory extends React.Component
     {
         let table = [];
         let i = 0;
-        let idCompany = 0;
+
         for (const elem of this.state.result)
         {
             let children = [];
@@ -55,7 +55,7 @@ class Inventory extends React.Component
             else
             {
                 children.push(<TableCell key={0} > {elem.name1} </TableCell>);
-                children.push(<TableCell key={1} > {elem.id1} </TableCell>);
+                children.push(<TableCell className="inventory-id" key={1} > {elem.id1} </TableCell>);
                 children.push(<TableCell key={2} > {elem.stock1} </TableCell>);
                 children.push(<TableCell key={3} > {elem.price1} </TableCell>);
                 children.push(<TableCell key={4} > {'TAN'} </TableCell>);    
@@ -71,7 +71,7 @@ class Inventory extends React.Component
             else
             {
                 children.push(<TableCell key={5} > {elem.name2} </TableCell>);
-                children.push(<TableCell key={6} > {elem.id2} </TableCell>);
+                children.push(<TableCell className="inventory-id" key={6} > {elem.id2} </TableCell>);
                 children.push(<TableCell key={7} > {elem.stock2} </TableCell>);
                 children.push(<TableCell key={8} > {elem.price2} </TableCell>);
             }
@@ -88,7 +88,7 @@ class Inventory extends React.Component
         return (
             <PageTemplate page="inventory">
                 <Paper id="inventory-paper">
-                    <Table  stickyHeader id="inventory-table">
+                    <Table id="inventory-table">
                         <TableHead>
                             <TableRow>
                                 <TableCell>
@@ -142,7 +142,6 @@ class Inventory extends React.Component
         let promise1 = axios.get('http://localhost:7000/api/jasmin/salesItems/0')
         .then((response) => {
             this.setState({items1: response.data.result});
-            console.log(this.state.items1);
         })
         .catch((error) => {
             this.setState({items1: []});
@@ -159,18 +158,12 @@ class Inventory extends React.Component
         let promise3 = axios.get('http://localhost:7000/api/master-data/')
         .then((response) => {
             this.setState({masterData: response.data});
-            console.log(this.state.masterData);
         })
         .catch((error) => {
             this.setState({masterData: []});
         });
 
         Promise.all([promise1, promise2, promise3]).then(() => {
-            
-            console.log(this.state.items1);
-            console.log(this.state.items2);
-            console.log(this.state.masterData);
-
             let result = [];
             let items1 = this.state.items1;
             let items2 = this.state.items2;
@@ -179,9 +172,6 @@ class Inventory extends React.Component
             {
                 let id1 = this.state.masterData[i].idA;
                 let id2 = this.state.masterData[i].idB;
-
-                console.log(id1);
-                console.log(id2);
 
                 let index1 = this.findById(items1, id1);
                 let index2 = this.findById(items2, id2);
