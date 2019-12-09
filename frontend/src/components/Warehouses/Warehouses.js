@@ -12,6 +12,15 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow'
 import graphic from '../../assets/distribution.png';
 
+// import CanvasJS from 'canvasjs';
+// var CanvasJS = require('canvasjs');
+//var CanvasJSReact = require('./canvasjs.react');
+// var CanvasJSChart = CanvasJS.CanvasJSChart;
+
+import * as V from 'victory';
+import { VictoryPie } from 'victory';
+
+
 class Warehouses extends React.Component 
 {
 
@@ -52,7 +61,7 @@ class Warehouses extends React.Component
         }
 
         this.setState({warehouseItems: warehouseItems});
-        console.log(warehouseItems);
+        // console.log(warehouseItems);
     }
 
     renderWarehouse()
@@ -109,10 +118,19 @@ class Warehouses extends React.Component
         if (this.state.isMounted)
         {
             let value = 0;
+
+            // all warehouses
+            // for (const item of this.state.items)
+            // {
+            //     for (const warehouse of item.materialsItemWarehouses)
+            //     {
+            //         value += warehouse.inventoryBalance.amount;
+            //     }
+            // }
+
+            // individual warehouse total
             for(let i = 0; i < this.state.warehouseItems.length; i++)
             {
-                console.log(this.state.warehouseItems[i].unitPrice);
-                console.log(this.state.warehouseItems[i].unitsInStock);
                 value += this.state.warehouseItems[i].unitPrice * this.state.warehouseItems[i].unitsInStock;
             }
 
@@ -144,6 +162,31 @@ class Warehouses extends React.Component
             return [];
     }
 
+    renderGraphic()
+    {
+        if(this.state.isMounted)
+        {
+            let d = [
+                // {x: "cats", y: "35"},
+                // {x: "dogs", y: "40"},
+                // {x: "cats", y: "55"}
+            ];
+
+            for(let i = 0; i < this.state.warehouses.length; i++)
+            {   
+                console.log(this.state.warehouses[i]);
+                console.log(this.state.warehouses[i].percent);
+
+                d.push({x: this.state.warehouses[i].itemKey, y: this.state.warehouses[i].percent * 100});
+            }
+
+            console.log(d);
+
+            return <VictoryPie data={d}/>
+        }
+        else return null;
+    }
+
 	render() {
 		return (
             <PageTemplate page="warehouses">
@@ -160,13 +203,13 @@ class Warehouses extends React.Component
                             <span>Address:</span>
                             {this.renderAddress()}
                         </div>
-                        <div id="warehouse-assets">
-                            <p>Asset's distribution</p>
-                            <img src={graphic} alt="Graphic" />
-                        </div>
                         <div className="totalAssets">
                             <span>Total assets value:</span>
                             {this.renderValue()}
+                        </div>
+                        <div id="warehouse-assets">
+                            <p>Asset's distribution</p>
+                            {this.renderGraphic()}    
                         </div>
                     </div>
                     <div className="right">
@@ -262,6 +305,21 @@ class Warehouses extends React.Component
 
                         this.fillItems(1, response.data);
                         this.changeWarehouse(this.state.selectedWarehouse);
+
+                        let sum = 0;
+                        let warehouses = this.state.warehouses;
+                        for(let i = 0; i < warehouses.length; i++)
+                        {
+                            warehouses[i].totalWarehouseValue = warehouses[i].unitPrice * warehouses[i].unitsInStock;
+                            sum += warehouses[i].totalWarehouseValue; 
+                        }
+                        
+                        for(let i = 0; i < warehouses.length; i++)
+                        {
+                            warehouses[i].percent = warehouses[i].totalWarehouseValue / sum;
+                        }
+
+                        this.setState({warehouses: warehouses});
 
                         this.setState({isMounted: true});
 
