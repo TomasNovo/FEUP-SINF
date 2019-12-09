@@ -31,6 +31,13 @@ const columns = [
     align: 'center',
     format: value => value.toLocaleString(),
   },
+  {
+    id: 'createdAt',
+    label: 'Timestamp',
+    minWidth: 300,
+    align: 'right',
+    format: value => value.toLocaleString(),
+  },
 ];
 
 const useStyles = makeStyles({
