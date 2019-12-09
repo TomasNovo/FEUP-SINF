@@ -47,6 +47,11 @@
     outline: none;
 }
 
+.addProcess > :first-child:hover
+{
+    color: white;
+}
+
 .addProcess:focus
 {
     box-shadow: none;
@@ -86,6 +91,44 @@
 {
     background-color:#3566A6;
 }
+
+#processes .card-header > .remove:last-child
+{
+    opacity: 0;
+    display: inline-block;
+    position: absolute;
+    width: 2em;
+    right: 1em;
+    color: red;
+    background-color: transparent;
+    border: none;
+    -webkit-transition: all 0.1s ease;
+    -moz-transition: all 0.1s ease;
+    -o-transition: all 0.1s ease;
+    -ms-transition: all 0.1s ease;
+    transition: all 0.1s ease;
+}
+
+#processes .card-header:hover > .remove:last-child
+{
+    opacity: 100;
+}
+
+#processes .card-header:hover > .remove:last-child:focus   
+{
+
+    box-shadow: none;
+}
+
+/*
+#processes .card-header:hover > button::after
+{
+    position: absolute;
+    line-height: 60%;
+    content:"\2212";
+    font-size: 50pt;
+    color: red;
+} */
 
 #processes .card-header button
 {

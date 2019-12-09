@@ -9,6 +9,8 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import Button from 'react-bootstrap/Button';
 import logo from '../../assets/logo.png';
 import jasmin from '../../assets/jasmin-logo.png';
+import axios from 'axios';
+import { withRouter } from 'react-router-dom';
 
 class AddProcess extends React.Component
 {
@@ -102,8 +104,33 @@ class AddProcess extends React.Component
 
     createProcess(event)
     {
-       if(document.getElementById("steps").childElementCount <= 1)
-            event.preventDefault();
+        const stepsElem = document.getElementById("steps");
+
+        event.preventDefault();
+
+        if(stepsElem.childElementCount <= 1)
+            return;
+
+        //Create process
+        axios.post('http://localhost:7000/api/process', {
+            steps: []
+        }).then((response) => {
+            let stepsPromises = [];
+
+            for(let i = 1; i < stepsElem.children.length; i++)
+                stepsPromises.push(
+                    axios.post(`http://localhost:7000/api/process/${response.data._id}/step`, {
+                        number: stepsElem.children[i].querySelector("span:first-child").textContent,
+                        fromJasmin: stepsElem.children[i].querySelector(":nth-child(2)").getAttribute("alt") === "Jasmin",
+                        company: stepsElem.children[i].querySelector(":nth-child(3)").textContent,
+                        document: stepsElem.children[i].querySelector(":last-child").textContent
+                    }));
+
+        Promise.all(stepsPromises).then(() => {
+            this.props.history.push('/processes')
+        })
+        
+        }).catch(error => console.log(error));
     }
 
     componentDidMount()
@@ -112,4 +139,4 @@ class AddProcess extends React.Component
     }
 }
 
-export default AddProcess;
+export default withRouter(AddProcess);
