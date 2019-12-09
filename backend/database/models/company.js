@@ -11,7 +11,6 @@ const companySchema = new Schema(
     appSecret: { type: String, required: true },
     tenant: { type: String, required: true },
     organization: { type: String, required: true },
-    token: { type: String, required: true },
   },
   {
     timestamps: false,

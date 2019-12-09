@@ -8,6 +8,7 @@ const logRouter = require('./routes/log');
 const processRouter = require('./routes/process');
 const activeProcessRouter = require('./routes/activeProcess');
 const jasminRouter = require('./routes/jasmin');
+const companyRouter = require('./routes/company');
 
 const app = express();
 app.use(express.static(__dirname + '/public'));
@@ -21,6 +22,7 @@ app.use('/api/log', logRouter);
 app.use('/api/process', processRouter);
 app.use('/api/active-process', activeProcessRouter);
 app.use('/api/jasmin', jasminRouter);
+app.use('/api/company', companyRouter);
 
 const server = app.listen(7000, () => 
 {
