@@ -83,21 +83,21 @@
   padding: 0px;
   line-height: 50px;
   cursor: pointer;
-      
-    .collapsed
-    {
-       .arrow:before
-       {
-            font-family: FontAwesome;
-            content: "\f053";
-            padding-left:10px;
-            padding-right: 10px;
-            vertical-align: middle;
-            float:right;
-            transform: rotate(-90deg);
-        }
-     }
+    
 }
+
+.nav-side-menu ul.collapsed.arrow:before,
+.nav-side-menu li.collapsed.arrow:before
+{
+  font-family: FontAwesome;
+  content: "\f053";
+  padding-left:10px;
+  padding-right: 10px;
+  vertical-align: middle;
+  float:right;
+  transform: rotate(-90deg);
+}
+
 
 .nav-side-menu ul .active,
 .nav-side-menu li .active
