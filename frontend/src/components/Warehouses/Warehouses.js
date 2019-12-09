@@ -1,4 +1,6 @@
 import React from 'react';
+import axios from 'axios';
+
 import './Warehouses.css'
 import PageTemplate from '../PageTemplate/PageTemplate';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
@@ -12,32 +14,132 @@ import graphic from '../../assets/distribution.png';
 
 class Warehouses extends React.Component 
 {
+
+    constructor(props)
+    {
+        super(props);
+
+        this.state =
+        {
+            items: [],
+            warehouseItems: [],
+            warehouses: [],
+            selectedWarehouse: 0,
+            isMounted: false
+        }
+    }
+
+    changeWarehouse(warehouseIndex)
+    {
+        this.setState({selectedWarehouse: warehouseIndex});
+
+        // Populate warehouseItems
+        let warehouseItems = [];
+        console.log(this.state.items.length);
+        for (const item of this.state.items)
+        {
+            for (const warehouse of item.materialsItemWarehouses)
+            {
+                console.log(warehouse.warehouseId + "===" + this.state.warehouses[warehouseIndex].id);
+                if (warehouse.warehouseId === this.state.warehouses[warehouseIndex].id)
+                {
+                    item.unitsInStock = warehouse.calculatedUnitCost.amount;
+                    warehouseItems.push(item);
+                    break;
+                }
+            }
+        }
+
+        this.setState({warehouseItems: warehouseItems});
+        console.log(warehouseItems);
+    }
+
+    renderWarehouse()
+    {
+        if (this.state.isMounted)
+        {
+            let dropdownChildren = [];
+            let warehouse = this.state.warehouses[this.state.selectedWarehouse];
+            let warehouseStr = warehouse.warehouseKey + ' (Company' + (warehouse.companyIndex+1) + ')';
+            dropdownChildren.push(<Dropdown.Toggle key={0}>{warehouseStr}</Dropdown.Toggle>)
+    
+            let dropdownItems = [];
+            for (let i = 0; i < this.state.warehouses.length; i++)
+            {
+                warehouse = this.state.warehouses[i];
+                warehouseStr = warehouse.warehouseKey + ' (Company' + (warehouse.companyIndex+1) + ')';
+                dropdownItems.push(<Dropdown.Item onClick={(event) => {this.changeWarehouse(i);}} key={i}>{warehouseStr}</Dropdown.Item>);
+            }
+            dropdownChildren.push(<Dropdown.Menu key={1}>{dropdownItems}</Dropdown.Menu>);
+    
+            let dropdown = <ButtonGroup> {<Dropdown>{dropdownChildren}</Dropdown>} </ButtonGroup>;
+
+            return dropdown;
+        }
+        else
+            return <ButtonGroup>
+                <Dropdown>
+                    <Dropdown.Toggle>
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                    </Dropdown.Menu>
+                </Dropdown>
+            </ButtonGroup>;
+    }
+
+    renderOwner()
+    {
+        if (this.state.isMounted)
+            return <span>{this.state.warehouses[this.state.selectedWarehouse].companyDescription}</span>;
+        else
+            return <span></span>;
+    }
+
+    renderAddress()
+    {
+        if (this.state.isMounted)
+            return <span>{this.state.warehouses[this.state.selectedWarehouse].address}</span>;
+        else
+            return <span></span>;
+    }
+
+    renderItems()
+    {
+        if (this.state.isMounted)
+        {
+            let rows = [];
+            for (let i = 0; i < this.state.warehouseItems.length; i++)
+            {
+                let children = [];
+
+                children.push(<TableCell key={0} scope="row">{i+1}</TableCell>);
+                children.push(<TableCell key={1}>{this.state.warehouseItems[i].itemKey}</TableCell>);
+                children.push(<TableCell key={2}>{this.state.warehouseItems[i].unitsInStock}</TableCell>);
+
+                rows.push(<TableRow key={i}>{children}</TableRow>);
+            }
+    
+            return rows;
+        }
+        else
+            return [];
+    }
+
 	render() {
 		return (
             <PageTemplate page="warehouses">
                 <div className="all">
                     <div className="left">
                         <div id="warehouse-picker">
-                            <ButtonGroup>
-                                <Dropdown>
-                                    <Dropdown.Toggle>
-                                        Warehouse 1
-                                    </Dropdown.Toggle>
-                                    <Dropdown.Menu>
-                                        <Dropdown.Item href="./">Warehouse 2</Dropdown.Item>
-                                        <Dropdown.Item href="./">Warehouse 3</Dropdown.Item>
-                                        <Dropdown.Item href="./">Warehouse 4</Dropdown.Item>
-                                    </Dropdown.Menu>
-                                </Dropdown>
-                            </ButtonGroup>
+                            {this.renderWarehouse()}
                         </div>
                         <div id="warehouse-company">
                             <span>Owner:</span> 
-                            <span>Company A</span>
+                            {this.renderOwner()}
                         </div>
                         <div id="warehouse-address">
                             <span>Address:</span>
-                            <span>Rua Aval de Baixo nº158</span>
+                            {this.renderAddress()}
                         </div>
                         <div id="warehouse-assets">
                             <p>Asset's distribution</p>
@@ -59,66 +161,7 @@ class Warehouses extends React.Component
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    <TableRow>
-                                        <TableCell scope="row">1</TableCell>
-                                        <TableCell>Mark</TableCell>
-                                        <TableCell>Otto</TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell scope="row">2</TableCell>
-                                        <TableCell>Jacob</TableCell>
-                                        <TableCell>TableCellornton</TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell scope="row">3</TableCell>
-                                        <TableCell>Larry</TableCell>
-                                        <TableCell>TableCelle Bird</TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell scope="row">4</TableCell>
-                                        <TableCell>Mark</TableCell>
-                                        <TableCell>Otto</TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell scope="row">5</TableCell>
-                                        <TableCell>Jacob</TableCell>
-                                        <TableCell>TableCellornton</TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell scope="row">6</TableCell>
-                                        <TableCell>Larry</TableCell>
-                                        <TableCell>TableCelle Bird</TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell scope="row">6</TableCell>
-                                        <TableCell>Larry</TableCell>
-                                        <TableCell>TableCelle Bird</TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell scope="row">6</TableCell>
-                                        <TableCell>Larry</TableCell>
-                                        <TableCell>TableCelle Bird</TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell scope="row">6</TableCell>
-                                        <TableCell>Larry</TableCell>
-                                        <TableCell>TableCelle Bird</TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell scope="row">6</TableCell>
-                                        <TableCell>Larry</TableCell>
-                                        <TableCell>TableCelle Bird</TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell scope="row">6</TableCell>
-                                        <TableCell>Larry</TableCell>
-                                        <TableCell>TableCelle Bird</TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell scope="row">6</TableCell>
-                                        <TableCell>Larry</TableCell>
-                                        <TableCell>TableCelle Bird</TableCell>
-                                    </TableRow>
+                                    {this.renderItems()}
                                 </TableBody>
                             </Table>
                         </div>
@@ -128,9 +171,105 @@ class Warehouses extends React.Component
         );
     }
 
+    fillWarehouses(companyIndex, requestData)
+    {
+        let warehouses = this.state.warehouses;
+        for (let warehouse of requestData.result)
+        {
+            warehouse.companyIndex = companyIndex;
+            warehouse.address = "";
+
+            if(warehouse.streetName !== null && warehouse.streetName !== undefined)
+            {
+                warehouse.address += warehouse.streetName + ", ";
+            }
+            
+            if(warehouse.buildingName !== null && warehouse.buildingName !== undefined)
+            {
+                warehouse.address += warehouse.buildingName + ", ";
+            } 
+
+            if(warehouse.postalZone !== null && warehouse.postalZone !== undefined)
+            {
+                warehouse.address += warehouse.postalZone + ", ";
+            }
+            
+            if(warehouse.cityName !== null && warehouse.cityName !== undefined)
+            {
+                warehouse.address += warehouse.cityName;
+            }
+
+            warehouses.push(warehouse);
+        }
+
+        this.setState({warehouses: warehouses});
+        console.log(warehouses);
+    }
+
+    fillItems(companyIndex, requestData)
+    {
+        let items = this.state.items;
+        for (let item of requestData.result)
+        {
+            item.companyIndex = companyIndex;
+
+            items.push(item);
+        }
+
+        this.setState({items: items});
+        console.log(items);
+    }
+
+
     componentDidMount()
     {
         document.title = "Warehouses";
+
+        let promise1 = axios.get('http://localhost:7000/api/jasmin/warehouses/0')
+        .then((response) => {
+            this.fillWarehouses(0, response.data);
+
+            axios.get('http://localhost:7000/api/jasmin/warehouses/1')
+            .then((response) => {
+                this.fillWarehouses(1, response.data);
+
+                let promise2 = axios.get('http://localhost:7000/api/jasmin/materialItems/0')
+                .then((response) => {
+
+                    this.fillItems(0, response.data);
+
+                    axios.get('http://localhost:7000/api/jasmin/materialItems/1')
+                    .then((response) => {
+
+                        this.fillItems(1, response.data);
+                        this.changeWarehouse(this.state.selectedWarehouse);
+
+                        this.setState({isMounted: true});
+
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
+        
+        
+
+        // Promise.all([promise1, promise2]).then(() => {
+
+            
+        // });
     }
 };
 

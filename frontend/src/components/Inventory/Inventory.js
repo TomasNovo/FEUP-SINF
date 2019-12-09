@@ -76,14 +76,7 @@ class Inventory extends React.Component
                 children.push(<TableCell key={8} > {elem.price2} </TableCell>);
             }
 
-            // children.push(<TableCell key={0} > {elem.itemKey} </TableCell>);
-            // children.push(<TableCell key={1} > {elem.id} </TableCell>);
-            // children.push(<TableCell key={2} > {'stock'} </TableCell>);
-            // children.push(<TableCell key={3} > {elem.priceListLines[0].priceAmount.amount}{elem.priceListLines[0].priceAmount.symbol} </TableCell>);
-            // children.push(<TableCell key={4} > {'TAN'} </TableCell>);
-
             table.push(<TableRow key={i}> {children} </TableRow>);
-
             i++;
         }
 
