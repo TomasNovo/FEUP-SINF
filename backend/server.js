@@ -1,3 +1,5 @@
+const agenda = require('./agenda');
+
 const express = require('express');
 const bodyParser = require('body-parser');
 var cors = require('cors');
@@ -28,3 +30,8 @@ const server = app.listen(7000, () =>
 {
 	console.log(`Express running → PORT ${server.address().port}`);
 });
+
+(async function() {
+	await agenda.start();
+	await agenda.every('2 seconds', 'update processes');
+})();
