@@ -6,7 +6,13 @@ const { Schema } = mongoose;
 
 const processSchema = new Schema(
   {
-    steps: [{ type: Schema.Types.ObjectId, ref: 'step', required: true, default: [] }],
+    name: {type: String, required: true},
+    steps: [{
+      number: Number,
+      company: String,
+      fromJasmin: Boolean,
+      document: String,
+    }],
   },
   {
     timestamps: false,
