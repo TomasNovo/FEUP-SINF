@@ -17,12 +17,8 @@ router.delete('/:_id', controller.remove);
 
 router.post('/:processId/step', controller.createStep);
 
-router.get('/:processId/step/:stepId', controller.readStep);
+router.get('/:processId/step/:stepNumber', controller.readStep);
 
 router.get('/:processId/step', controller.readAllSteps);
-
-router.put('/:processId/step/:stepId', controller.updateStep);
-
-router.delete('/:processId/step/:stepId', controller.removeStep);
 
 module.exports = router;
