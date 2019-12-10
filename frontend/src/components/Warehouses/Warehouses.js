@@ -148,7 +148,6 @@ class Warehouses extends React.Component
             let data = [];
             let colors = [];
             let labels = [];
-            let j = 0;
             
             for (let i = 0; i < this.state.warehouses.length; i++)
             {   
