@@ -10,7 +10,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow'
-import graphic from '../../assets/distribution.png';
+// import graphic from '../../assets/distribution.png';
 
 // import CanvasJS from 'canvasjs';
 // var CanvasJS = require('canvasjs');
@@ -34,6 +34,7 @@ class Warehouses extends React.Component
             warehouseItems: [],
             warehouses: [],
             selectedWarehouse: 0,
+            warehouseMapping: [], // Maps warehouse indexes to warehouse Names
             isMounted: false
         }
     }
@@ -113,33 +114,6 @@ class Warehouses extends React.Component
             return <span></span>;
     }
 
-    renderValue()
-    {
-        if (this.state.isMounted)
-        {
-            let value = 0;
-
-            // all warehouses
-            // for (const item of this.state.items)
-            // {
-            //     for (const warehouse of item.materialsItemWarehouses)
-            //     {
-            //         value += warehouse.inventoryBalance.amount;
-            //     }
-            // }
-
-            // individual warehouse total
-            for(let i = 0; i < this.state.warehouseItems.length; i++)
-            {
-                value += this.state.warehouseItems[i].unitPrice * this.state.warehouseItems[i].unitsInStock;
-            }
-
-            return <span>€{value}</span>;
-        }
-        else
-            return <span>€0</span>;
-    }
-
     renderItems()
     {
         if (this.state.isMounted)
@@ -162,27 +136,56 @@ class Warehouses extends React.Component
             return [];
     }
 
+    renderValue() {
+        if (this.state.isMounted) {
+            let value = 0;
+
+            // all warehouses
+            // for (const item of this.state.items)
+            // {
+            //     for (const warehouse of item.materialsItemWarehouses)
+            //     {
+            //         value += warehouse.inventoryBalance.amount;
+            //     }
+            // }
+
+            // individual warehouse total
+            for (let i = 0; i < this.state.warehouseItems.length; i++) {
+                value += this.state.warehouseItems[i].unitPrice * this.state.warehouseItems[i].unitsInStock;
+            }
+
+            return <span>€{value}</span>;
+        }
+        else
+            return <span>€0</span>;
+    }
+
     renderGraphic()
     {
         if(this.state.isMounted)
         {
-            let d = [
-                // {x: "cats", y: "35"},
-                // {x: "dogs", y: "40"},
-                // {x: "cats", y: "55"}
-            ];
+            let data = [];
+            let colors = [];
 
+            console.log(parseInt("ffffff", 16));
             for(let i = 0; i < this.state.warehouses.length; i++)
             {   
                 console.log(this.state.warehouses[i]);
                 console.log(this.state.warehouses[i].percent);
 
-                d.push({x: this.state.warehouses[i].itemKey, y: this.state.warehouses[i].percent * 100});
+                if (this.state.warehouses[i].percent > 0.0)
+                {
+                    data.push({ label: this.state.warehouses[i].naturalKey, y: this.state.warehouses[i].percent * 100 });
+                    // Assign random colour
+                    colors.push(((i + 1) / (this.state.warehouses.length+1) * parseInt("ffffff", 16) ).toString(16));
+                }
+                
             }
 
-            console.log(d);
+            console.log(data);
+            console.log(colors);
 
-            return <VictoryPie data={d}/>
+            return <VictoryPie animate={true} colorScale={colors} data={data}/>
         }
         else return null;
     }
@@ -236,6 +239,8 @@ class Warehouses extends React.Component
     fillWarehouses(companyIndex, requestData)
     {
         let warehouses = this.state.warehouses;
+        let warehouseMapping = this.state.warehouseMapping;
+        let i = 0;
         for (let warehouse of requestData.result)
         {
             warehouse.companyIndex = companyIndex;
@@ -261,23 +266,43 @@ class Warehouses extends React.Component
                 warehouse.address += warehouse.cityName;
             }
 
+            warehouse.totalWarehouseValue = 0;
+
+            warehouseMapping[warehouse.id] = warehouses.length;
             warehouses.push(warehouse);
         }
 
-        this.setState({warehouses: warehouses});
+        this.setState({ warehouseMapping: warehouseMapping});
+        this.setState({ warehouses: warehouses });
+
         // console.log(warehouses);
     }
 
     fillItems(companyIndex, requestData)
     {
         let items = this.state.items;
+        let sum = 0;
+        let warehouses = this.state.warehouses;
         for (let item of requestData.result)
         {
             item.companyIndex = companyIndex;
 
+            for (let warehouse of item.materialsItemWarehouses)
+            {
+                warehouses[this.state.warehouseMapping[warehouse.warehouseId]].totalWarehouseValue += Number(warehouse.inventoryBalance.amount);
+                sum += Number(warehouse.inventoryBalance.amount);
+            }
+
             items.push(item);
         }
 
+        for (let i = 0; i < warehouses.length; i++) {
+            warehouses[i].percent = warehouses[i].totalWarehouseValue / sum;
+        }
+
+        console.log(warehouses);
+
+        this.setState({ warehouses: warehouses });
         this.setState({items: items});
         // console.log(items);
     }
@@ -306,20 +331,10 @@ class Warehouses extends React.Component
                         this.fillItems(1, response.data);
                         this.changeWarehouse(this.state.selectedWarehouse);
 
-                        let sum = 0;
-                        let warehouses = this.state.warehouses;
-                        for(let i = 0; i < warehouses.length; i++)
-                        {
-                            warehouses[i].totalWarehouseValue = warehouses[i].unitPrice * warehouses[i].unitsInStock;
-                            sum += warehouses[i].totalWarehouseValue; 
-                        }
-                        
-                        for(let i = 0; i < warehouses.length; i++)
-                        {
-                            warehouses[i].percent = warehouses[i].totalWarehouseValue / sum;
-                        }
 
-                        this.setState({warehouses: warehouses});
+                        
+                       
+
 
                         this.setState({isMounted: true});
 
