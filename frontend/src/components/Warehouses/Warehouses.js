@@ -12,13 +12,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow'
 // import graphic from '../../assets/distribution.png';
 
-// import CanvasJS from 'canvasjs';
-// var CanvasJS = require('canvasjs');
-//var CanvasJSReact = require('./canvasjs.react');
-// var CanvasJSChart = CanvasJS.CanvasJSChart;
-
-import * as V from 'victory';
-import { VictoryPie } from 'victory';
+import {Pie} from 'react-chartjs-2';
 
 
 class Warehouses extends React.Component 
@@ -35,6 +29,7 @@ class Warehouses extends React.Component
             warehouses: [],
             selectedWarehouse: 0,
             warehouseMapping: [], // Maps warehouse indexes to warehouse Names
+            sumWarehouseValue: 0,
             isMounted: false
         }
     }
@@ -137,24 +132,10 @@ class Warehouses extends React.Component
     }
 
     renderValue() {
-        if (this.state.isMounted) {
-            let value = 0;
 
-            // all warehouses
-            // for (const item of this.state.items)
-            // {
-            //     for (const warehouse of item.materialsItemWarehouses)
-            //     {
-            //         value += warehouse.inventoryBalance.amount;
-            //     }
-            // }
-
-            // individual warehouse total
-            for (let i = 0; i < this.state.warehouseItems.length; i++) {
-                value += this.state.warehouseItems[i].unitPrice * this.state.warehouseItems[i].unitsInStock;
-            }
-
-            return <span>€{value}</span>;
+        if (this.state.isMounted)
+        {
+            return <span>€{this.state.warehouses[this.state.selectedWarehouse].totalWarehouseValue}</span>;
         }
         else
             return <span>€0</span>;
@@ -162,32 +143,62 @@ class Warehouses extends React.Component
 
     renderGraphic()
     {
-        if(this.state.isMounted)
+        if (this.state.isMounted)
         {
             let data = [];
             let colors = [];
-
-            console.log(parseInt("ffffff", 16));
-            for(let i = 0; i < this.state.warehouses.length; i++)
+            let labels = [];
+            let j = 0;
+            
+            for (let i = 0; i < this.state.warehouses.length; i++)
             {   
-                console.log(this.state.warehouses[i]);
-                console.log(this.state.warehouses[i].percent);
+                // console.log(this.state.warehouses[i]);
+                // console.log(this.state.warehouses[i].percent);
 
-                if (this.state.warehouses[i].percent > 0.0)
+                if (this.state.warehouses[i].percent > 0.0) // Filter warehouses with 0% of the assets
                 {
-                    data.push({ label: this.state.warehouses[i].naturalKey, y: this.state.warehouses[i].percent * 100 });
+                    let warehouse = this.state.warehouses[i];
+                    let warehouseStr = warehouse.warehouseKey + ' (Company' + (warehouse.companyIndex+1) + ')';
+
+                    data.push(Math.round(warehouse.percent * 100));
                     // Assign random colour
-                    colors.push(((i + 1) / (this.state.warehouses.length+1) * parseInt("ffffff", 16) ).toString(16));
+                    colors.push('#' + ((i + 1) / (this.state.warehouses.length+1) * parseInt("ffffff", 16) ).toString(16));
+
+                    labels.push(warehouseStr);  
                 }
-                
             }
 
-            console.log(data);
-            console.log(colors);
-
-            return <VictoryPie animate={true} style={{ labels: { fill: "white" } }} colorScale={colors} data={data}/>
+            return <Pie
+                title="My amazing data"
+                data= {{
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: colors
+                    }]
+                }}
+                options={{
+                    tooltips: {
+                        callbacks: {
+                            label: (tooltipItem, data) =>
+                            {
+                                let value = data.datasets[0].data[tooltipItem.index];
+                                return ' ' + value.toString() + '%';
+                            },
+                            title: (tooltipItem, data) =>
+                            {
+                                return ' ' + data.labels[tooltipItem[0].index];
+                            }
+                        },
+                        bodyFontSize: 16,
+                        // fontStyle: 'margin-top 1em;'
+                    }
+                }}
+                height={250}
+          />;
         }
-        else return null;
+        else 
+        return <div></div>;
     }
 
 	render() {
@@ -269,42 +280,60 @@ class Warehouses extends React.Component
             warehouse.totalWarehouseValue = 0;
 
             warehouseMapping[warehouse.id] = warehouses.length;
-            warehouses.push(warehouse);
+
+            if (companyIndex === 0)
+                warehouses.splice(i, 0, warehouse);
+            else
+                warehouses.push(warehouse);
+
+            i++;
         }
 
         this.setState({ warehouseMapping: warehouseMapping});
         this.setState({ warehouses: warehouses });
-
-        // console.log(warehouses);
     }
 
     fillItems(companyIndex, requestData)
     {
         let items = this.state.items;
-        let sum = 0;
-        let warehouses = this.state.warehouses;
+        let i = 0;
         for (let item of requestData.result)
         {
             item.companyIndex = companyIndex;
 
+            if (companyIndex === 0)
+                items.splice(i, 0, item);
+            else
+                items.push(item);
+            
+            i++;
+        }
+
+
+        this.setState({items: items});
+    }
+    
+
+    calculateAssets()
+    {
+        let sum = this.state.sumWarehouseValue;
+        let warehouses = this.state.warehouses;
+
+        for (const item of this.state.items)
+        {
             for (let warehouse of item.materialsItemWarehouses)
             {
                 warehouses[this.state.warehouseMapping[warehouse.warehouseId]].totalWarehouseValue += Number(warehouse.inventoryBalance.amount);
                 sum += Number(warehouse.inventoryBalance.amount);
             }
-
-            items.push(item);
         }
 
-        for (let i = 0; i < warehouses.length; i++) {
+        for (let i = 0; i < warehouses.length; i++) 
+        {
             warehouses[i].percent = warehouses[i].totalWarehouseValue / sum;
         }
 
-        console.log(warehouses);
-
         this.setState({ warehouses: warehouses });
-        this.setState({items: items});
-        // console.log(items);
     }
 
 
@@ -316,52 +345,54 @@ class Warehouses extends React.Component
         .then((response) => {
             this.fillWarehouses(0, response.data);
 
-            axios.get('http://localhost:7000/api/jasmin/warehouses/1')
-            .then((response) => {
-                this.fillWarehouses(1, response.data);
-
-                let promise2 = axios.get('http://localhost:7000/api/jasmin/materialItems/0')
-                .then((response) => {
-
-                    this.fillItems(0, response.data);
-
-                    axios.get('http://localhost:7000/api/jasmin/materialItems/1')
-                    .then((response) => {
-
-                        this.fillItems(1, response.data);
-                        this.changeWarehouse(this.state.selectedWarehouse);
-
-
-                        
-                       
-
-
-                        this.setState({isMounted: true});
-
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+            
         })
         .catch((error) => {
             console.log(error);
         });
 
+        let promise2 = axios.get('http://localhost:7000/api/jasmin/warehouses/1')
+            .then((response) => {
+                this.fillWarehouses(1, response.data);
+
+                
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+        let promise3 = axios.get('http://localhost:7000/api/jasmin/materialItems/0')
+                .then((response) => {
+
+                    this.fillItems(0, response.data);
+
+                    
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+
+        let promise4 = axios.get('http://localhost:7000/api/jasmin/materialItems/1')
+                    .then((response) => {
+
+                        this.fillItems(1, response.data);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+
         
         
 
-        // Promise.all([promise1, promise2]).then(() => {
+        Promise.all([promise1, promise2, promise3, promise4]).then(() => {
 
+            this.calculateAssets();
             
-        // });
+            this.changeWarehouse(this.state.selectedWarehouse);
+
+            this.setState({isMounted: true});
+
+        });
     }
 };
 
