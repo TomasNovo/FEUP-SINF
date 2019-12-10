@@ -69,9 +69,12 @@ class AddProcess extends React.Component
                                 <i className="glyphicon glyphicon-arrow-right"></i>
                                 <select id="new-step-document"> 
                                     <option>Sales Order</option>
-                                    <option>Sales Invoice</option>
-                                    <option>Purchase Order</option>
+                                    <option>Shipping Note</option>
                                     <option>Purchase Invoice</option>
+                                    <span>Receive Payment</span>
+                                    <span>Invoice Receipt Notification</span>
+                                    <option>Sales Invoice</option>
+                                    <option>Payment</option>
                                 </select>
                             </div>
                             <Fab aria-label="add" onClick={this.addStep}>
