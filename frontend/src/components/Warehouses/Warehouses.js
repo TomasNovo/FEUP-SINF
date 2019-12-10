@@ -185,7 +185,7 @@ class Warehouses extends React.Component
             console.log(data);
             console.log(colors);
 
-            return <VictoryPie animate={true} colorScale={colors} data={data}/>
+            return <VictoryPie animate={true} style={{ labels: { fill: "white" } }} colorScale={colors} data={data}/>
         }
         else return null;
     }
