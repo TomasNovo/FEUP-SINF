@@ -10,9 +10,8 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow'
-// import graphic from '../../assets/distribution.png';
-
-import {Pie} from 'react-chartjs-2';
+import Spinner from 'react-bootstrap/Spinner';
+import Pie from 'react-chartjs-2';
 
 
 class Warehouses extends React.Component 
@@ -32,6 +31,8 @@ class Warehouses extends React.Component
             sumWarehouseValue: 0,
             isMounted: false
         }
+
+        console.log(window.$companies);
     }
 
     changeWarehouse(warehouseIndex)
@@ -60,6 +61,18 @@ class Warehouses extends React.Component
         // console.log(warehouseItems);
     }
 
+    renderSpinner() {
+        if (this.state.isMounted) {
+            return null;
+        } else {
+            return <div id="spinner-div">
+                <Spinner id="spinner" className="text-primary d-flex justify-content-center" animation="border" role="status">
+                    <span className="sr-only">Loading...</span>
+                </Spinner>
+            </div>;
+        }
+    }
+
     renderWarehouse()
     {
         if (this.state.isMounted)
@@ -83,28 +96,28 @@ class Warehouses extends React.Component
             return dropdown;
         }
         else
-            return <ButtonGroup>
-                <Dropdown>
-                    <Dropdown.Toggle>
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                    </Dropdown.Menu>
-                </Dropdown>
-            </ButtonGroup>;
+            return null;
     }
 
     renderOwner()
     {
-        if (this.state.isMounted)
-            return <span>{this.state.warehouses[this.state.selectedWarehouse].companyDescription}</span>;
-        else
+        if (this.state.isMounted) {
+            return <div id="warehouse-company">
+                ><span>Owner:</span>
+                <span>{this.state.warehouses[this.state.selectedWarehouse].companyDescription}</span>
+            </div>;
+        } else {
             return <span></span>;
+        }
     }
 
     renderAddress()
     {
         if (this.state.isMounted)
-            return <span>{this.state.warehouses[this.state.selectedWarehouse].address}</span>;
+            return <div id="warehouse-address">
+                <span>Address:</span>
+                <span>{this.state.warehouses[this.state.selectedWarehouse].address}</span>
+                </div>;
         else
             return <span></span>;
     }
@@ -125,7 +138,18 @@ class Warehouses extends React.Component
                 rows.push(<TableRow key={i}>{children}</TableRow>);
             }
     
-            return rows;
+            return <Table stickyHeader>
+                <TableHead>
+                    <TableRow>
+                        <TableCell scope="col">ID</TableCell>
+                        <TableCell scope="col">Name</TableCell>
+                        <TableCell scope="col">Units in Stock</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {rows}
+                </TableBody>
+            </Table>;
         }
         else
             return [];
@@ -135,10 +159,13 @@ class Warehouses extends React.Component
 
         if (this.state.isMounted)
         {
-            return <span>€{this.state.warehouses[this.state.selectedWarehouse].totalWarehouseValue}</span>;
+            return <div className="totalAssets">
+                <span>Total assets value:</span>
+                <span>€{this.state.warehouses[this.state.selectedWarehouse].totalWarehouseValue}</span>
+            </div>;
         }
         else
-            return <span>€0</span>;
+            return <span></span>;
     }
 
     renderGraphic()
@@ -167,7 +194,9 @@ class Warehouses extends React.Component
                 }
             }
 
-            return <Pie
+            return <div id="warehouse-assets">
+                <p>Asset's distribution</p>
+                <Pie
                 title="My amazing data"
                 data= {{
                     labels: labels,
@@ -190,55 +219,33 @@ class Warehouses extends React.Component
                             }
                         },
                         bodyFontSize: 16,
-                        // fontStyle: 'margin-top 1em;'
                     }
                 }}
                 height={250}
-          />;
+          />
+            </div>;
         }
         else 
-        return <div></div>;
+            return <div></div>;
     }
 
 	render() {
 		return (
             <PageTemplate page="warehouses">
+                {this.renderSpinner()}
                 <div className="all">
                     <div className="left">
                         <div id="warehouse-picker">
                             {this.renderWarehouse()}
                         </div>
-                        <div id="warehouse-company">
-                            <span>Owner:</span> 
-                            {this.renderOwner()}
-                        </div>
-                        <div id="warehouse-address">
-                            <span>Address:</span>
-                            {this.renderAddress()}
-                        </div>
-                        <div className="totalAssets">
-                            <span>Total assets value:</span>
-                            {this.renderValue()}
-                        </div>
-                        <div id="warehouse-assets">
-                            <p>Asset's distribution</p>
-                            {this.renderGraphic()}    
-                        </div>
+                        {this.renderOwner()}
+                        {this.renderAddress()}
+                        {this.renderValue()}
+                        {this.renderGraphic()}
                     </div>
                     <div className="right">
                         <div className="table-wrapper-scroll-y my-custom-scrollbar">
-                            <Table stickyHeader> 
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell scope="col">ID</TableCell>
-                                        <TableCell scope="col">Name</TableCell>
-                                        <TableCell scope="col">Units in Stock</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {this.renderItems()}
-                                </TableBody>
-                            </Table>
+                            {this.renderItems()}
                         </div>
                     </div>
                 </div>
