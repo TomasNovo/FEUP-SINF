@@ -57,7 +57,7 @@ class AddProcess extends React.Component
                         <hr/>
                         <div id="add-step">
                             <div className="step" id="step-template">
-                                <span>1</span>
+                                <span id="template-step">1</span>
                                 <select id="new-step-execution-point"> 
                                     <option value="intercomp">InterComp</option>
                                     <option value="jasmin">Jasmin</option>
@@ -71,8 +71,8 @@ class AddProcess extends React.Component
                                     <option>Sales Order</option>
                                     <option>Shipping Note</option>
                                     <option>Purchase Invoice</option>
-                                    <span>Receive Payment</span>
-                                    <span>Invoice Receipt Notification</span>
+                                    <option>Receive Payment</option>
+                                    <option>Invoice Receipt Notification</option>
                                     <option>Sales Invoice</option>
                                     <option>Payment</option>
                                 </select>
@@ -103,37 +103,37 @@ class AddProcess extends React.Component
             <span>${document.getElementById("new-step-document").value}</span>`;
 
         document.getElementById("steps").appendChild(newStep);
+        document.getElementById("template-step").textContent++;
     }
 
     createProcess(event)
     {
-        const stepsElem = document.getElementById("steps");
-
         event.preventDefault();
+
+        const stepsElem = document.getElementById("steps");
+        let steps = [];
 
         if(stepsElem.childElementCount <= 1)
             return;
 
+        for(let i = 1; i < stepsElem.children.length; i++)
+            steps.push(
+            {
+                number: stepsElem.children[i].querySelector("span:first-child").textContent,
+                fromJasmin: stepsElem.children[i].querySelector(":nth-child(2)").getAttribute("alt") === "Jasmin",
+                company: stepsElem.children[i].querySelector(":nth-child(3)").textContent,
+                document: stepsElem.children[i].querySelector(":last-child").textContent
+            });
+
         //Create process
         axios.post('http://localhost:7000/api/process', {
-            steps: []
-        }).then((response) => {
-            let stepsPromises = [];
-
-            for(let i = 1; i < stepsElem.children.length; i++)
-                stepsPromises.push(
-                    axios.post(`http://localhost:7000/api/process/${response.data._id}/step`, {
-                        number: stepsElem.children[i].querySelector("span:first-child").textContent,
-                        fromJasmin: stepsElem.children[i].querySelector(":nth-child(2)").getAttribute("alt") === "Jasmin",
-                        company: stepsElem.children[i].querySelector(":nth-child(3)").textContent,
-                        document: stepsElem.children[i].querySelector(":last-child").textContent
-                    }));
-
-        Promise.all(stepsPromises).then(() => {
-            this.props.history.push('/processes')
+            name: document.querySelector("#add-process-form > input:first-child").value,
+            steps: steps
         })
-        
-        }).catch(error => console.log(error));
+        .then(() => {
+            this.props.history.push('/processes');
+        })
+        .catch(error => console.log(error));
     }
 
     componentDidMount()

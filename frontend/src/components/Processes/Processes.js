@@ -45,98 +45,6 @@ class Processes extends React.Component
                     </div>
                     <Accordion id="processes">
                         {this.state.processes}
-                        <Card>
-                            <Card.Header id="headingOne">
-                                <Accordion.Toggle as={Button} variant="link" eventKey="1">
-                                    Sale
-                                </Accordion.Toggle>
-                            </Card.Header>   
-                            <Accordion.Collapse eventKey="1">
-                                <Card.Body>
-                                   <div className="step">
-                                        <span>1</span>
-                                        {this.addTooltip(jasmin)}
-                                        <span>Company A</span>
-                                        <i className="glyphicon glyphicon-arrow-right"></i>
-                                        <span>Sales Order</span>
-                                   </div>
-                                   <hr/>
-                                   <div className="step">
-                                       <span>2</span>
-                                        {this.addTooltip(logo)}
-                                        <span>Company B</span>
-                                        <i className="glyphicon glyphicon-arrow-right"></i>
-                                        <span>Stock retrieval</span>
-                                   </div>
-                                   <hr/>
-                                   <div className="step">
-                                       <span>3</span>
-                                        {this.addTooltip(logo)}
-                                        <span>Company B</span>
-                                        <i className="glyphicon glyphicon-arrow-right"></i>
-                                        <span>Sale Invoice</span>
-                                   </div>
-                                   <hr/>
-                                   <div className="step">
-                                       <span>4</span>
-                                        {this.addTooltip(logo)}
-                                        <span>Company A</span>
-                                        <i className="glyphicon glyphicon-arrow-right"></i>
-                                        <span>Purchase Invoice</span>
-                                   </div>
-                                </Card.Body>
-                            </Accordion.Collapse> 
-                        </Card>
-                        <Card>
-                            <Card.Header id="headingTwo">
-                                <Accordion.Toggle as={Button} variant="link" eventKey="2">
-                                    Product Delivery
-                                </Accordion.Toggle>
-                            </Card.Header>
-                            <Accordion.Collapse eventKey="2">
-                                <Card.Body>
-                                    <div className="step">
-                                        <span>1</span>
-                                        {this.addTooltip(jasmin)}
-                                        <span>Company B</span>
-                                        <i className="glyphicon glyphicon-arrow-right"></i>
-                                        <span>Delivery Order</span>
-                                    </div>
-                                    <hr/>
-                                    <div className="step">
-                                        <span>2</span>
-                                        {this.addTooltip(logo)}
-                                        <span>Company A</span>
-                                        <i className="glyphicon glyphicon-arrow-right"></i>
-                                        <span>Purchase Verification</span>
-                                    </div>
-                                    <hr/>
-                                    <div className="step">
-                                        <span>3</span>
-                                        {this.addTooltip(jasmin)}
-                                        <span>Company A</span>
-                                        <i className="glyphicon glyphicon-arrow-right"></i>
-                                        <span>Delivery</span>
-                                    </div>
-                                    <hr/>
-                                    <div className="step">
-                                        <span>4</span>
-                                        {this.addTooltip(jasmin)}
-                                        <span>Company A</span>
-                                        <i className="glyphicon glyphicon-arrow-left"></i>
-                                        <span>Service Invoice</span>  
-                                    </div>
-                                    <hr/>
-                                    <div className="step">
-                                        <span>5</span>
-                                        {this.addTooltip(logo)}
-                                        <span>Company B</span>
-                                        <i className="glyphicon glyphicon-arrow-right"></i>
-                                        <span>Service Provided Invoice</span>
-                                    </div>
-                                </Card.Body>
-                            </Accordion.Collapse>
-                        </Card>
                     </Accordion>
             </PageTemplate>    
         );
@@ -170,7 +78,7 @@ class Processes extends React.Component
                     <Card key={i} id={response.data[i]._id}>
                         <Card.Header id={"heading" + i} >
                             <Accordion.Toggle as={Button} variant="link" eventKey={i}>
-                                Sale
+                                {response.data[i].name}
                             </Accordion.Toggle>
                             <Button className="remove" type="button" onClick={event => this.removeProcess(event)}>
                                 <i className="glyphicon glyphicon-remove"></i>
@@ -211,6 +119,8 @@ class Processes extends React.Component
                 this.setState({processes: processesClone});
                 break;
             }
+
+        console.log(id);
         
         axios.delete(`http://localhost:7000/api/process/${id}`).catch(error => {
             console.log(error);
