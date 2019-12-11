@@ -1,9 +1,48 @@
+#companys-paper
+{
+    width: 55%;
+    max-height: 30em;
+    margin: 2em auto;
+    overflow-x: auto;
+}
+
+#companys-paper
+{
+    width: 55%;
+    max-height: 30em;
+    margin: 2em auto;
+    overflow-x: auto;
+}
+
+#companys-paper th, #companys-paper td
+{
+    font-size: 11pt;
+    text-align: center;
+    white-space: nowrap;
+}
+
+#companys-paper th
+{
+    background-color: rgb(5, 15, 50);
+    color: white;
+    font-weight: bold;
+    border-bottom: solid 2px red;
+}
+
+#companys-paper .category
+{
+    border-left: solid 2px red;
+    border-right: solid 2px red;
+}
+
+
 #inventory-paper
 {
     width: 95%;
     max-height: 30em;
     margin: 2em auto;
     overflow-x: auto;
+    margin-top: 7em;
 }
 
 #inventory-table th, #inventory-table td
