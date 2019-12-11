@@ -12,17 +12,29 @@ class Settings extends React.Component
                 <div id="settings-wrapper">
                     <div id="accountInfo1">
                         <h1>Account Info 1</h1>
+                        <label className="appidLabel">Name</label>
+                        <input id="name0" type="text" placeholder="name"/>
                         <label className="appidLabel">AppID</label>
-                        <input id="clientId" type="text" placeholder="Client ID"/>
+                        <input id="clientId0" type="text" placeholder="Client ID"/>
                         <label className="appsecLabel">AppSecret</label>
-                        <input id="clientSecret" type="password" placeholder="Client Secret"/>
+                        <input id="clientSecret0" type="password" placeholder="Client Secret"/>
+                        <label className="appidLabel">Tenant</label>
+                        <input id="tenant0" type="text" placeholder="tenant"/>
+                        <label className="appidLabel">Organization</label>
+                        <input id="organization0" type="text" placeholder="organization"/>
                     </div>
                     <div id="accountInfo2">
                         <h1>Account Info 2</h1>
+                        <label className="appidLabel">Name</label>
+                        <input id="name1" type="text" placeholder="name"/>
                         <label className="appidLabel">AppID</label>
                         <input id="clientId1" type="text" placeholder="Client ID"/>
                         <label className="appsecLabel">AppSecret</label>
                         <input id="clientSecret1" type="password" placeholder="Client Secret"/>
+                        <label className="appidLabel">Tenant</label>
+                        <input id="tenant1" type="text" placeholder="tenant"/>
+                        <label className="appidLabel">Organization</label>
+                        <input id="organization1" type="text" placeholder="organization"/>
                     </div>
                     <div className="break"></div>
                     <Button type="submit" id="update" variant="danger">
@@ -33,28 +45,25 @@ class Settings extends React.Component
         );
     }
 
-    accountInfo1(){
-        axios.get('http://localhost:7000/api/company/0')
+    accountInfo(){
+        axios.get('http://localhost:7000/api/company')
         .then((response) => {
-            let appId = response.data[0].appId;
-            let clientSecret = response.data[0].appSecret;
 
-            document.getElementById('clientId').value=appId;
-            document.getElementById('clientSecret').value=clientSecret;
-        })
-        .catch((error) =>{
-            console.log('Error', error.message);
-        })
-    }
+            for(let i = 0; i<2; i++){
+                let appId = response.data[i].appId;
+                let clientSecret = response.data[i].appSecret;
+                let name = response.data[i].name;
+                let tenant = response.data[i].tenant;
+                let organization = response.data[i].organization;
 
-    accountInfo2(){
-        axios.get('http://localhost:7000/api/company/1')
-        .then((response) => {
-            let appId = response.data[0].appId;
-            let clientSecret = response.data[0].appSecret;
+                document.getElementById('clientId'+i).value=appId;
+                document.getElementById('clientSecret'+i).value=clientSecret;
+                document.getElementById('name'+i).value=name;
+                document.getElementById('tenant'+i).value=tenant;
+                document.getElementById('organization'+i).value=organization;
 
-            document.getElementById('clientId1').value=appId;
-            document.getElementById('clientSecret1').value=clientSecret;
+            }
+            
         })
         .catch((error) =>{
             console.log('Error', error.message);
@@ -64,8 +73,7 @@ class Settings extends React.Component
     componentDidMount()
     {
         document.title = "Settings";
-        this.accountInfo1();
-        this.accountInfo2();
+        this.accountInfo();
     }
 };
 

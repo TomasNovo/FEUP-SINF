@@ -34,7 +34,17 @@
     font-size: 18pt;
 }
 
-input[type=text]#grant::placeholder, input[type=text]#clientId::placeholder, input[type=password]#clientSecret::placeholder 
+input[type=text]#grant::placeholder, 
+input[type=text]#clientId0::placeholder, 
+input[type=password]#clientSecret0::placeholder,
+input[type=text]#clientId1::placeholder, 
+input[type=password]#clientSecret1::placeholder,
+input[type=text]#tenant0::placeholder,
+input[type=text]#organization0::placeholder,
+input[type=text]#name0::placeholder,
+input[type=text]#tenant1::placeholder,
+input[type=text]#organization1::placeholder,
+input[type=text]#name1::placeholder
 { 
     color: white;
     opacity: 0.5;
@@ -60,8 +70,11 @@ input[type=text]#grant::placeholder, input[type=text]#clientId::placeholder, inp
     border-color: black;
 }
 
-input[type=text]#clientId , input[type=password]#clientSecret, 
- input[type=text]#clientId1, input[type=password]#clientSecret1
+input[type=text]#clientId0 , input[type=password]#clientSecret0, 
+input[type=text]#clientId1, input[type=password]#clientSecret1,
+input[type=text]#tenant0, input[type=text]#organization0,
+input[type=text]#name0, input[type=text]#tenant1, 
+input[type=text]#organization1, input[type=text]#name1
 {
     display: block;
     color: white;
