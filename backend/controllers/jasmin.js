@@ -193,7 +193,6 @@ function initializeSettings(){
 	companyIds=[tenants[0]+"/"+organizations[0], tenants[1]+"/"+organizations[1]];
 	
 	Company.find({}, function(err, comps){
-		console.log(comps);
 		if(comps.length === 0){
 			for(let i = 0; i < 2; i++){
 				let company = new Company({id:i, 
@@ -211,8 +210,6 @@ function initializeSettings(){
 			let organizations=[comps[0].organization, comps[1].organization];
 			companyIds=[tenants[0]+"/"+organizations[0], tenants[1]+"/"+organizations[1]];
 		}
-
-
 	});
 }
 
