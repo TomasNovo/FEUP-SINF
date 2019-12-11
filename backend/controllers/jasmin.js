@@ -1,6 +1,7 @@
 'use strict'
 
 require('dotenv').config();
+const Company = require('../database/models/company');
 
 const axios = require('axios');
 const querystring = require('querystring');
@@ -8,9 +9,9 @@ const querystring = require('querystring');
 const tokenLink = 'https://identity.primaverabss.com/core/connect/token';
 const apiLink = 'http://my.jasminsoftware.com/api/';
 let tokens = ['', ''];
-let appIds = [process.env.APP_ID_1, process.env.APP_ID_2];
-let appSecrets = [process.env.APP_SECRET_1, process.env.APP_SECRET_2];
-let companyIds = ['226454/226454-0001', '224898/224898-0001'];
+let appIds = [];
+let appSecrets = [];
+let companyIds = [];
 
 // Company is either 0 or 1
 function getToken(callback, company)
@@ -182,6 +183,40 @@ function tryParseJSON(jsonString) {
 
 	return false;
 }
+
+function initializeSettings(){
+	appIds=[process.env.APP_ID_1, process.env.APP_ID_2];
+	appSecrets=[process.env.APP_SECRET_1, process.env.APP_SECRET_2];
+	let companyNames=[process.env.COMPANY_NAME_1, process.env.COMPANY_NAME_2];
+	let tenants=[process.env.TENANT_1, process.env.TENANT_2];
+	let organizations = [process.env.ORGANIZATION_1, process.env.ORGANIZATION_2];
+	companyIds=[tenants[0]+"/"+organizations[0], tenants[1]+"/"+organizations[1]];
+	
+	Company.find({}, function(err, comps){
+		console.log(comps);
+		if(comps.length === 0){
+			for(let i = 0; i < 2; i++){
+				let company = new Company({id:i, 
+								   	       appId:appIds[i], 
+								           appSecret:appSecrets[i], 
+								           tenant:tenants[i],
+								           organization:organizations[i], 
+								           name:companyNames[i]});
+				company.save();
+			}
+		}else{
+			appIds=[comps[0].appId, comps[1].appId];
+			appSecrets=[comps[0].appSecret, comps[1].appSecret];
+			let tenants=[comps[0].tenant, comps[1].tenant];
+			let organizations=[comps[0].organization, comps[1].organization];
+			companyIds=[tenants[0]+"/"+organizations[0], tenants[1]+"/"+organizations[1]];
+		}
+
+
+	});
+}
+
+initializeSettings();
 
 module.exports = {
 	getMaterialItems: getMaterialItems,
