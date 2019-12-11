@@ -4,6 +4,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow'
+import Spinner from 'react-bootstrap/Spinner';
 import Paper from '@material-ui/core/Paper';
 import './Inventory.css';
 import PageTemplate from '../PageTemplate/PageTemplate';
@@ -34,6 +35,19 @@ class Inventory extends React.Component
         }
 
         return -1;
+    }
+
+    renderSpinner()
+    {
+        if (this.state.isMounted) {
+            return null;
+        } else {
+            return <div id="spinner-div">
+                <Spinner id="spinner" className="text-primary d-flex justify-content-center" animation="border" role="status">
+                    <span className="sr-only">Loading...</span>
+                </Spinner>
+            </div>;
+        }
     }
 
     renderTable()
@@ -84,7 +98,7 @@ class Inventory extends React.Component
 
         }
         else
-        return null;
+            return null;
     }
 
     renderContents()
@@ -98,37 +112,37 @@ class Inventory extends React.Component
 
             if (elem.name1 === undefined)
             {
-                children.push(<TableCell key={0} > </TableCell>);
-                children.push(<TableCell key={1} > </TableCell>);
-                children.push(<TableCell key={2} > </TableCell>);
-                children.push(<TableCell key={3} > </TableCell>);
-                children.push(<TableCell key={4} > </TableCell>);
+                children.push(<TableCell key={0}></TableCell>);
+                children.push(<TableCell key={1}></TableCell>);
+                children.push(<TableCell key={2}></TableCell>);
+                children.push(<TableCell key={3}></TableCell>);
+                children.push(<TableCell key={4}></TableCell>);
             }
             else
             {
-                children.push(<TableCell key={0} > {elem.name1} </TableCell>);
-                children.push(<TableCell className="inventory-id" key={1} > {elem.id1} </TableCell>);
-                children.push(<TableCell key={2} > {elem.stock1} </TableCell>);
-                children.push(<TableCell key={3} > {elem.price1} </TableCell>);
-                children.push(<TableCell key={4} > {'TAN'} </TableCell>);    
+                children.push(<TableCell key={0} >{elem.name1}</TableCell>);
+                children.push(<TableCell className="inventory-id" key={1} >{elem.id1}</TableCell>);
+                children.push(<TableCell key={2} >{elem.stock1}</TableCell>);
+                children.push(<TableCell key={3} >{elem.price1}</TableCell>);
+                children.push(<TableCell key={4} >{'TAN'}</TableCell>);    
             }
 
             if (elem.name2 === undefined)
             {
-                children.push(<TableCell key={5} > </TableCell>);
-                children.push(<TableCell key={6} > </TableCell>);
-                children.push(<TableCell key={7} > </TableCell>);
-                children.push(<TableCell key={8} > </TableCell>);
+                children.push(<TableCell key={5} ></TableCell>);
+                children.push(<TableCell key={6} ></TableCell>);
+                children.push(<TableCell key={7} ></TableCell>);
+                children.push(<TableCell key={8} ></TableCell>);
             }
             else
             {
-                children.push(<TableCell key={5} > {elem.name2} </TableCell>);
-                children.push(<TableCell className="inventory-id" key={6} > {elem.id2} </TableCell>);
-                children.push(<TableCell key={7} > {elem.stock2} </TableCell>);
-                children.push(<TableCell key={8} > {elem.price2} </TableCell>);
+                children.push(<TableCell key={5} >{elem.name2}</TableCell>);
+                children.push(<TableCell className="inventory-id" key={6} >{elem.id2}</TableCell>);
+                children.push(<TableCell key={7} >{elem.stock2}</TableCell>);
+                children.push(<TableCell key={8} >{elem.price2}</TableCell>);
             }
 
-            table.push(<TableRow key={i}> {children} </TableRow>);
+            table.push(<TableRow key={i}>{children}</TableRow>);
             i++;
         }
 
@@ -139,6 +153,7 @@ class Inventory extends React.Component
     {
         return (
             <PageTemplate page="inventory">
+                {this.renderSpinner()}
                 <Paper id="inventory-paper">
                     {this.renderTable()}
                 </Paper>
@@ -186,6 +201,16 @@ class Inventory extends React.Component
 
                 let index1 = this.findById(items1, id1);
                 let index2 = this.findById(items2, id2);
+
+                if (index1 == -1) {
+                    console.error("Bad id1 = " + id1);
+                    continue;
+                }
+
+                if (index2 == -1) {
+                    console.error("Bad id2 = " + id2);
+                    continue;
+                }
 
                 let item1 = items1[index1];
                 let item2 = items2[index2];

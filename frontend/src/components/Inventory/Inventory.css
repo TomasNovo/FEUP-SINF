@@ -26,3 +26,16 @@
     border-left: solid 2px red;
     border-right: solid 2px red;
 }
+
+#spinner-div
+{
+    margin-top: 23%;
+}
+
+#spinner
+{
+    background-color:  transparent;
+    margin: auto;
+    width: 10em;
+    height: 10em;
+}

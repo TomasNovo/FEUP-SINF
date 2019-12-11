@@ -193,3 +193,16 @@
     background-color: white;
     color: black;
 }
+
+#spinner-div
+{
+    margin-top: 23%;
+}
+
+#spinner
+{
+    background-color:  transparent;
+    margin: auto;
+    width: 10em;
+    height: 10em;
+}
