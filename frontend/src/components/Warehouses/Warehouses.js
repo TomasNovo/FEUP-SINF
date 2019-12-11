@@ -29,10 +29,9 @@ class Warehouses extends React.Component
             selectedWarehouse: 0,
             warehouseMapping: [], // Maps warehouse indexes to warehouse Names
             sumWarehouseValue: 0,
+            companies: [],
             isMounted: false
         }
-
-        console.log(window.$companies);
     }
 
     changeWarehouse(warehouseIndex)
@@ -79,14 +78,14 @@ class Warehouses extends React.Component
         {
             let dropdownChildren = [];
             let warehouse = this.state.warehouses[this.state.selectedWarehouse];
-            let warehouseStr = warehouse.warehouseKey + ' (Company' + (warehouse.companyIndex+1) + ')';
+            let warehouseStr = warehouse.warehouseKey + ' (' + this.state.companies[warehouse.companyIndex].name + ')';
             dropdownChildren.push(<Dropdown.Toggle key={0}>{warehouseStr}</Dropdown.Toggle>)
     
             let dropdownItems = [];
             for (let i = 0; i < this.state.warehouses.length; i++)
             {
                 warehouse = this.state.warehouses[i];
-                warehouseStr = warehouse.warehouseKey + ' (Company' + (warehouse.companyIndex+1) + ')';
+                warehouseStr = warehouse.warehouseKey + ' (' + this.state.companies[warehouse.companyIndex].name + ')';
                 dropdownItems.push(<Dropdown.Item onClick={(event) => {this.changeWarehouse(i);}} key={i}>{warehouseStr}</Dropdown.Item>);
             }
             dropdownChildren.push(<Dropdown.Menu key={1}>{dropdownItems}</Dropdown.Menu>);
@@ -103,7 +102,7 @@ class Warehouses extends React.Component
     {
         if (this.state.isMounted) {
             return <div id="warehouse-company">
-                ><span>Owner:</span>
+                <span>Owner:</span>
                 <span>{this.state.warehouses[this.state.selectedWarehouse].companyDescription}</span>
             </div>;
         } else {
@@ -184,9 +183,9 @@ class Warehouses extends React.Component
                 if (this.state.warehouses[i].percent > 0.0) // Filter warehouses with 0% of the assets
                 {
                     let warehouse = this.state.warehouses[i];
-                    let warehouseStr = warehouse.warehouseKey + ' (Company' + (warehouse.companyIndex+1) + ')';
+                    let warehouseStr = warehouse.warehouseKey + ' (' + this.state.companies[warehouse.companyIndex].name + ')';
 
-                    data.push(Math.round(warehouse.percent * 100));
+                    data.push(Math.round(warehouse.percent * 1000)/10);
                     // Assign random colour
                     colors.push('#' + ((i + 1) / (this.state.warehouses.length+1) * parseInt("ffffff", 16) ).toString(16));
 
@@ -197,7 +196,8 @@ class Warehouses extends React.Component
             return <div id="warehouse-assets">
                 <p>Asset's distribution</p>
                 <Pie
-                title="My amazing data"
+                type="pie"
+                title="Asset distribution"
                 data= {{
                     labels: labels,
                     datasets: [{
@@ -350,47 +350,46 @@ class Warehouses extends React.Component
         let promise1 = axios.get('http://localhost:7000/api/jasmin/warehouses/0')
         .then((response) => {
             this.fillWarehouses(0, response.data);
-
-            
         })
         .catch((error) => {
             console.log(error);
         });
 
         let promise2 = axios.get('http://localhost:7000/api/jasmin/warehouses/1')
-            .then((response) => {
-                this.fillWarehouses(1, response.data);
-
-                
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        .then((response) => {
+            this.fillWarehouses(1, response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
 
         let promise3 = axios.get('http://localhost:7000/api/jasmin/materialItems/0')
-                .then((response) => {
-
-                    this.fillItems(0, response.data);
-
-                    
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
+        .then((response) => {
+            this.fillItems(0, response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
 
         let promise4 = axios.get('http://localhost:7000/api/jasmin/materialItems/1')
-                    .then((response) => {
+        .then((response) => {
+            this.fillItems(1, response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
 
-                        this.fillItems(1, response.data);
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
-
+        let promise5 = axios.get('http://localhost:7000/api/company')
+        .then((response) => {
+            this.setState({ companies: response.data});
+        })
+        .catch((error) => {
+            console.log(error)
+            this.setState({ companies: [] });
+        });
         
-        
 
-        Promise.all([promise1, promise2, promise3, promise4]).then(() => {
+        Promise.all([promise1, promise2, promise3, promise4, promise5]).then(() => {
 
             this.calculateAssets();
             
