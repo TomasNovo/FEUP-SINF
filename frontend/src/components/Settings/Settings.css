@@ -2,7 +2,7 @@
 {
     #settings-wrapper
     {
-        width: 70% !important;
+        width: 50% !important;
         flex-direction: column !important;
     }
 
@@ -10,13 +10,19 @@
     {
         margin-top: 2em;
     }
+
+    #accountInfo1
+    {
+        margin-bottom: 2em;
+        margin-right: 0 !important;
+    }
 }
 
 #settings-wrapper
 {
     width: 85%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     flex-wrap: wrap;
     color: white;
     margin: 2em auto;
@@ -24,15 +30,25 @@
     font-size: 14pt;
 }
 
-#accountInfo2
+#accountInfo1
 {
-    margin-right:50%;
+    margin-right: 10em;
+}
+
+#accountInfo1 > h1, #accountInfo2 > h1
+{
+    text-align: left;
+    font-weight: bold;
+    margin-bottom: 1em; 
 }
 
 #accountInfo1 > p:first-child, #accountInfo2 > p:first-child
 {
+    /* text-align: center; */
     font-size: 18pt;
 }
+
+#accountInfo1 > p:first-child, #accountInfo2 > p:first-child
 
 input[type=text]#grant::placeholder, 
 input[type=text]#clientId0::placeholder, 
@@ -52,22 +68,27 @@ input[type=text]#name1::placeholder
 
 .appidLabel
 {   
+    margin-top: 1em;
     padding-left: 4px;
     width: 247px;
     color: white;
     border-left: 4px solid;
-    background-color:#4169E1;
-    border-color: black;
+    background-color:#19305D;
+    border-color: solid 1px red;
+    font-weight: bold;
 }
 
 .appsecLabel
 {   
+    margin-top: 1em;
     padding-left: 4px;
-    width: 247px;
+    width: 230px;
     color: white;
     border-left: 4px solid;
-    background-color:#4169E1;
-    border-color: black;
+    background-color:#19305D;
+    border-color: solid 4px red;
+    /* border-bottom: 1px solid yellow; */
+    font-weight: 900;
 }
 
 input[type=text]#clientId0 , input[type=password]#clientSecret0, 
