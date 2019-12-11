@@ -20,7 +20,8 @@ class Inventory extends React.Component
             items1: [],
             items2: [],
             masterData: [],
-            result: []
+            result: [],
+            isMounted: false
         }
     }
 
@@ -33,6 +34,57 @@ class Inventory extends React.Component
         }
 
         return -1;
+    }
+
+    renderTable()
+    {
+        if (this.state.isMounted) {
+            return <Table id="inventory-table">
+                <TableHead>
+                    <TableRow>
+                        <TableCell>
+                            <p>Name</p>
+                            <p>Company A</p>
+                        </TableCell>
+                        <TableCell>
+                            <p>ID</p>
+                            <p>Company A</p>
+                        </TableCell>
+                        <TableCell>
+                            <p>Stock</p>
+                            <p>Company A</p>
+                        </TableCell>
+                        <TableCell>
+                            <p>Price / Unit</p>
+                            <p>Company A</p>
+                        </TableCell>
+                        <TableCell>Category</TableCell>
+                        <TableCell>
+                            <p>Name</p>
+                            <p>Company B</p>
+                        </TableCell>
+                        <TableCell>
+                            <p>ID</p>
+                            <p>Company B</p>
+                        </TableCell>
+                        <TableCell>
+                            <p>Stock</p>
+                            <p>Company B</p>
+                        </TableCell>
+                        <TableCell>
+                            <p>Price / Unit</p>
+                            <p>Company B</p>
+                        </TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {this.renderContents()}
+                </TableBody>
+            </Table>;
+
+        }
+        else
+        return null;
     }
 
     renderContents()
@@ -88,48 +140,7 @@ class Inventory extends React.Component
         return (
             <PageTemplate page="inventory">
                 <Paper id="inventory-paper">
-                    <Table id="inventory-table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>
-                                    <p>Name</p>
-                                    <p>Company A</p>
-                                </TableCell>
-                                <TableCell>
-                                    <p>ID</p>
-                                    <p>Company A</p>
-                                </TableCell>
-                                <TableCell>
-                                    <p>Stock</p>
-                                    <p>Company A</p>
-                                </TableCell>
-                                <TableCell>
-                                    <p>Price / Unit</p>
-                                    <p>Company A</p>
-                                </TableCell>
-                                <TableCell>Category</TableCell>
-                                <TableCell>
-                                    <p>Name</p>
-                                    <p>Company B</p>
-                                </TableCell>
-                                <TableCell>
-                                    <p>ID</p>
-                                    <p>Company B</p>
-                                </TableCell>
-                                <TableCell>
-                                    <p>Stock</p>
-                                    <p>Company B</p>
-                                </TableCell>
-                                <TableCell>
-                                    <p>Price / Unit</p>
-                                    <p>Company B</p>
-                                </TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {this.renderContents()}
-                        </TableBody>
-                    </Table>
+                    {this.renderTable()}
                 </Paper>
             </PageTemplate>
         );
@@ -229,7 +240,7 @@ class Inventory extends React.Component
             }
 
             this.setState({result: result});
-
+            this.setState({isMounted: true});
         });
 
     }
