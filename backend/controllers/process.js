@@ -1,7 +1,6 @@
 'use strict';
 
 const Process = require('../database/models/process');
-const Step = require('../database/models/step');
 
 function create(req, res) {
   const { name, steps } = req.body;
