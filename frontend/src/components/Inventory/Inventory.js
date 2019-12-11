@@ -202,8 +202,15 @@ class Inventory extends React.Component
                 let index1 = this.findById(items1, id1);
                 let index2 = this.findById(items2, id2);
 
-                // if (index == 1)
-                //     console.log("");
+                if (index1 == -1) {
+                    console.error("Bad id1 = " + id1);
+                    continue;
+                }
+
+                if (index2 == -1) {
+                    console.error("Bad id2 = " + id2);
+                    continue;
+                }
 
                 let item1 = items1[index1];
                 let item2 = items2[index2];
