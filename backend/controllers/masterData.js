@@ -41,14 +41,25 @@ function readAll(req, res) {
 
 function update(req, res) {
   const { id } = req.params;
-  
-  MasterData.updateOne({$or:[{ idA: id }, { idB: id }]}, req.body).orFail()
+  const {idA, idB} = req.body;
+
+  MasterData.deleteMany({ $or: [{ idA: idA }, { idB: idB }] })
   .then(info => {
-    res.status(200).send(info);
   })
   .catch(err => {
-    res.status(404).send(err);
   })
+  
+  const newMapping = new MasterData({
+    idA,
+    idB,
+  });
+  newMapping.save()
+    .then(mapping => {
+      res.status(200).json(mapping);
+    })
+    .catch(err => {
+      res.status(400).send(err);
+    });
 }
 
 function remove(req, res) {

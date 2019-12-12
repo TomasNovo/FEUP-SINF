@@ -65,7 +65,7 @@ function getMaterialItems(req, res)
 	})
 	.then((response) => {
 
-		let data = filterByDate(response.data);
+		let data = response.data;
 
 		res.status(200).json({success: true, result: data});
 	})
@@ -101,7 +101,7 @@ function getSalesItems(req, res)
 	})
 	.then((response) => {
 
-		let data = filterByDate(response.data);
+		let data = response.data;
 
 		res.status(200).json({success: true, result: data});
 	})
@@ -111,6 +111,40 @@ function getSalesItems(req, res)
 			getToken(() => getSalesItems(req, res), company);
 		} else {
 			res.status(400).json({success: false, error: error.statusText});
+		}
+	});
+}
+
+function getBusinessItems(req, res) {
+	const { company } = req.params;
+
+	if (company === undefined) {
+		res.status(400).json({ success: false, error: 'company parameter is required!' });
+		return;
+	}
+
+	if (company !== "0" && company !== "1") {
+		res.status(400).json({ success: false, error: 'company is either 0 or 1' });
+		return;
+	}
+
+	axios.get(apiLink + companyIds[company] + '/businesscore/items', {
+		headers: {
+			'Authorization': tokens[company]
+		}
+	})
+	.then((response) => {
+
+		let data = response.data;
+
+		res.status(200).json({ success: true, result: data });
+	})
+	.catch((error) => {
+
+		if (error.response.status !== undefined && error.response.status === 401) {
+			getToken(() => getBusinessItems(req, res), company);
+		} else {
+			res.status(400).json({ success: false, error: error.statusText });
 		}
 	});
 }
@@ -185,15 +219,16 @@ function tryParseJSON(jsonString) {
 }
 
 function initializeSettings(){
-	appIds=[process.env.APP_ID_1, process.env.APP_ID_2];
-	appSecrets=[process.env.APP_SECRET_1, process.env.APP_SECRET_2];
-	let companyNames=[process.env.COMPANY_NAME_1, process.env.COMPANY_NAME_2];
-	let tenants=[process.env.TENANT_1, process.env.TENANT_2];
-	let organizations = [process.env.ORGANIZATION_1, process.env.ORGANIZATION_2];
-	companyIds=[tenants[0]+"/"+organizations[0], tenants[1]+"/"+organizations[1]];
 	
 	Company.find({}, function(err, comps){
-		if(comps.length === 0){
+		if(comps.length === 0) {
+			appIds = [process.env.APP_ID_1, process.env.APP_ID_2];
+			appSecrets = [process.env.APP_SECRET_1, process.env.APP_SECRET_2];
+			let companyNames = [process.env.COMPANY_NAME_1, process.env.COMPANY_NAME_2];
+			let tenants = [process.env.TENANT_1, process.env.TENANT_2];
+			let organizations = [process.env.ORGANIZATION_1, process.env.ORGANIZATION_2];
+			companyIds = [tenants[0] + "/" + organizations[0], tenants[1] + "/" + organizations[1]];
+
 			for(let i = 0; i < 2; i++){
 				let company = new Company({id:i, 
 								   	       appId:appIds[i], 
@@ -218,6 +253,7 @@ initializeSettings();
 module.exports = {
 	getMaterialItems: getMaterialItems,
 	getSalesItems: getSalesItems,
+	getBusinessItems: getBusinessItems,
 	getWarehouses: getWarehouses,
 	getToken: getToken
 };
