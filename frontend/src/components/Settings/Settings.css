@@ -104,6 +104,7 @@ input[type=text]#organization1, input[type=text]#name1
     margin-bottom: 10px;
     text-align: left;
     border-bottom: 2px solid red;
+    font-size: 15px;
 }
 
 #update
