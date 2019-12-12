@@ -68,6 +68,32 @@ class Inventory extends React.Component
         }
     }
 
+    renderCompanysTable()
+    {
+        if(this.state.isMounted)
+        {
+            return <Table id="companys-table">
+            <TableHead>
+                <TableRow>
+                    <TableCell>
+                        EDU
+                    </TableCell>
+                    <TableCell>
+                        GAY
+                    </TableCell>
+                </TableRow>
+            </TableHead>
+            <TableBody>
+                <TableCell>
+                    EDU É MESMO
+                </TableCell>
+                <TableCell>
+                    MUITO GAY
+                </TableCell>
+            </TableBody>
+        </Table>;
+        }
+    }
     renderTable()
     {
         if (this.state.isMounted) {
@@ -350,6 +376,9 @@ class Inventory extends React.Component
         return (
             <PageTemplate page="inventory">
                 {this.renderSpinner()}
+                <Paper id="companys-paper">
+                    {this.renderCompanysTable()}      
+                </Paper>
                 <Paper id="inventory-paper">
                     {this.renderTable()}
                 </Paper>
