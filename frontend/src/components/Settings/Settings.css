@@ -27,7 +27,7 @@
     color: white;
     margin: 2em auto;
     margin-top: 2em;
-    font-size: 14pt;
+    font-size: 15pt;
 }
 
 #accountInfo1
@@ -104,7 +104,7 @@ input[type=text]#organization1, input[type=text]#name1
     margin-bottom: 10px;
     text-align: left;
     border-bottom: 2px solid red;
-    font-size: 15px;
+    font-size: 16px;
 }
 
 #update
