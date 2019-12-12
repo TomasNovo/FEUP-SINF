@@ -1,7 +1,6 @@
 #inventory-paper
 {
-    width: 95%;
-    max-height: 30em;
+    width: 65%;
     margin: 2em auto;
     overflow-x: auto;
 }
@@ -9,6 +8,7 @@
 #inventory-table th, #inventory-table td
 {
     font-size: 11pt;
+    height: 90%;
     text-align: center;
     white-space: nowrap;
 }
@@ -38,4 +38,14 @@
     margin: auto;
     width: 10em;
     height: 10em;
+}
+
+#mapping0
+{
+    font-size: 15px;
+}
+
+#mapping1
+{
+    font-size: 15px;
 }

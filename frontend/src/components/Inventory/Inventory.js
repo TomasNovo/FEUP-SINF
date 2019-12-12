@@ -9,6 +9,8 @@ import Paper from '@material-ui/core/Paper';
 import './Inventory.css';
 import PageTemplate from '../PageTemplate/PageTemplate';
 import axios from 'axios';
+import querystring from 'querystring';
+// import CustomTextBox from '../CustomTextBox/CustomTextBox';
 
 class Inventory extends React.Component
 {
@@ -21,21 +23,37 @@ class Inventory extends React.Component
             items1: [],
             items2: [],
             masterData: [],
+            companies: [],
             result: [],
             isMounted: false
         }
+
+        this.submitMapping = this.submitMapping.bind(this);
     }
 
-    findById(array, id)
+    findById(array, name, company)
     {
         for (let i = 0; i < array.length; i++)
         {
-            if (array[i].id === id)
+            if (company === 0 && array[i].idA === name)
+                return i;
+
+            if (company === 1 && array[i].idB === name)
                 return i;
         }
 
         return -1;
     }
+
+    findByName(array, name) {
+        for (let i = 0; i < array.length; i++) {
+            if (array[i].itemKey === name)
+                return i;
+        }
+
+        return -1;
+    }
+
 
     renderSpinner()
     {
@@ -58,36 +76,19 @@ class Inventory extends React.Component
                     <TableRow>
                         <TableCell>
                             <p>Name</p>
-                            <p>Company A</p>
+                            <p>{this.state.companies[0].name}</p>
                         </TableCell>
                         <TableCell>
-                            <p>ID</p>
-                            <p>Company A</p>
+                            <p>Mapping</p>
+                            <p>{this.state.companies[0].name}</p>
                         </TableCell>
                         <TableCell>
-                            <p>Stock</p>
-                            <p>Company A</p>
+                            <p>Mapping</p>
+                            <p>{this.state.companies[1].name}</p>
                         </TableCell>
-                        <TableCell>
-                            <p>Price / Unit</p>
-                            <p>Company A</p>
-                        </TableCell>
-                        <TableCell>Category</TableCell>
                         <TableCell>
                             <p>Name</p>
-                            <p>Company B</p>
-                        </TableCell>
-                        <TableCell>
-                            <p>ID</p>
-                            <p>Company B</p>
-                        </TableCell>
-                        <TableCell>
-                            <p>Stock</p>
-                            <p>Company B</p>
-                        </TableCell>
-                        <TableCell>
-                            <p>Price / Unit</p>
-                            <p>Company B</p>
+                            <p>{this.state.companies[1].name}</p>
                         </TableCell>
                     </TableRow>
                 </TableHead>
@@ -101,52 +102,247 @@ class Inventory extends React.Component
             return null;
     }
 
-    renderContents()
+    submitMapping(event)
     {
-        let table = [];
-        let i = 0;
+        let idArgs = event.target.id.split("-");
+        let company = Number(idArgs[1]);
+        let row = idArgs[2];
+        let text = event.target.childNodes[0].childNodes[0].value;
 
-        for (const elem of this.state.result)
-        {
-            let children = [];
+        let name1 = this.state.result[row].name1;
+        let name2 = this.state.result[row].name2;
 
-            if (elem.name1 === undefined)
-            {
-                children.push(<TableCell key={0}></TableCell>);
-                children.push(<TableCell key={1}></TableCell>);
-                children.push(<TableCell key={2}></TableCell>);
-                children.push(<TableCell key={3}></TableCell>);
-                children.push(<TableCell key={4}></TableCell>);
-            }
-            else
-            {
-                children.push(<TableCell key={0} >{elem.name1}</TableCell>);
-                children.push(<TableCell className="inventory-id" key={1} >{elem.id1}</TableCell>);
-                children.push(<TableCell key={2} >{elem.stock1}</TableCell>);
-                children.push(<TableCell key={3} >{elem.price1}</TableCell>);
-                children.push(<TableCell key={4} >{'TAN'}</TableCell>);    
-            }
+        let masterData = this.state.masterData;
 
-            if (elem.name2 === undefined)
-            {
-                children.push(<TableCell key={5} ></TableCell>);
-                children.push(<TableCell key={6} ></TableCell>);
-                children.push(<TableCell key={7} ></TableCell>);
-                children.push(<TableCell key={8} ></TableCell>);
-            }
-            else
-            {
-                children.push(<TableCell key={5} >{elem.name2}</TableCell>);
-                children.push(<TableCell className="inventory-id" key={6} >{elem.id2}</TableCell>);
-                children.push(<TableCell key={7} >{elem.stock2}</TableCell>);
-                children.push(<TableCell key={8} >{elem.price2}</TableCell>);
+        if (text === "") {
+            if (company === 0) {
+                let index = this.findById(masterData, name1, company);
+
+                if (index !== -1) {
+                    axios.delete('http://localhost:7000/api/master-data/' + name1)
+                    .then((response) => {
+                        console.log(response.status);
+
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+                }
             }
 
-            table.push(<TableRow key={i}>{children}</TableRow>);
-            i++;
+            if (company === 1) {
+                let index = this.findById(masterData, name2, company);
+
+                if (index !== -1) {
+                    axios.delete('http://localhost:7000/api/master-data/' + name2)
+                    .then((response) => {
+                        console.log(response.status);
+
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+                }
+            }
+        } else {
+
+            if (company === 0) {
+                
+                if (this.findByName(this.state.items2, text) === -1) {
+                    alert("This id does not exists in the item of " + this.state.companies[(company + 1) % 2].name);
+                    event.preventDefault();
+                    return;
+                }
+
+                let index = this.findById(masterData, text, (company + 1) % 2);
+
+                if (name2 === undefined && index === -1) {
+                    axios.post('http://localhost:7000/api/master-data/', querystring.stringify({
+                        idA: name1,
+                        idB: text
+                    }))
+                    .then((response) => {
+                        console.log(response.status);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+                } else {
+                    axios.put('http://localhost:7000/api/master-data/' + name1, querystring.stringify({
+                        idA: name1,
+                        idB: text
+                    }))
+                    .then((response) => {
+                        console.log(response.status);
+
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+                }   
+            }
+
+            if (company === 1) {
+                
+                if (this.findByName(this.state.items1, text) === -1) {
+                    alert("This id does not exists in the item of " + this.state.companies[(company + 1) % 2].name);
+                    event.preventDefault();
+                    return;
+                }
+
+                let index = this.findById(masterData, text, (company + 1) % 2);
+
+                if (name1 === undefined && index === -1) {
+                    axios.post('http://localhost:7000/api/master-data/', querystring.stringify({
+                        idA: text,
+                        idB: name2
+                    }))
+                        .then((response) => {
+                            console.log(response.status);
+
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+                } else {
+                    axios.put('http://localhost:7000/api/master-data/' + name2, querystring.stringify({
+                        idA: text,
+                        idB: name2
+                    }))
+                        .then((response) => {
+                            console.log(response.status);
+
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+                }
+            }
         }
 
-        return table;
+
+        this.setState({ masterData: masterData});
+        this.generateResults();
+    }
+
+    generateResults() {
+        let result = [];
+        let items1 = this.state.items1.slice();
+        let items2 = this.state.items2.slice();
+
+        for (let i = 0; i < this.state.masterData.length; i++) {
+            let name1 = this.state.masterData[i].idA;
+            let name2 = this.state.masterData[i].idB;
+
+            let index1 = this.findByName(items1, name1);
+            let index2 = this.findByName(items2, name2);
+
+            if (index1 === -1) {
+                console.error("Bad name1 = " + name1);
+                continue;
+            }
+
+            if (index2 === -1) {
+                console.error("Bad name2 = " + name2);
+                continue;
+            }
+
+            let row =
+            {
+                name1: name1,
+                name2: name2
+            }
+
+            result.push(row);
+
+            items1.splice(index1, 1);
+            items2.splice(index2, 1);
+        }
+
+        for (let i = 0; i < items1.length; i++) {
+            let item1 = items1[i];
+
+            let row =
+            {
+                name1: item1.itemKey
+            }
+
+            result.push(row);
+        }
+
+        for (let i = 0; i < items2.length; i++) {
+            let item2 = items2[i];
+
+            let row =
+            {
+                name2: item2.itemKey
+            }
+
+            result.push(row);
+        }
+
+        this.setState({ result: result });
+    }
+
+    preventEvent(event)
+    {
+        // event.default();
+    }
+
+    renderContents()
+    {
+        if (this.state.isMounted) {
+
+            let table = [];
+
+            for (let i = 0; i < this.state.result.length; i++) {
+                let elem = this.state.result[i];
+                let children = [];
+                let hasMapping = (elem.name1 !== undefined && elem.name2 !== undefined);
+
+                if (elem.name1 === undefined)
+                {
+                    children.push(<TableCell key={0}></TableCell>);
+                    children.push(<TableCell key={1} ></TableCell>);
+                }
+                else
+                {
+                    children.push(<TableCell key={0} >{elem.name1}</TableCell>);
+                    children.push(
+                        <TableCell key={1}>
+                            <form id={"mapping-0-" + i} onSubmit={(event) => { this.submitMapping(event); }}>
+                                <div className="form-group">
+                                    <input type="text" className="form-control" size="1" defaultValue={(hasMapping) ? elem.name2 : ''} />
+                                </div>
+                            </form>
+                        </TableCell>);
+                }
+
+                if (elem.name2 === undefined)
+                {
+                    children.push(<TableCell key={2} ></TableCell>);
+                    children.push(<TableCell key={3} ></TableCell>);
+                }
+                else
+                {
+                    children.push(
+                        <TableCell key={2}>
+                            <form id={"mapping-1-" + i} onSubmit={(event) => { this.submitMapping(event); }}>
+                                <div className="form-group">
+                                    <input type="text" className="form-control" size="1" defaultValue={(hasMapping) ? elem.name1 : ''} />
+                                </div>
+                            </form>
+                        </TableCell>);
+                    children.push(<TableCell key={3} >{elem.name2}</TableCell>);
+                }
+
+                table.push(<TableRow key={i}>{children}</TableRow>);
+            }
+
+            return table;
+        } else {
+            return null;
+        }
     }
 
     render()
@@ -165,19 +361,21 @@ class Inventory extends React.Component
     {
         document.title = "Inventory";
 
-        let promise1 = axios.get('http://localhost:7000/api/jasmin/salesItems/0')
+        let promise1 = axios.get('http://localhost:7000/api/jasmin/businessItems/0')
         .then((response) => {
             this.setState({items1: response.data.result});
         })
         .catch((error) => {
+            console.log(error);
             this.setState({items1: []});
         });
 
-        let promise2 = axios.get('http://localhost:7000/api/jasmin/salesItems/1')
+        let promise2 = axios.get('http://localhost:7000/api/jasmin/businessItems/1')
         .then((response) => {
             this.setState({items2: response.data.result});
         })
         .catch((error) => {
+            console.log(error);
             this.setState({items2: []});
         });
 
@@ -186,85 +384,22 @@ class Inventory extends React.Component
             this.setState({masterData: response.data});
         })
         .catch((error) => {
+            console.log(error);
             this.setState({masterData: []});
         });
 
-        Promise.all([promise1, promise2, promise3]).then(() => {
-            let result = [];
-            let items1 = this.state.items1;
-            let items2 = this.state.items2;
+        let promise4 = axios.get('http://localhost:7000/api/company')
+        .then((response) => {
+            this.setState({ companies: response.data });
+        })
+        .catch((error) => {
+            console.log(error)
+            this.setState({ companies: [] });
+        });
 
-            for (let i = 0; i < this.state.masterData.length; i++)
-            {
-                let id1 = this.state.masterData[i].idA;
-                let id2 = this.state.masterData[i].idB;
+        Promise.all([promise1, promise2, promise3, promise4]).then(() => {
 
-                let index1 = this.findById(items1, id1);
-                let index2 = this.findById(items2, id2);
-
-                if (index1 == -1) {
-                    console.error("Bad id1 = " + id1);
-                    continue;
-                }
-
-                if (index2 == -1) {
-                    console.error("Bad id2 = " + id2);
-                    continue;
-                }
-
-                let item1 = items1[index1];
-                let item2 = items2[index2];
-
-                let row = 
-                {
-                    id1: item1.id,
-                    id2: item2.id,
-                    name1: item1.itemKey,
-                    name2: item2.itemKey,
-                    price1: item1.priceListLines[0].priceAmount.amount + item1.priceListLines[0].priceAmount.symbol,
-                    price2: item2.priceListLines[0].priceAmount.amount + item2.priceListLines[0].priceAmount.symbol,
-                    stock1: '',
-                    stock2: '',
-                }
-
-                result.push(row);
-
-                items1.splice(index1);
-
-                items2.splice(index2);
-            }
-
-            for (let i = 0; i < items1.length; i++)
-            {
-                let item1 = items1[i];
-
-                let row = 
-                {
-                    id1: item1.id,
-                    name1: item1.itemKey,
-                    price1: item1.priceListLines[0].priceAmount.amount + item1.priceListLines[0].priceAmount.symbol,
-                    stock1: '',
-                }
-
-                result.push(row);
-            }
-
-            for (let i = 0; i < items2.length; i++)
-            {
-                let item2 = items2[i];
-
-                let row = 
-                {
-                    id2: item2.id,
-                    name2: item2.itemKey,
-                    price2: item2.priceListLines[0].priceAmount.amount + item2.priceListLines[0].priceAmount.symbol,
-                    stock2: '',
-                }
-
-                result.push(row);
-            }
-
-            this.setState({result: result});
+            this.generateResults();
             this.setState({isMounted: true});
         });
 

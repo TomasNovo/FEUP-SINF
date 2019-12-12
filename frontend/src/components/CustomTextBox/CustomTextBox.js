@@ -23,11 +23,13 @@ class CustomTextBox extends React.Component
 			value: event.target.value,
 			id: id
 		};
+
+		event.preventDefault();
 	}
   
 	render() {
 	  return (
-		<input type="text" className="form-control" id={this.state.id} placeholder="Enter value" onChange={this.handleChange}></input>
+		<input type="text" className="form-control" id={this.state.id} onChange={this.handleChange}></input>
 	  );
 	}
 };
