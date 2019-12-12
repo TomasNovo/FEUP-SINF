@@ -119,8 +119,6 @@ class Processes extends React.Component
                 this.setState({processes: processesClone});
                 break;
             }
-
-        console.log(id);
         
         axios.delete(`http://localhost:7000/api/process/${id}`).catch(error => {
             console.log(error);

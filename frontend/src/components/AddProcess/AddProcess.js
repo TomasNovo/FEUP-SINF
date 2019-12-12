@@ -71,8 +71,9 @@ class AddProcess extends React.Component
                                     <option>Sales Order</option>
                                     <option>Shipping Note</option>
                                     <option>Purchase Invoice</option>
-                                    <option>Receive Payment</option>
-                                    <option>Invoice Receipt Notification</option>
+                                    <option>Receivable</option>
+                                    <option>Purchase Order</option>
+                                    <option>Goods Receipt</option>
                                     <option>Sales Invoice</option>
                                     <option>Payment</option>
                                 </select>

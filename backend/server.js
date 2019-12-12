@@ -33,5 +33,5 @@ const server = app.listen(7000, () =>
 
 (async function() {
 	await agenda.start();
-	await agenda.every('2 seconds', 'update processes');
+	await agenda.every('2 seconds', 'update processes', {lastCheck: new Date()});
 })();
