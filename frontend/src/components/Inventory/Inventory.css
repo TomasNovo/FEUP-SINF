@@ -79,12 +79,8 @@
     height: 10em;
 }
 
-#mapping0
+.form-control
 {
     font-size: 15px;
-}
-
-#mapping1
-{
-    font-size: 15px;
+    text-align: center;
 }
