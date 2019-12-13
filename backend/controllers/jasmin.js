@@ -42,7 +42,6 @@ function getToken(callback, company)
 	});
 }
 
-
 function getMaterialItems(req, res)
 {
 	const {company} = req.params;
@@ -185,6 +184,43 @@ function getWarehouses(req, res)
 	});
 }
 
+function getSalesOrders(req, res)
+{
+	const {company} = req.params;
+
+	if (company === undefined) {
+		res.status(400).json({success: false, error: 'company parameter is required!'});
+		return;
+	}
+
+	if (company !== "0" && company !== "1") {
+		res.status(400).json({success: false, error: 'company is either 0 or 1'});
+		return;
+	}
+
+	axios.get(apiLink + companyIds[company] + '/sales/orders', {
+		headers: {
+			'Authorization': tokens[company]
+		}
+	})
+	.then((response) => {
+
+		let data = response.data;
+
+		res.status(200).json({success: true, result: data});
+	})
+	.catch((error) => {
+
+		if (error.response.status !== undefined && error.response.status === 401) {
+			getToken(() => getWarehouses(req, res), company);
+		} else {
+			res.status(400).json({success: false, error: error.statusText});
+		}
+	});
+
+
+}
+
 
 function filterByDate(json) {
 
@@ -259,4 +295,5 @@ module.exports = {
 	getWarehouses: getWarehouses,
 	getToken: getToken,
 	initializeSettings: initializeSettings
+	getSalesOrders: getSalesOrders
 };

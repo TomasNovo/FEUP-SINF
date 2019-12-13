@@ -20,7 +20,6 @@ async function updateProcesses(job)
             await checkJasminDocs(lastCheck, proc, ap[i], currentStep);
     }
 
-    
     const processes = await process.find();
 
     for(let i = 0; i < processes.length; i++)
@@ -84,7 +83,7 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step)
     switch(step.document)
     {
         case "Sales Order":
-
+            //docs = await axios.get('http://localhost:7000/api/jasmin/sales/orders/')
             break;
 
         case "Shipping Note":

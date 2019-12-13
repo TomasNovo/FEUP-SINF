@@ -11,4 +11,6 @@ router.get('/businessItems/:company', controller.getBusinessItems);
 
 router.get('/warehouses/:company', controller.getWarehouses);
 
+router.get('/sales/orders/:company', controller.getSalesOrders);
+
 module.exports = router;
