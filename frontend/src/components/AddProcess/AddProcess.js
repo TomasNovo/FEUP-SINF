@@ -62,9 +62,9 @@ class AddProcess extends React.Component
                                     <option value="intercomp">InterComp</option>
                                     <option value="jasmin">Jasmin</option>
                                 </select>
-                                <select id="new-step-company"> 
-                                    <option>Company A</option>
-                                    <option>Company B</option>
+                                <select id="new-step-company" disabled> 
+                                    <option></option>
+                                    <option></option>
                                 </select>
                                 <i className="glyphicon glyphicon-arrow-right"></i>
                                 <select id="new-step-document"> 
@@ -140,6 +140,15 @@ class AddProcess extends React.Component
     componentDidMount()
     {
         document.title = "Add Process";
+
+        axios.get('http://localhost:7000/api/company').then((companies) => {
+            const options = document.querySelectorAll('#new-step-company > *');
+
+            options[0].textContent = companies.data[0].name;
+            options[1].textContent = companies.data[1].name;
+
+            options[0].parentElement.disabled = false;
+        });
     }
 }
 

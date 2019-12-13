@@ -39,8 +39,20 @@ function update(req, res) {
   })
 }
 
+function getCompanyIndex(req, res) {
+  let query = {'name' : req.params.name};
+  Company.findOneAndUpdate(query)
+  .then(updated => {
+    res.status(200).send(updated);
+  })
+  .catch(err => {
+    res.status(404).send(err);
+  })
+}
+
 module.exports = {
   read,
   readAll,
   update,
+  getCompanyIndex
 };

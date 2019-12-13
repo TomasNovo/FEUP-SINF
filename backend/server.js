@@ -1,4 +1,5 @@
-const agenda = require('./agenda');
+const Agenda = require('agenda');
+const updateProcesses = require('./jobs/updateProcesses');
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -31,7 +32,11 @@ const server = app.listen(7000, () =>
 	console.log(`Express running → PORT ${server.address().port}`);
 });
 
-(async function() {
+const agenda = new Agenda({db: {address: 'mongodb://localhost:27017/masterData'}});
+
+agenda.on('ready', async function() {
+	await agenda.cancel({name: 'update processes'});
+	agenda.define('update processes', updateProcesses);
 	await agenda.start();
 	await agenda.every('2 seconds', 'update processes', {lastCheck: new Date()});
-})();
+})

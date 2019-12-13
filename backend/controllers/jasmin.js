@@ -294,6 +294,6 @@ module.exports = {
 	getBusinessItems: getBusinessItems,
 	getWarehouses: getWarehouses,
 	getToken: getToken,
-	initializeSettings: initializeSettings
+	initializeSettings: initializeSettings,
 	getSalesOrders: getSalesOrders
 };

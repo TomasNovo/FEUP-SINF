@@ -5,9 +5,6 @@ const axios = require('axios');
 async function updateProcesses(job)
 {
     const lastCheck = job.attrs.data.lastCheck;
-
-    console.log(lastCheck);
-    
     const ap = await activeProcess.find();
 
     for(let i = 0; i < ap.length; i++) {
@@ -77,13 +74,16 @@ async function executeStep(activeProcess, process, step)
 
 async function checkJasminDocs(lastCheck, process, activeProcess, step)
 {
+    let company = await axios.get(`http://localhost:7000/api/company/index/${step.company}`);
+    company = company.data;
+
     let docs = [];
 
     //TODO Check document contents to match to services or sale process (item in sales, materials and regular or just materials and regular ?)
     switch(step.document)
     {
         case "Sales Order":
-            //docs = await axios.get('http://localhost:7000/api/jasmin/sales/orders/')
+            docs = await axios.get(`http://localhost:7000/api/jasmin/sales/orders/${company.id}`);
             break;
 
         case "Shipping Note":
@@ -118,11 +118,16 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step)
             console.log("Unknown document: " + step.document);
     }
 
+    docs = docs.data.result;
+
     //TODO: Check if docs are ordered by creation date
 
     for(let i = docs.length - 1; i >= 0; i--)
-        if(docs[i].postingDate > lastCheck)
+    {   
+        if(new Date(docs[i].postingDate) > lastCheck)
         {
+            console.log(docs[i].postingDate);
+            /*
             if(activeProcess)
                 await incrementStep(activeProcess, process);
             else
@@ -132,8 +137,10 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step)
                 })
                 .catch(error => {
                     console.log(error);
-                })
-        }
+                }) */
+        } 
+    }
+        
             
 }
 
