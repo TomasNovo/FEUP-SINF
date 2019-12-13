@@ -7,8 +7,8 @@ const { Schema } = mongoose;
 const logSchema = new Schema(
   {
     type: { type: String, required: true }, // e.g. Success, Error...
-    processId: { type: String, required: true },
-    stepId: { type: String, required: true },
+    processId: { type: String },
+    stepId: { type: String },
     message: { type: String, required: true },
   },
   {

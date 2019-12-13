@@ -28,6 +28,8 @@ class Inventory extends React.Component
             isMounted: false
         }
 
+        console.log(process.env.REACT_APP_BACK_END_HOST);
+
         this.submitMapping = this.submitMapping.bind(this);
     }
 
@@ -55,83 +57,11 @@ class Inventory extends React.Component
     }
 
 
-    renderSpinner()
-    {
-        if (this.state.isMounted) {
-            return null;
-        } else {
-            return <div id="spinner-div">
-                <Spinner id="spinner" className="text-primary d-flex justify-content-center" animation="border" role="status">
-                    <span className="sr-only">Loading...</span>
-                </Spinner>
-            </div>;
-        }
-    }
-
-    renderCompanysTable()
-    {
-        if(this.state.isMounted)
-        {
-            return <Table id="companys-table">
-            <TableHead>
-                <TableRow>
-                    <TableCell>
-                        EDU
-                    </TableCell>
-                    <TableCell>
-                        GAY
-                    </TableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                <TableCell>
-                    EDU É MESMO
-                </TableCell>
-                <TableCell>
-                    MUITO GAY
-                </TableCell>
-            </TableBody>
-        </Table>;
-        }
-    }
-    renderTable()
-    {
-        if (this.state.isMounted) {
-            return <Table id="inventory-table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>
-                            <p>Name</p>
-                            <p>{this.state.companies[0].name}</p>
-                        </TableCell>
-                        <TableCell>
-                            <p>Mapping</p>
-                            <p>{this.state.companies[0].name}</p>
-                        </TableCell>
-                        <TableCell>
-                            <p>Mapping</p>
-                            <p>{this.state.companies[1].name}</p>
-                        </TableCell>
-                        <TableCell>
-                            <p>Name</p>
-                            <p>{this.state.companies[1].name}</p>
-                        </TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {this.renderContents()}
-                </TableBody>
-            </Table>;
-
-        }
-        else
-            return null;
-    }
-
     submitMapping(event)
     {
         let idArgs = event.target.id.split("-");
         let company = Number(idArgs[1]);
+        company = (company + 1) % 2;
         let row = idArgs[2];
         let text = event.target.childNodes[0].childNodes[0].value;
 
@@ -140,12 +70,14 @@ class Inventory extends React.Component
 
         let masterData = this.state.masterData;
 
+        let host = process.env.REACT_APP_BACK_END_HOST || 'http://localhost:7000';
+
         if (text === "") {
             if (company === 0) {
                 let index = this.findById(masterData, name1, company);
 
                 if (index !== -1) {
-                    axios.delete('http://localhost:7000/api/master-data/' + name1)
+                    axios.delete(host + '/api/master-data/' + name1)
                     .then((response) => {
                         console.log(response.status);
 
@@ -160,7 +92,7 @@ class Inventory extends React.Component
                 let index = this.findById(masterData, name2, company);
 
                 if (index !== -1) {
-                    axios.delete('http://localhost:7000/api/master-data/' + name2)
+                    axios.delete(host + '/api/master-data/' + name2)
                     .then((response) => {
                         console.log(response.status);
 
@@ -183,7 +115,7 @@ class Inventory extends React.Component
                 let index = this.findById(masterData, text, (company + 1) % 2);
 
                 if (name2 === undefined && index === -1) {
-                    axios.post('http://localhost:7000/api/master-data/', querystring.stringify({
+                    axios.post(host + '/api/master-data/', querystring.stringify({
                         idA: name1,
                         idB: text
                     }))
@@ -194,7 +126,7 @@ class Inventory extends React.Component
                         console.log(error);
                     });
                 } else {
-                    axios.put('http://localhost:7000/api/master-data/' + name1, querystring.stringify({
+                    axios.put(host + '/api/master-data/' + name1, querystring.stringify({
                         idA: name1,
                         idB: text
                     }))
@@ -219,7 +151,7 @@ class Inventory extends React.Component
                 let index = this.findById(masterData, text, (company + 1) % 2);
 
                 if (name1 === undefined && index === -1) {
-                    axios.post('http://localhost:7000/api/master-data/', querystring.stringify({
+                    axios.post(host + '/api/master-data/', querystring.stringify({
                         idA: text,
                         idB: name2
                     }))
@@ -231,7 +163,7 @@ class Inventory extends React.Component
                             console.log(error);
                         });
                 } else {
-                    axios.put('http://localhost:7000/api/master-data/' + name2, querystring.stringify({
+                    axios.put(host + '/api/master-data/' + name2, querystring.stringify({
                         idA: text,
                         idB: name2
                     }))
@@ -310,9 +242,75 @@ class Inventory extends React.Component
         this.setState({ result: result });
     }
 
-    preventEvent(event)
-    {
-        // event.default();
+    renderSpinner() {
+        if (this.state.isMounted) {
+            return null;
+        } else {
+            return <div id="spinner-div">
+                <Spinner id="spinner" className="text-primary d-flex justify-content-center" animation="border" role="status">
+                    <span className="sr-only">Loading...</span>
+                </Spinner>
+            </div>;
+        }
+    }
+
+    renderCompanysTable() {
+        if (this.state.isMounted) {
+            return <Table id="companys-table">
+                <TableHead>
+                    <TableRow>
+                        <TableCell>
+                            EDU
+                    </TableCell>
+                        <TableCell>
+                            BOA PESSOA
+                    </TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    <TableRow>
+                        <TableCell>
+                            EDU É MESMO
+                    </TableCell>
+                        <TableCell>
+                            MUITO BOA PESSOA
+                    </TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>;
+        }
+    }
+    renderTable() {
+        if (this.state.isMounted) {
+            return <Table id="inventory-table">
+                <TableHead>
+                    <TableRow>
+                        <TableCell>
+                            <p>Name</p>
+                            <p>{this.state.companies[0].name}</p>
+                        </TableCell>
+                        {/* <TableCell> */}
+                            {/* <p>Mapping</p> */}
+                            {/* <p>{this.state.companies[0].name}</p> */}
+                        {/* </TableCell> */}
+                        {/* <TableCell> */}
+                            {/* <p>Mapping</p> */}
+                            {/* <p>{this.state.companies[1].name}</p> */}
+                        {/* </TableCell> */}
+                        <TableCell>
+                            <p>Name</p>
+                            <p>{this.state.companies[1].name}</p>
+                        </TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {this.renderContents()}
+                </TableBody>
+            </Table>;
+
+        }
+        else
+            return null;
     }
 
     renderContents()
@@ -324,43 +322,25 @@ class Inventory extends React.Component
             for (let i = 0; i < this.state.result.length; i++) {
                 let elem = this.state.result[i];
                 let children = [];
-                let hasMapping = (elem.name1 !== undefined && elem.name2 !== undefined);
 
-                if (elem.name1 === undefined)
-                {
-                    children.push(<TableCell key={0}></TableCell>);
-                    children.push(<TableCell key={1} ></TableCell>);
-                }
-                else
-                {
-                    children.push(<TableCell key={0} >{elem.name1}</TableCell>);
-                    children.push(
-                        <TableCell key={1}>
-                            <form id={"mapping-0-" + i} onSubmit={(event) => { this.submitMapping(event); }}>
-                                <div className="form-group">
-                                    <input type="text" className="form-control" size="1" defaultValue={(hasMapping) ? elem.name2 : ''} />
-                                </div>
-                            </form>
-                        </TableCell>);
-                }
+                children.push(
+                <TableCell key={0} >
+                    <form id={"mapping-0-" + i} onSubmit={(event) => { this.submitMapping(event); }}>
+                        <div className="form-group">
+                            <input type="text" className="form-control" size="1" defaultValue={elem.name1} />
+                        </div>
+                    </form>
+                </TableCell>);
 
-                if (elem.name2 === undefined)
-                {
-                    children.push(<TableCell key={2} ></TableCell>);
-                    children.push(<TableCell key={3} ></TableCell>);
-                }
-                else
-                {
-                    children.push(
-                        <TableCell key={2}>
-                            <form id={"mapping-1-" + i} onSubmit={(event) => { this.submitMapping(event); }}>
-                                <div className="form-group">
-                                    <input type="text" className="form-control" size="1" defaultValue={(hasMapping) ? elem.name1 : ''} />
-                                </div>
-                            </form>
-                        </TableCell>);
-                    children.push(<TableCell key={3} >{elem.name2}</TableCell>);
-                }
+                children.push(
+                <TableCell key={1}>
+                    <form id={"mapping-1-" + i} onSubmit={(event) => { this.submitMapping(event); }}>
+                        <div className="form-group">
+                            <input type="text" className="form-control" size="1" defaultValue={elem.name2} />
+                        </div>
+                    </form>
+                </TableCell>);
+
 
                 table.push(<TableRow key={i}>{children}</TableRow>);
             }
@@ -390,7 +370,9 @@ class Inventory extends React.Component
     {
         document.title = "Inventory";
 
-        let promise1 = axios.get('http://localhost:7000/api/jasmin/businessItems/0')
+        let host = process.env.REACT_APP_BACK_END_HOST || 'http://localhost:7000';
+
+        let promise1 = axios.get(host + '/api/jasmin/businessItems/0')
         .then((response) => {
             this.setState({items1: response.data.result});
         })
@@ -399,7 +381,7 @@ class Inventory extends React.Component
             this.setState({items1: []});
         });
 
-        let promise2 = axios.get('http://localhost:7000/api/jasmin/businessItems/1')
+        let promise2 = axios.get(host + '/api/jasmin/businessItems/1')
         .then((response) => {
             this.setState({items2: response.data.result});
         })
@@ -408,7 +390,7 @@ class Inventory extends React.Component
             this.setState({items2: []});
         });
 
-        let promise3 = axios.get('http://localhost:7000/api/master-data/')
+        let promise3 = axios.get(host + '/api/master-data/')
         .then((response) => {
             this.setState({masterData: response.data});
         })
@@ -417,7 +399,7 @@ class Inventory extends React.Component
             this.setState({masterData: []});
         });
 
-        let promise4 = axios.get('http://localhost:7000/api/company')
+        let promise4 = axios.get(host + '/api/company')
         .then((response) => {
             this.setState({ companies: response.data });
         })

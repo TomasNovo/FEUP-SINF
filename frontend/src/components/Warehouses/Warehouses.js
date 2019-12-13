@@ -347,7 +347,9 @@ class Warehouses extends React.Component
     {
         document.title = "Warehouses";
 
-        let promise1 = axios.get('http://localhost:7000/api/jasmin/warehouses/0')
+        let host = process.env.REACT_APP_BACK_END_HOST || 'http://localhost:7000';
+
+        let promise1 = axios.get(host + '/api/jasmin/warehouses/0')
         .then((response) => {
             this.fillWarehouses(0, response.data);
         })
@@ -355,7 +357,7 @@ class Warehouses extends React.Component
             console.log(error);
         });
 
-        let promise2 = axios.get('http://localhost:7000/api/jasmin/warehouses/1')
+        let promise2 = axios.get(host + '/api/jasmin/warehouses/1')
         .then((response) => {
             this.fillWarehouses(1, response.data);
         })
@@ -363,7 +365,7 @@ class Warehouses extends React.Component
             console.log(error);
         });
 
-        let promise3 = axios.get('http://localhost:7000/api/jasmin/materialItems/0')
+        let promise3 = axios.get(host + '/api/jasmin/materialItems/0')
         .then((response) => {
             this.fillItems(0, response.data);
         })
@@ -371,7 +373,7 @@ class Warehouses extends React.Component
             console.log(error);
         });
 
-        let promise4 = axios.get('http://localhost:7000/api/jasmin/materialItems/1')
+        let promise4 = axios.get(host + '/api/jasmin/materialItems/1')
         .then((response) => {
             this.fillItems(1, response.data);
         })
@@ -379,7 +381,7 @@ class Warehouses extends React.Component
             console.log(error);
         });
 
-        let promise5 = axios.get('http://localhost:7000/api/company')
+        let promise5 = axios.get(host + '/api/company')
         .then((response) => {
             this.setState({ companies: response.data});
         })

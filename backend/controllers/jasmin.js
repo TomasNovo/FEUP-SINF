@@ -218,7 +218,7 @@ function tryParseJSON(jsonString) {
 	return false;
 }
 
-function initializeSettings(){
+function initializeSettings() {
 	
 	Company.find({}, function(err, comps){
 		if(comps.length === 0) {
@@ -246,6 +246,8 @@ function initializeSettings(){
 			companyIds=[tenants[0]+"/"+organizations[0], tenants[1]+"/"+organizations[1]];
 		}
 	});
+
+	console.log("Settings initialized");
 }
 
 initializeSettings();
@@ -255,5 +257,6 @@ module.exports = {
 	getSalesItems: getSalesItems,
 	getBusinessItems: getBusinessItems,
 	getWarehouses: getWarehouses,
-	getToken: getToken
+	getToken: getToken,
+	initializeSettings: initializeSettings
 };
