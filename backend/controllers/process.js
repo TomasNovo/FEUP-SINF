@@ -1,6 +1,7 @@
 'use strict';
 
 const Process = require('../database/models/process');
+const ActiveProcess = require('../database/models/activeProcess');
 
 function create(req, res) {
   const { name, steps } = req.body;
@@ -51,15 +52,11 @@ function update(req, res) {
 function remove(req, res) {
   const { _id } = req.params;
 
+  ActiveProcess.deleteMany({ processId: _id });
+
   Process.findByIdAndDelete(_id)
   .then(deleted => {
-    ActiveProcess.deleteMany({ processId: _id })
-      .then(() => {
-        res.status(200).send(deleted);
-      })
-      .catch(() => {
-        res.status(200).send(deleted);      
-      })
+    res.status(200).send(deleted);  
   })
   .catch(err => {
     res.status(404).send(err);
