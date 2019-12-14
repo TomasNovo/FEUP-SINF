@@ -286,9 +286,6 @@ function initializeSettings() {
 		console.log('organizations = ' + JSON.stringify(organizations));
 
 	});
-
-
-
 }
 
 initializeSettings();

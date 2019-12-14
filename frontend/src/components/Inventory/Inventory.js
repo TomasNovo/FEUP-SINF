@@ -289,14 +289,6 @@ class Inventory extends React.Component
                             <p>Name</p>
                             <p>{this.state.companies[0].name}</p>
                         </TableCell>
-                        {/* <TableCell> */}
-                            {/* <p>Mapping</p> */}
-                            {/* <p>{this.state.companies[0].name}</p> */}
-                        {/* </TableCell> */}
-                        {/* <TableCell> */}
-                            {/* <p>Mapping</p> */}
-                            {/* <p>{this.state.companies[1].name}</p> */}
-                        {/* </TableCell> */}
                         <TableCell>
                             <p>Name</p>
                             <p>{this.state.companies[1].name}</p>

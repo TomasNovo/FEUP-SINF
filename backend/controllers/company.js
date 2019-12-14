@@ -1,6 +1,12 @@
 'use strict';
 
+const ActiveProcess = require('../database/models/activeProcess');
 const Company = require('../database/models/company');
+const Log = require('../database/models/log');
+const MasterData = require('../database/models/masterData');
+const Process = require('../database/models/process');
+const Step = require('../database/models/step');
+
 const jasmin = require('./jasmin');
 
 function read(req, res) {
@@ -33,12 +39,54 @@ function update(req, res) {
 
     jasmin.initializeSettings();
 
+    deleteDatabase();
+
     res.status(200).send(updated);
   })
   .catch(err => {
     console.log(err);
     res.status(404).send(err);
   })
+}
+
+function deleteDatabase() {
+
+  ActiveProcess.deleteMany({})
+  .then(info => {
+  })
+  .catch(err => {
+    console.log(err);
+  });
+
+  Log.deleteMany({})
+  .then(info => {
+  })
+  .catch(err => {
+    console.log(err);
+  });
+
+  MasterData.deleteMany({})
+  .then(info => {
+  })
+  .catch(err => {
+    console.log(err);
+  });
+
+  Process.deleteMany({})
+  .then(info => {
+  })
+  .catch(err => {
+    console.log(err);
+  });
+
+  Step.deleteMany({})
+  .then(info => {
+  })
+  .catch(err => {
+    console.log(err);
+  });
+
+  console.log("Deleted database for new company");
 }
 
 module.exports = {

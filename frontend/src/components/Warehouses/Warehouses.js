@@ -11,7 +11,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow'
 import Spinner from 'react-bootstrap/Spinner';
-import Pie from 'react-chartjs-2';
+import {Chart, Pie} from 'react-chartjs-2';
+import Color from 'color';
 
 
 class Warehouses extends React.Component 
@@ -174,24 +175,44 @@ class Warehouses extends React.Component
             let data = [];
             let colors = [];
             let labels = [];
-            
+            let j = 0;
+            let totalValidWarehouses = 0;
+
+            // Calculate totalValidWarehouses
+            for (let i = 0; i < this.state.warehouses.length; i++) {
+
+                if (this.state.warehouses[i].percent > 0.0) // Filter warehouses with 0% of the assets
+                {
+                    totalValidWarehouses++;
+                }
+            }
+
+            let red = Color("rgb(255,0,0)").darken(0.1);
+
             for (let i = 0; i < this.state.warehouses.length; i++)
             {   
-                // console.log(this.state.warehouses[i]);
-                // console.log(this.state.warehouses[i].percent);
-
                 if (this.state.warehouses[i].percent > 0.0) // Filter warehouses with 0% of the assets
                 {
                     let warehouse = this.state.warehouses[i];
                     let warehouseStr = warehouse.warehouseKey + ' (' + this.state.companies[warehouse.companyIndex].name + ')';
 
                     data.push(Math.round(warehouse.percent * 1000)/10);
-                    // Assign random colour
-                    colors.push('#' + ((i + 1) / (this.state.warehouses.length+1) * parseInt("ffffff", 16) ).toString(16));
 
-                    labels.push(warehouseStr);  
+                    // Assign random colour
+                    let ratio = (j + 1) / (totalValidWarehouses+1);
+                    let newColor = red.rotate(ratio * 360).hex();
+
+                    console.log(ratio);
+                    console.log(newColor);
+
+                    colors.push(newColor);
+                    labels.push(warehouseStr);
+                    j++;
                 }
             }
+
+            console.log(colors);
+            Chart.defaults.global.defaultFontColor = 'white';
 
             return <div id="warehouse-assets">
                 <p>Asset's distribution</p>
@@ -219,7 +240,7 @@ class Warehouses extends React.Component
                             }
                         },
                         bodyFontSize: 16,
-                    }
+                    },
                 }}
                 height={250}
           />
