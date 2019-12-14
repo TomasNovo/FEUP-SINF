@@ -38,5 +38,6 @@ agenda.on('ready', async function() {
 	await agenda.cancel({name: 'update processes'});
 	agenda.define('update processes', updateProcesses);
 	await agenda.start();
+	//Array associativo de activeProcess ids com data
 	await agenda.every('2 seconds', 'update processes', {lastCheck: new Date(), lastData: []});
 })

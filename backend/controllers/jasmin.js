@@ -212,15 +212,258 @@ function getSalesOrders(req, res)
 	.catch((error) => {
 
 		if (error.response.status !== undefined && error.response.status === 401) {
-			getToken(() => getWarehouses(req, res), company);
+			getToken(() => getSalesOrders(req, res), company);
 		} else {
 			res.status(400).json({success: false, error: error.statusText});
 		}
 	});
-
-
 }
 
+function getDeliveries(req, res)
+{
+	const {company} = req.params;
+
+	if (company === undefined) {
+		res.status(400).json({success: false, error: 'company parameter is required!'});
+		return;
+	}
+
+	if (company !== "0" && company !== "1") {
+		res.status(400).json({success: false, error: 'company is either 0 or 1'});
+		return;
+	}
+
+	axios.get(apiLink + companyIds[company] + '/shipping/deliveries', {
+		headers: {
+			'Authorization': tokens[company]
+		}
+	})
+	.then((response) => {
+
+		let data = response.data;
+
+		res.status(200).json({success: true, result: data});
+	})
+	.catch((error) => {
+
+		if (error.response.status !== undefined && error.response.status === 401) {
+			getToken(() => getDeliveries(req, res), company);
+		} else {
+			res.status(400).json({success: false, error: error.statusText});
+		}
+	});
+}
+
+function getPurchaseInvoice(req, res)
+{
+	const {company} = req.params;
+
+	if (company === undefined) {
+		res.status(400).json({success: false, error: 'company parameter is required!'});
+		return;
+	}
+
+	if (company !== "0" && company !== "1") {
+		res.status(400).json({success: false, error: 'company is either 0 or 1'});
+		return;
+	}
+
+	axios.get(apiLink + companyIds[company] + '/invoiceReceipt/invoices', {
+		headers: {
+			'Authorization': tokens[company]
+		}
+	})
+	.then((response) => {
+
+		let data = response.data;
+
+		res.status(200).json({success: true, result: data});
+	})
+	.catch((error) => {
+
+		if (error.response.status !== undefined && error.response.status === 401) {
+			getToken(() => getPurchaseInvoice(req, res), company);
+		} else {
+			res.status(400).json({success: false, error: error.statusText});
+		}
+	});
+}
+
+function getReceivable(req, res)
+{
+	const {company} = req.params;
+
+	if (company === undefined) {
+		res.status(400).json({success: false, error: 'company parameter is required!'});
+		return;
+	}
+
+	if (company !== "0" && company !== "1") {
+		res.status(400).json({success: false, error: 'company is either 0 or 1'});
+		return;
+	}
+
+	axios.get(apiLink + companyIds[company] + '/accountsReceivable/receipts', {
+		headers: {
+			'Authorization': tokens[company]
+		}
+	})
+	.then((response) => {
+
+		let data = response.data;
+
+		res.status(200).json({success: true, result: data});
+	})
+	.catch((error) => {
+
+		if (error.response.status !== undefined && error.response.status === 401) {
+			getToken(() => getReceivable(req, res), company);
+		} else {
+			res.status(400).json({success: false, error: error.statusText});
+		}
+	});
+}
+
+function getPurchaseOrder(req, res)
+{
+	const {company} = req.params;
+
+	if (company === undefined) {
+		res.status(400).json({success: false, error: 'company parameter is required!'});
+		return;
+	}
+
+	if (company !== "0" && company !== "1") {
+		res.status(400).json({success: false, error: 'company is either 0 or 1'});
+		return;
+	}
+
+	axios.get(apiLink + companyIds[company] + '/purchases/orders', {
+		headers: {
+			'Authorization': tokens[company]
+		}
+	})
+	.then((response) => {
+
+		let data = response.data;
+
+		res.status(200).json({success: true, result: data});
+	})
+	.catch((error) => {
+
+		if (error.response.status !== undefined && error.response.status === 401) {
+			getToken(() => getPurchaseOrder(req, res), company);
+		} else {
+			res.status(400).json({success: false, error: error.statusText});
+		}
+	});
+}
+
+function getGoodsReceipt(req, res)
+{
+	const {company} = req.params;
+
+	if (company === undefined) {
+		res.status(400).json({success: false, error: 'company parameter is required!'});
+		return;
+	}
+
+	if (company !== "0" && company !== "1") {
+		res.status(400).json({success: false, error: 'company is either 0 or 1'});
+		return;
+	}
+
+	axios.get(apiLink + companyIds[company] + `/shipping/processOrders/1/1000?company=${req.params.name}`, {
+		headers: {
+			'Authorization': tokens[company]
+		}
+	})
+	.then((response) => {
+
+		let data = response.data;
+
+		res.status(200).json({success: true, result: data});
+	})
+	.catch((error) => {
+
+		if (error.response.status !== undefined && error.response.status === 401) {
+			getToken(() => getGoodsReceipt(req, res), company);
+		} else {
+			res.status(400).json({success: false, error: error.statusText});
+		}
+	});
+}
+
+function getSalesInvoice(req, res)
+{
+	const {company} = req.params;
+
+	if (company === undefined) {
+		res.status(400).json({success: false, error: 'company parameter is required!'});
+		return;
+	}
+
+	if (company !== "0" && company !== "1") {
+		res.status(400).json({success: false, error: 'company is either 0 or 1'});
+		return;
+	}
+
+	axios.get(apiLink + companyIds[company] + '/billing/invoices/', {
+		headers: {
+			'Authorization': tokens[company]
+		}
+	})
+	.then((response) => {
+
+		let data = response.data;
+
+		res.status(200).json({success: true, result: data});
+	})
+	.catch((error) => {
+
+		if (error.response.status !== undefined && error.response.status === 401) {
+			getToken(() => getSalesInvoice(req, res), company);
+		} else {
+			res.status(400).json({success: false, error: error.statusText});
+		}
+	});
+}
+
+//PODE NAO DAR
+function getPayment(req, res)
+{
+	const {company} = req.params;
+
+	if (company === undefined) {
+		res.status(400).json({success: false, error: 'company parameter is required!'});
+		return;
+	}
+
+	if (company !== "0" && company !== "1") {
+		res.status(400).json({success: false, error: 'company is either 0 or 1'});
+		return;
+	}
+
+	axios.get(apiLink + companyIds[company] + '/accountsPayable/payments', {
+		headers: {
+			'Authorization': tokens[company]
+		}
+	})
+	.then((response) => {
+
+		let data = response.data;
+
+		res.status(200).json({success: true, result: data});
+	})
+	.catch((error) => {
+
+		if (error.response.status !== undefined && error.response.status === 401) {
+			getToken(() => getPayment(req, res), company);
+		} else {
+			res.status(400).json({success: false, error: error.statusText});
+		}
+	});
+}
 
 function filterByDate(json) {
 
@@ -295,5 +538,12 @@ module.exports = {
 	getWarehouses: getWarehouses,
 	getToken: getToken,
 	initializeSettings: initializeSettings,
-	getSalesOrders: getSalesOrders
+	getSalesOrders: getSalesOrders,
+	getDeliveries: getDeliveries,
+	getPurchaseInvoice: getPurchaseInvoice,
+	getReceivable: getReceivable,
+	getPurchaseOrder: getPurchaseOrder,
+	getGoodsReceipt: getGoodsReceipt,
+	getSalesInvoice: getSalesInvoice,
+	getPayment: getPayment
 };

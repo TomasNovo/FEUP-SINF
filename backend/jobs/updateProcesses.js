@@ -37,7 +37,7 @@ async function executeStep(activeProcess, process, step)
 
             break;
 
-        case "Shipping Note":
+        case "Delivery":
 
             break;
 
@@ -83,11 +83,11 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step)
     switch(step.document)
     {
         case "Sales Order":
-            docs = await axios.get(`http://localhost:7000/api/jasmin/sales/orders/${company.id}`);
+            docs = await axios.get(`http://localhost:7000/api/jasmin/getSalesOrder/${company.id}`);
             break;
 
-        case "Shipping Note":
-
+        case "Delivery":
+            docs = await axios.get();
             break;
 
         case "Purchase Invoice":
@@ -151,8 +151,10 @@ function checkDocument(document, step)
         Purchase Order | postingDate | company | sellerSupplierPartyName
         Delivery | postingDate | company | logisticsPartyName ?? 
         Goods Receipt | postingDate?? | company?? | 
-        
-
+        Sales Invoice | postingDate | company | buyerCustomerParty
+        Purchase Invoice | postingDate | company | sellerSupplierPartyName
+        Payment | ?? | ??? | ???
+        Receivable | postingDate | company | financialAccount
     */
 }
 
