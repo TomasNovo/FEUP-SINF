@@ -139,9 +139,21 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step)
                     console.log(error);
                 }) */
         } 
-    }
+    }       
+}
+
+function checkDocument(document, step)
+{
+    /*
+        Name | date | origin | recipient
+        --------------------------------
+        Sales Order | postingDate | company | buyerCustomerPartyName
+        Purchase Order | postingDate | company | sellerSupplierPartyName
+        Delivery | postingDate | company | logisticsPartyName ?? 
+        Goods Receipt | postingDate?? | company?? | 
         
-            
+
+    */
 }
 
 async function incrementStep(activeProcess, process)
