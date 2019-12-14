@@ -38,5 +38,5 @@ agenda.on('ready', async function() {
 	await agenda.cancel({name: 'update processes'});
 	agenda.define('update processes', updateProcesses);
 	await agenda.start();
-	await agenda.every('2 seconds', 'update processes', {lastCheck: new Date()});
+	await agenda.every('2 seconds', 'update processes', {lastCheck: new Date(), lastData: []});
 })

@@ -69,7 +69,7 @@ class AddProcess extends React.Component
                                 <i className="glyphicon glyphicon-arrow-right"></i>
                                 <select id="new-step-document"> 
                                     <option>Sales Order</option>
-                                    <option>Shipping Note</option>
+                                    <option>Delivery</option>
                                     <option>Purchase Invoice</option>
                                     <option>Receivable</option>
                                     <option>Purchase Order</option>

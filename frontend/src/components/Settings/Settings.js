@@ -14,7 +14,7 @@ class Settings extends React.Component
                 <div id="settings-wrapper">
                         <div id="accountInfo1">
                             <h1>Account Info 1</h1>
-                            <label className="appidLabel">Name</label>
+                            <label className="appidLabel">Company Key</label>
                             <input id="name0" type="text" placeholder="name"/>
                             <label className="appidLabel">AppID</label>
                             <input id="clientId0" type="text" placeholder="Client ID"/>
@@ -27,7 +27,7 @@ class Settings extends React.Component
                         </div>
                         <div id="accountInfo2">
                             <h1>Account Info 2</h1>
-                            <label className="appidLabel">Name</label>
+                            <label className="appidLabel">Company Key</label>
                             <input id="name1" type="text" placeholder="name"/>
                             <label className="appidLabel">AppID</label>
                             <input id="clientId1" type="text" placeholder="Client ID"/>
