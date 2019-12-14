@@ -84,3 +84,8 @@
     font-size: 15px;
     text-align: center;
 }
+
+input[type=text]
+{
+    cursor: pointer;
+}
