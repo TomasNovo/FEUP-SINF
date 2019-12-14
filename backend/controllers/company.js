@@ -25,9 +25,10 @@ function readAll(req, res) {
 }
 
 function update(req, res) {
-  const company_id = req.params.id;
-  let query = {'id' : company_id};
-  Company.findOneAndUpdate(query, req.body, { new: true })
+  const { id } = req.params;
+  const { appId, appSecret, tenant, organization, name } = req.body;
+
+  Company.findOneAndUpdate({ 'id': id }, { appId, appSecret, tenant, organization, name }, { new: true })
   .then(updated => {
 
     jasmin.initializeSettings();
@@ -35,6 +36,7 @@ function update(req, res) {
     res.status(200).send(updated);
   })
   .catch(err => {
+    console.log(err);
     res.status(404).send(err);
   })
 }
