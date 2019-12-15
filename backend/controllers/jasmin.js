@@ -423,7 +423,7 @@ function getSalesInvoice(req, res)
 	})
 	.catch((error) => {
 
-		if (error.response.status !== undefined && error.response.status === 401) {
+		if (error.response !== undefined && error.response.status === 401) {
 			getToken(() => getSalesInvoice(req, res), company);
 		} else {
 			res.status(400).json({success: false, error: error.statusText});
@@ -496,7 +496,7 @@ function tryParseJSON(jsonString) {
 	}
 	catch (e) { }
 
-	return false;
+	return false; 
 }
 
 function initializeSettings() {
@@ -531,6 +531,62 @@ function initializeSettings() {
 	console.log("Settings initialized");
 }
 
+function createPurchaseInvoice(req, res) {
+  const {company} = req.params;
+
+	if (company !== "0" && company !== "1") {
+		res.status(400).json({success: false, error: 'company is either 0 or 1'});
+		return;
+  }
+
+	axios.post(apiLink + companyIds[company] + '/invoiceReceipt/invoices', querystring.stringify(req.body), {
+		headers: {
+      'Authorization': tokens[company],
+      'content-type': 'application/x-www-form-urlencoded',
+    },
+  })
+	.then((response) => {
+    // console.log('criou', response.status);
+    console.log('criou', response.data);
+		let data = response.data;
+		res.status(200).json({success: true, result: data});
+	})
+	.catch((error) => {
+    console.log('não criou', error.response.status);
+		if (error.response.status !== undefined && error.response.status === 401) {
+			getToken(() => createPurchaseInvoice(req, res), company);
+		} else {
+			res.status(400).json({success: false, error: error.statusText});
+		}
+	});
+}
+
+function createSalesInvoice(req, res) {
+  const {company} = req.params;
+
+	if (company !== "0" && company !== "1") {
+		res.status(400).json({success: false, error: 'company is either 0 or 1'});
+		return;
+  }
+
+	axios.post(apiLink + companyIds[company] + '/billing/invoices/', req.body, {
+		headers: {
+			'Authorization': tokens[company]
+    },
+	})
+	.then((response) => {
+		let data = response.data;
+		res.status(200).json({success: true, result: data});
+	})
+	.catch((error) => {
+		if (error.response.status !== undefined && error.response.status === 401) {
+			getToken(() => createSalesInvoice(req, res), company);
+		} else {
+			res.status(400).json({success: false, error: error.statusText});
+		}
+	});
+}
+
 initializeSettings();
 
 module.exports = {
@@ -547,5 +603,7 @@ module.exports = {
 	getPurchaseOrder: getPurchaseOrder,
 	getGoodsReceipt: getGoodsReceipt,
 	getSalesInvoice: getSalesInvoice,
-	getPayment: getPayment
+  getPayment: getPayment,
+  createPurchaseInvoice: createPurchaseInvoice,
+  createSalesInvoice,
 };
