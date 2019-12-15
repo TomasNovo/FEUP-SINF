@@ -64,6 +64,7 @@ async function executeStep(activeProcess, process, step)
         case "Purchase Invoice":
           const { documentLines } = activeProcess.data;
           let body = {
+            company: company.name,
             sellerSupplierParty: codes[company.id].supplier,
             documentLines: []
           }
@@ -76,7 +77,7 @@ async function executeStep(activeProcess, process, step)
               PurchasesItem: itemKey,
               quantity,
               unitPrice,
-              warehouse: "01",
+              warehouse: '01',
             })
           };
 

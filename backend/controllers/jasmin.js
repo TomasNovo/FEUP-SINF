@@ -7,7 +7,7 @@ const axios = require('axios');
 const querystring = require('querystring');
 
 const tokenLink = 'https://identity.primaverabss.com/core/connect/token';
-const apiLink = 'http://my.jasminsoftware.com/api/';
+const apiLink = 'https://my.jasminsoftware.com/api/';
 let tokens = ['', ''];
 let appIds = [];
 let appSecrets = [];
@@ -539,10 +539,11 @@ function createPurchaseInvoice(req, res) {
 		return;
   }
 
-	axios.post(apiLink + companyIds[company] + '/invoiceReceipt/invoices', querystring.stringify(req.body), {
+  console.log(apiLink + companyIds[company] + '/invoiceReceipt/invoices')
+
+	axios.post(apiLink + companyIds[company] + '/invoiceReceipt/invoices', req.body, {
 		headers: {
       'Authorization': tokens[company],
-      'content-type': 'application/x-www-form-urlencoded',
     },
   })
 	.then((response) => {
@@ -553,6 +554,7 @@ function createPurchaseInvoice(req, res) {
 	})
 	.catch((error) => {
     console.log('não criou', error.response.status);
+    console.log('não criou', error.response.data);
 		if (error.response.status !== undefined && error.response.status === 401) {
 			getToken(() => createPurchaseInvoice(req, res), company);
 		} else {
