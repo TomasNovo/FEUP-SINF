@@ -5,9 +5,10 @@ const Company = require('../database/models/company');
 
 const axios = require('axios');
 const querystring = require('querystring');
+var request = require('request');
 
 const tokenLink = 'https://identity.primaverabss.com/core/connect/token';
-const apiLink = 'http://my.jasminsoftware.com/api/';
+const apiLink = 'https://my.jasminsoftware.com/api/';
 let tokens = ['', ''];
 let appIds = [];
 let appSecrets = [];
@@ -532,32 +533,38 @@ function initializeSettings() {
 }
 
 function createPurchaseInvoice(req, res) {
-  const {company} = req.params;
+  	const {company} = req.params;
 
 	if (company !== "0" && company !== "1") {
 		res.status(400).json({success: false, error: 'company is either 0 or 1'});
 		return;
-  }
+  	}
 
-	axios.post(apiLink + companyIds[company] + '/invoiceReceipt/invoices', querystring.stringify(req.body), {
+	request({
+		url: apiLink + companyIds[company] + '/invoiceReceipt/invoices',
+		method: 'POST',
 		headers: {
-      'Authorization': tokens[company],
-      'content-type': 'application/x-www-form-urlencoded',
-    },
-  })
-	.then((response) => {
-    // console.log('criou', response.status);
-    console.log('criou', response.data);
-		let data = response.data;
-		res.status(200).json({success: true, result: data});
-	})
-	.catch((error) => {
-    console.log('não criou', error.response.status);
-		if (error.response.status !== undefined && error.response.status === 401) {
+			'Authorization': tokens[company],
+			'Content-Type': 'application/x-www-form-urlencoded'
+  		},
+	  }, function(err, response, body) {
+
+		if (response.statusCode === 401) {
 			getToken(() => createPurchaseInvoice(req, res), company);
-		} else {
-			res.status(400).json({success: false, error: error.statusText});
+			return;
+		} else if (response.statusCode !== 200) {
+			console.log('status = ' + response.statusCode);
+			console.log('statusText = ' + response.statusMessage);
+			res.status(400).json({success: false, error: body});
+			return;
 		}
+
+		console.log('status = ' + response.statusCode);
+		console.log('statusText = ' + response.statusMessage);
+
+		console.log(body);
+		let data = JSON.parse(body);
+		res.status(200).json({success: true, result: data});
 	});
 }
 
