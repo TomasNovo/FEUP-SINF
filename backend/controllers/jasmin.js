@@ -275,6 +275,7 @@ function initializeSettings() {
 			tenants=[comps[0].tenant, comps[1].tenant];
 			organizations=[comps[0].organization, comps[1].organization];
 			companyIds=[tenants[0]+"/"+organizations[0], tenants[1]+"/"+organizations[1]];
+			companyNames=[comps[0].name, comps[1].name];
 		}
 
 		console.log("Settings initialized");
