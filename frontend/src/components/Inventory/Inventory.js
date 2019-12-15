@@ -261,20 +261,32 @@ class Inventory extends React.Component
                     <TableRow>
                         <TableCell>
                             EDU
-                    </TableCell>
+                        </TableCell>
                         <TableCell>
                             BOA PESSOA
-                    </TableCell>
+                        </TableCell>
+                        <TableCell>
+                            E BOM
+                        </TableCell>
+                        <TableCell>
+                            RAPAZ
+                        </TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     <TableRow>
                         <TableCell>
                             EDU É MESMO
-                    </TableCell>
+                        </TableCell>
                         <TableCell>
                             MUITO BOA PESSOA
-                    </TableCell>
+                        </TableCell>
+                        <TableCell>
+                            E MESMO
+                        </TableCell>
+                        <TableCell>
+                            BOM RAPAZE
+                        </TableCell>
                     </TableRow>
                 </TableBody>
             </Table>;
