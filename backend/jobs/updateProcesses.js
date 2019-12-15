@@ -2,6 +2,23 @@ const activeProcess = require('../database/models/activeProcess');
 const process = require('../database/models/process');
 const axios = require('axios');
 
+const codes = {
+  1: {
+    client: '0001',
+    supplier: '0001',
+  },
+  0: {
+    client: '0001',
+    supplier: '0001',
+  },
+}
+
+let documents = [];
+let data = {};
+ 
+const date = new Date(2019, 11, 14);
+// const date = new Date(Date.now);
+
 async function updateProcesses(job)
 {
     const lastCheck = job.attrs.data.lastCheck;
@@ -9,8 +26,7 @@ async function updateProcesses(job)
 
     for(let i = 0; i < ap.length; i++) {
         const proc = await process.findById(ap[i].processId); 
-        const currentStep = process.steps[ap[i].currentStep - 1];
-
+        const currentStep = proc.steps[ap[i].currentStep - 1];
         if(!currentStep.fromJasmin)
             await executeStep(ap[i], proc, currentStep);
         else
@@ -18,6 +34,7 @@ async function updateProcesses(job)
     }
 
     const processes = await process.find();
+
 
     for(let i = 0; i < processes.length; i++)
         if(processes[i].steps[0].fromJasmin)
@@ -42,7 +59,7 @@ async function executeStep(activeProcess, process, step)
             break;
 
         case "Purchase Invoice":
-
+          console.log('purchase invoice')
             break;
 
         case "Receivable":
@@ -69,7 +86,7 @@ async function executeStep(activeProcess, process, step)
             console.log("Unknown document: " + step.document);
     }
 
-    await incrementStep(activeProcess, process);
+    // await incrementStep(activeProcess, process);
 }
 
 async function checkJasminDocs(lastCheck, process, activeProcess, step)
@@ -78,6 +95,11 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step)
     company = company.data;
 
     let docs = [];
+    let code;
+    let passOnData = {
+      documentLines: []
+    };
+    let item;
 
     //TODO Check document contents to match to services or sale process (item in sales, materials and regular or just materials and regular ?)
     switch(step.document)
@@ -107,8 +129,10 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step)
             break;
 
         case "Sales Invoice":
-
-            break;
+          docs = await axios.get(`http://localhost:7000/api/jasmin/sales-invoice/${company.id}`);
+          code = codes[company.id].client;
+          item = 'salesItem';
+          break;
 
         case "Payment":
 
@@ -119,25 +143,44 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step)
     }
 
     docs = docs.data.result;
-
-    //TODO: Check if docs are ordered by creation date
-
     for(let i = docs.length - 1; i >= 0; i--)
     {   
-        if(new Date(docs[i].postingDate) > lastCheck)
+      // IMP: Change to lastCheck once it's done
+        if(new Date(docs[i].createdOn) > date && code === docs[i].buyerCustomerParty)
         {
-            console.log(docs[i].postingDate);
-            /*
+          let repeated = false;
+          documents.forEach(element => {
+            if(element === docs[i].id) {
+              repeated = true;
+            }
+          });
+          if(repeated) {
+            break;
+          }
+
+          console.log('found one')
+          
+          docs[i].documentLines.forEach(element => {
+            passOnData.documentLines.push({
+              item: element[item],
+              quantity: element.quantity,
+              unitPrice: element.unitPrice,
+            })
+          });
+
             if(activeProcess)
                 await incrementStep(activeProcess, process);
-            else
+            else {
                 await axios.post("http://localhost:7000/api/active-process", {
                     processId: process._id,
-                    currentStep: 1
+                    currentStep: 2, 
+                    data: passOnData
                 })
                 .catch(error => {
                     console.log(error);
-                }) */
+                })
+              }
+          documents.push(docs[i].id); 
         } 
     }       
 }
