@@ -30,4 +30,7 @@
 #logs-table td
 {
     background-color: white;
+    overflow-x: auto;
+    white-space: nowrap;
+    max-width: 90px;
 }
