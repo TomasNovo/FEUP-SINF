@@ -13,7 +13,7 @@ const codes = {
   },
 }
 
-let documents = ["9eab2694-401f-ea11-8454-0003ff24768f"];
+let documents = ["9eab2694-401f-ea11-8454-0003ff24768f", "a0bb6719-541f-ea11-8454-0003ff24768f"];
 let data = {};
  
 const date = new Date(2019, 11, 14);
@@ -77,7 +77,6 @@ async function executeStep(activeProcess, process, step)
               PurchasesItem: itemKey,
               quantity,
               unitPrice,
-              warehouse: '01',
             })
           };
 
@@ -170,7 +169,9 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step)
             console.log("Unknown document: " + step.document);
     }
 
+
     docs = docs.data.result;
+ 
     for(let i = docs.length - 1; i >= 0; i--)
     {   
       // IMP: Change to lastCheck once it's done
@@ -210,7 +211,7 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step)
               }
           documents.push(docs[i].id); 
         } 
-    }       
+    }  
 }
 
 function checkDocument(document, step)
