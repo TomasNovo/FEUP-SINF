@@ -116,7 +116,7 @@ class Inventory extends React.Component
             });
         }   
 
-
+        event.preventDefault();
     }
 
 
