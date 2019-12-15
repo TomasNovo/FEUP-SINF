@@ -12,6 +12,8 @@ const companySchema = new Schema(
     tenant: { type: String, required: true },
     organization: { type: String, required: true },
     name: {type: String, required: true },
+    customer: {type: String, required: true },
+    supplier: {type: String, required: true },
   },
   {
     timestamps: false,
