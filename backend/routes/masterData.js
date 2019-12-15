@@ -7,6 +7,8 @@ router.post('/', controller.create);
 
 router.get('/:id', controller.read);
 
+router.get('/:id/mapping', controller.getMappedId);
+
 router.get('/', controller.readAll);
 
 router.put('/:id', controller.update);

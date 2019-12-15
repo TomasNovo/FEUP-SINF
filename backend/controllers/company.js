@@ -41,9 +41,9 @@ function update(req, res) {
 
 function getCompanyIndex(req, res) {
   let query = {'name' : req.params.name};
-  Company.findOneAndUpdate(query)
-  .then(updated => {
-    res.status(200).send(updated);
+  Company.findOne(query)
+  .then(company => {
+    res.status(200).send(company);
   })
   .catch(err => {
     res.status(404).send(err);

@@ -3,11 +3,7 @@
 const ActiveProcess = require('../database/models/activeProcess');
 
 function create(req, res) {
-  const { processId, currentStep } = req.body;
-  const newActiveProcess = new ActiveProcess({
-    processId,
-    currentStep,
-  });
+  const newActiveProcess = new ActiveProcess(req.body);
   newActiveProcess.save()
   .then(activeProcess => {
     res.status(201).json(activeProcess);
@@ -63,10 +59,21 @@ function remove(req, res) {
   })
 }
 
+function removeAll(req, res) {
+  ActiveProcess.deleteMany({})
+  .then(aps => {
+    res.status(200).send(aps);
+  })
+  .catch(err => {
+    res.status(401).send(err);
+  });
+}
+
 module.exports = {
   create,
   read,
   readAll,
   update,
   remove,
+  removeAll,
 };

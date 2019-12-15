@@ -13,7 +13,7 @@ router.get('/purchaseInvoice/:company', controller.getPurchaseInvoice);
 router.get('/receivable/:company', controller.getReceivable);
 router.get('/purchaseOrder/:company', controller.getPurchaseOrder);
 router.get('/goodsReceipt/:company/:name', controller.getGoodsReceipt);
-router.get('/getSalesInvoice/:company/:name', controller.getSalesInvoice);
-router.get('/getPayment/:company/:name', controller.getPayment);
+router.get('/sales-invoice/:company', controller.getSalesInvoice);
+router.get('/getPayment/:company', controller.getPayment);
 
 module.exports = router;
