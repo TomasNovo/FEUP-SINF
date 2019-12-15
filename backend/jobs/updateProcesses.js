@@ -13,7 +13,7 @@ const codes = {
   },
 }
 
-let documents = [];
+let documents = ["9eab2694-401f-ea11-8454-0003ff24768f"];
 let data = {};
  
 const date = new Date(2019, 11, 14);
@@ -47,6 +47,9 @@ async function updateProcesses(job)
 
 async function executeStep(activeProcess, process, step)
 {
+  let company = await axios.get(`http://localhost:7000/api/company/index/${step.company}`);
+  company = company.data; //Company B
+
     //TODO Check item mappings
     switch(step.document)
     {
@@ -59,8 +62,28 @@ async function executeStep(activeProcess, process, step)
             break;
 
         case "Purchase Invoice":
-          console.log('purchase invoice')
-            break;
+          const { documentLines } = activeProcess.data;
+          let body = {
+            sellerSupplierParty: codes[company.id].supplier,
+            documentLines: []
+          }
+
+            for(let i=0; i<documentLines.length; i++) {
+            const { item, quantity, unitPrice } = documentLines[i];
+            let itemKey = await axios.get(`http://localhost:7000/api/master-data/${item}/mapping`);
+            itemKey = itemKey.data; 
+            body.documentLines.push({
+              PurchasesItem: itemKey,
+              quantity,
+              unitPrice,
+              warehouse: "01",
+            })
+          };
+
+          // let response = await axios.post(`http://localhost:7000/api/jasmin/purchase-invoice/${company.id}`, body);
+          // console.log(response);
+  
+          break;
 
         case "Receivable":
 
@@ -100,6 +123,7 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step)
       documentLines: []
     };
     let item;
+    let party;
 
     //TODO Check document contents to match to services or sale process (item in sales, materials and regular or just materials and regular ?)
     switch(step.document)
@@ -132,10 +156,13 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step)
           docs = await axios.get(`http://localhost:7000/api/jasmin/sales-invoice/${company.id}`);
           code = codes[company.id].client;
           item = 'salesItem';
+          party = 'buyerCustomerParty';
           break;
 
         case "Payment":
-
+            docs = await axios.get(`http://localhost:7000/api/jasmin/payments/${company.id}`);
+            code = codes[company.id].client;
+            party = '';
             break;
 
         default:
@@ -146,7 +173,7 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step)
     for(let i = docs.length - 1; i >= 0; i--)
     {   
       // IMP: Change to lastCheck once it's done
-        if(new Date(docs[i].createdOn) > date && code === docs[i].buyerCustomerParty)
+        if(new Date(docs[i].createdOn) > date && code === docs[i][party])
         {
           let repeated = false;
           documents.forEach(element => {
