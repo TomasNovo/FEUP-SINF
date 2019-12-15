@@ -7,10 +7,17 @@ import querystring from 'querystring';
 
 class Settings extends React.Component 
 {
+    constructor(props)
+    {
+        super(props);
+        this.state= {};
+
+        this.handleUpdate = this.handleUpdate.bind(this);
+    }
 	render() {
 		return (
             <PageTemplate page="settings">
-                <form onSubmit={this.handleUpdate}>
+                <form onSubmit={(event) => { this.handleUpdate(event); }}>
                 <div id="settings-wrapper">
                         <div id="accountInfo1">
                             <h1>Account Info 1</h1>
@@ -51,6 +58,16 @@ class Settings extends React.Component
 
     handleUpdate(event){
 
+        axios.interceptors.request.use(config => {
+        // perform a task before the request is sent
+            console.log('Request was sent');
+
+            return config;
+        }, error => {
+            // handle the error
+            return Promise.reject(error);
+        });
+
         for(let i = 0; i < 2; i++){
 
             let name = event.target['name'+i].value;
@@ -74,6 +91,8 @@ class Settings extends React.Component
             });
 
         }
+
+        event.preventDefault();
 
     }
 
