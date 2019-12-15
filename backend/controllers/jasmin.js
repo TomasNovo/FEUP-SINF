@@ -5,6 +5,7 @@ const Company = require('../database/models/company');
 
 const axios = require('axios');
 const querystring = require('querystring');
+var request = require('request');
 
 const tokenLink = 'https://identity.primaverabss.com/core/connect/token';
 const apiLink = 'https://my.jasminsoftware.com/api/';
