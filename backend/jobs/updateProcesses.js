@@ -2,17 +2,6 @@ const activeProcess = require('../database/models/activeProcess');
 const process = require('../database/models/process');
 const axios = require('axios');
 
-const codes = {
-  1: {
-    client: '0001',
-    supplier: '0001',
-  },
-  0: {
-    client: '0001',
-    supplier: '0001',
-  },
-}
-
 let documents = ["9eab2694-401f-ea11-8454-0003ff24768f", "a0bb6719-541f-ea11-8454-0003ff24768f"];
 let data = {};
  
@@ -65,7 +54,7 @@ async function executeStep(activeProcess, process, step)
           const { documentLines } = activeProcess.data;
           let body = {
             company: company.name,
-            sellerSupplierParty: codes[company.id].supplier,
+            sellerSupplierParty: company.supplier,
             documentLines: []
           }
 
@@ -80,8 +69,11 @@ async function executeStep(activeProcess, process, step)
             })
           };
 
-          // let response = await axios.post(`http://localhost:7000/api/jasmin/purchase-invoice/${company.id}`, body);
-          // console.log(response);
+          let response = await axios.post(`http://localhost:7000/api/jasmin/purchase-invoice/${company.id}`, body);
+          if (response.data.success) {
+            documents.push(response.data.result);
+          } 
+          // TO DO: Logs
   
           break;
 
@@ -109,7 +101,7 @@ async function executeStep(activeProcess, process, step)
             console.log("Unknown document: " + step.document);
     }
 
-    // await incrementStep(activeProcess, process);
+    await incrementStep(activeProcess, process);
 }
 
 async function checkJasminDocs(lastCheck, process, activeProcess, step)
@@ -154,14 +146,14 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step)
 
         case "Sales Invoice":
           docs = await axios.get(`http://localhost:7000/api/jasmin/sales-invoice/${company.id}`);
-          code = codes[company.id].client;
+          code = company.customer;
           item = 'salesItem';
           party = 'buyerCustomerParty';
           break;
 
         case "Payment":
             docs = await axios.get(`http://localhost:7000/api/jasmin/payments/${company.id}`);
-            code = codes[company.id].client;
+            code = company.customer;
             party = '';
             break;
 
@@ -223,9 +215,9 @@ function checkDocument(document, step)
         Purchase Order | postingDate | company | sellerSupplierPartyName
         Delivery | postingDate | company | logisticsPartyName ?? 
         Goods Receipt | postingDate?? | company?? | 
-        Sales Invoice | postingDate | company | buyerCustomerParty
+        Sales Invoice | createdOn | company | buyerCustomerParty
         Purchase Invoice | postingDate | company | sellerSupplierPartyName
-        Payment | ?? | ??? | ???
+        Payment | ??? | ??? | accountingParty
         Receivable | postingDate | company | financialAccount
     */
 }

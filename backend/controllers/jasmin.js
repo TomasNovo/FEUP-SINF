@@ -435,11 +435,6 @@ function getPayment(req, res)
 {
 	const {company} = req.params;
 
-	if (company === undefined) {
-		res.status(400).json({success: false, error: 'company parameter is required!'});
-		return;
-	}
-
 	if (company !== "0" && company !== "1") {
 		res.status(400).json({success: false, error: 'company is either 0 or 1'});
 		return;
