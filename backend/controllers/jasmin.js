@@ -406,9 +406,7 @@ function getSalesInvoice(req, res)
 	if (company !== "0" && company !== "1") {
 		res.status(400).json({success: false, error: 'company is either 0 or 1'});
 		return;
-  }
-
-  // console.log(companyIds)
+	}
 
 	axios.get(apiLink + companyIds[company] + '/billing/invoices/', {
 		headers: {
@@ -508,6 +506,8 @@ function initializeSettings() {
 			let companyNames = [process.env.COMPANY_NAME_1, process.env.COMPANY_NAME_2];
 			let tenants = [process.env.TENANT_1, process.env.TENANT_2];
 			let organizations = [process.env.ORGANIZATION_1, process.env.ORGANIZATION_2];
+			let customers = [process.env.CUSTOMER_1, process.env.CUSTOMER_2];
+			let suppliers = [process.env.SUPPLIER_1, process.env.SUPPLIER_2];
 			companyIds = [tenants[0] + "/" + organizations[0], tenants[1] + "/" + organizations[1]];
 
 			for(let i = 0; i < 2; i++){
@@ -516,7 +516,9 @@ function initializeSettings() {
 								           appSecret:appSecrets[i], 
 								           tenant:tenants[i],
 								           organization:organizations[i], 
-								           name:companyNames[i]});
+								           name:companyNames[i],
+								       	   customer: customers[i],
+								       	   supplier: suppliers[i]});
 				company.save();
 			}
 		}else{
