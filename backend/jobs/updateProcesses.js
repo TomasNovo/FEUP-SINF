@@ -154,7 +154,7 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step)
         case "Payment":
             docs = await axios.get(`http://localhost:7000/api/jasmin/payments/${company.id}`);
             code = company.customer;
-            party = '';
+            party = 'accountingParty'; 
             break;
 
         default:
@@ -179,13 +179,15 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step)
             break;
           }
 
-          console.log('found one')
+          console.log('found ' + step.document);
           
+          passOnData.doc = docs[i].naturalKey;
           docs[i].documentLines.forEach(element => {
             passOnData.documentLines.push({
               item: element[item],
               quantity: element.quantity,
               unitPrice: element.unitPrice,
+              discountAmount: element.discountAmount,
             })
           });
 
@@ -224,7 +226,7 @@ function checkDocument(document, step)
 
 async function incrementStep(activeProcess, process)
 {
-    if(activeProcess.currentStep + 1 >= process.steps.length)
+    if(activeProcess.currentStep >= process.steps.length)
         await axios.delete(`http://localhost:7000/api/active-process/${activeProcess._id}`)
         .catch(error => {
             console.log(error);
