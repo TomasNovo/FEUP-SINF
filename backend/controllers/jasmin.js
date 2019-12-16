@@ -583,6 +583,162 @@ function createSalesInvoice(req, res) {
 	});
 }
 
+function createPayment(req, res) {
+	const {company} = req.params;
+  
+	  if (company !== "0" && company !== "1") {
+		  res.status(400).json({success: false, error: 'company is either 0 or 1'});
+		  return;
+	}
+  
+	  axios.post(apiLink + companyIds[company] + `/accountsPayable/processOpenItems/${req.params.name}`, req.body, {
+		  headers: {
+			  'Authorization': tokens[company]
+	  },
+	  })
+	  .then((response) => {
+		  let data = response.data;
+		  res.status(200).json({success: true, result: data});
+	  })
+	  .catch((error) => {
+		  if (error.response.status !== undefined && error.response.status === 401) {
+			  getToken(() => createPayment(req, res), company);
+		  } else {
+			  res.status(400).json({success: false, error: error.statusText});
+		  }
+	  });
+}
+
+function createGoodsReceipt(req, res) {
+	const {company} = req.params;
+  
+	  if (company !== "0" && company !== "1") {
+		  res.status(400).json({success: false, error: 'company is either 0 or 1'});
+		  return;
+	}
+  
+	  axios.post(apiLink + companyIds[company] + `/shipping/processOrders/${req.params.name}`, req.body, {
+		  headers: {
+			  'Authorization': tokens[company]
+	  },
+	  })
+	  .then((response) => {
+		  let data = response.data;
+		  res.status(200).json({success: true, result: data});
+	  })
+	  .catch((error) => {
+		  if (error.response.status !== undefined && error.response.status === 401) {
+			  getToken(() => createGoodsReceipt(req, res), company);
+		  } else {
+			  res.status(400).json({success: false, error: error.statusText});
+		  }
+	  });
+}
+
+function createPurchaseOrder(req, res) {
+	const {company} = req.params;
+  
+	  if (company !== "0" && company !== "1") {
+		  res.status(400).json({success: false, error: 'company is either 0 or 1'});
+		  return;
+	}
+  
+	  axios.post(apiLink + companyIds[company] + '/purchases/orders', req.body, {
+		  headers: {
+			  'Authorization': tokens[company]
+	  },
+	  })
+	  .then((response) => {
+		  let data = response.data;
+		  res.status(200).json({success: true, result: data});
+	  })
+	  .catch((error) => {
+		  if (error.response.status !== undefined && error.response.status === 401) {
+			  getToken(() => createPurchaseOrder(req, res), company);
+		  } else {
+			  res.status(400).json({success: false, error: error.statusText});
+		  }
+	  });
+}
+
+function createReceivable(req, res) {
+	const {company} = req.params;
+  
+	  if (company !== "0" && company !== "1") {
+		  res.status(400).json({success: false, error: 'company is either 0 or 1'});
+		  return;
+	}
+  
+	  axios.post(apiLink + companyIds[company] + `/accountsReceivable/processOpenItems/${req.params.name}`, req.body, {
+		  headers: {
+			  'Authorization': tokens[company]
+	  },
+	  })
+	  .then((response) => {
+		  let data = response.data;
+		  res.status(200).json({success: true, result: data});
+	  })
+	  .catch((error) => {
+		  if (error.response.status !== undefined && error.response.status === 401) {
+			  getToken(() => createReceivable(req, res), company);
+		  } else {
+			  res.status(400).json({success: false, error: error.statusText});
+		  }
+	  });
+}
+
+function createDelivery(req, res) {
+	const {company} = req.params;
+  
+	  if (company !== "0" && company !== "1") {
+		  res.status(400).json({success: false, error: 'company is either 0 or 1'});
+		  return;
+	}
+		//CHECK URL
+	  axios.post(apiLink + companyIds[company] + '/shipping/deliveries', req.body, {
+		  headers: {
+			  'Authorization': tokens[company]
+	  },
+	  })
+	  .then((response) => {
+		  let data = response.data;
+		  res.status(200).json({success: true, result: data});
+	  })
+	  .catch((error) => {
+		  if (error.response.status !== undefined && error.response.status === 401) {
+			  getToken(() => createDelivery(req, res), company);
+		  } else {
+			  res.status(400).json({success: false, error: error.statusText});
+		  }
+	  });
+}
+
+function createSalesOrder(req, res) {
+	const {company} = req.params;
+  
+	  if (company !== "0" && company !== "1") {
+		  res.status(400).json({success: false, error: 'company is either 0 or 1'});
+		  return;
+	}
+		//CHECK URL
+	  axios.post(apiLink + companyIds[company] + '/sales/orders', req.body, {
+		  headers: {
+			  'Authorization': tokens[company]
+	  },
+	  })
+	  .then((response) => {
+		  let data = response.data;
+		  res.status(200).json({success: true, result: data});
+	  })
+	  .catch((error) => {
+		  if (error.response.status !== undefined && error.response.status === 401) {
+			  getToken(() => createSalesOrder(req, res), company);
+		  } else {
+			  res.status(400).json({success: false, error: error.statusText});
+		  }
+	  });
+}
+
 initializeSettings();
 
 module.exports = {
@@ -602,4 +758,10 @@ module.exports = {
   getPayment: getPayment,
   createPurchaseInvoice: createPurchaseInvoice,
   createSalesInvoice,
+  createPayment,
+  createGoodsReceipt,
+  createPurchaseOrder,
+  createReceivable,
+  createDelivery,
+  createSalesOrder,
 };

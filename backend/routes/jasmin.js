@@ -18,5 +18,11 @@ router.get('/payments/:company', controller.getPayment);
 
 router.post('/purchase-invoice/:company', controller.createPurchaseInvoice);
 router.post('/sales-invoice/:company', controller.createSalesInvoice);
+router.post('/payment/:company/:name', controller.createPayment);
+router.post('/goods-receipt/:company/:name', controller.createGoodsReceipt);
+router.post('/purchase-order/:company', controller.createPurchaseOrder);
+router.post('/receivable/:company/:name', controller.createReceivable);
+router.post('/delivery/:company', controller.createDelivery);
+router.post('/sales-order/:company', controller.createSalesOrder);
 
 module.exports = router;
