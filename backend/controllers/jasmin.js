@@ -729,10 +729,12 @@ function createSalesOrder(req, res) {
 	  },
 	  })
 	  .then((response) => {
+      console.log('criou sales order', response.data);
 		  let data = response.data;
 		  res.status(200).json({success: true, result: data});
 	  })
 	  .catch((error) => {
+      console.log('não criou sales order, retrying', error.response.data);
 		  if (error.response.status !== undefined && error.response.status === 401) {
 			  getToken(() => createSalesOrder(req, res), company);
 		  } else {

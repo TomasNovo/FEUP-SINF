@@ -18,8 +18,9 @@ async function updateProcesses(job)
     for(let i = 0; i < ap.length; i++) {
         const proc = await process.findById(ap[i].processId); 
         const currentStep = proc.steps[ap[i].currentStep - 1];
-        if(!currentStep.fromJasmin)
-            await executeStep(ap[i], proc, currentStep);
+        if(!currentStep.fromJasmin) {
+          await executeStep(ap[i], proc, currentStep);
+        }
         else
             await checkJasminDocs(lastCheck, proc, ap[i], currentStep);
     } 
@@ -41,14 +42,40 @@ async function executeStep(activeProcess, process, step)
   let company = await axios.get(`http://localhost:7000/api/company/index/${step.company}`);
   company = company.data;
 
-  let response;
+  let response; 
 
     //TODO Check item mappings
     switch(step.document)
     {
         case "Sales Order":
+          console.log('sales order')
+          const POdocumentLines = activeProcess.data.documentLines;
+          const POdeliveryTerm = activeProcess.data.deliveryTerm;
+          const PObuyer = activeProcess.data.buyer;
+          let body = {
+            deliveryTerm: POdeliveryTerm,
+            company: PObuyer,
+            buyerCustomerParty: company.customer,
+            documentLines: [], 
+          }
 
-            break;
+          for(let i=0; i<POdocumentLines.length; i++) {
+            const { item, quantity, unitPrice } = POdocumentLines[i];
+            let itemKey = await axios.get(`http://localhost:7000/api/master-data/${item}/mapping`);
+            // TO DO: Verificar se não deu erro e logs
+            itemKey = itemKey.data; 
+            body.documentLines.push({
+              salesItem: itemKey,
+              quantity,
+              unitPrice,
+            })
+          };
+          response = await axios.post(`http://localhost:7000/api/jasmin/sales-order/${company.id}`, body);
+          if (response.data.success) {
+            documents.push(response.data.result);
+          } 
+          // TO DO: Logs
+          break;
 
         case "Delivery":
 
@@ -56,7 +83,7 @@ async function executeStep(activeProcess, process, step)
 
         case "Purchase Invoice":
           const { documentLines } = activeProcess.data;
-          let body = {
+          body = {
             company: company.name,
             sellerSupplierParty: company.supplier,
             documentLines: []
@@ -135,7 +162,7 @@ async function analyseDocs(lastCheck, docs, code, party, process, activeProcess,
   for(let i = docs.length - 1; i >= 0; i--)
   {   
     // IMP: Change to lastCheck once it's done
-      if(new Date(docs[i].modifiedOn) > date && code === docs[i][party] && !docs[i].autoCreated)
+      if(new Date(docs[i].modifiedOn) > date && code === docs[i][party] && (!docs[i].autoCreated || step.document == 'Delivery'))
       {
         let repeated = false;
         documents.forEach(element => {
@@ -148,7 +175,7 @@ async function analyseDocs(lastCheck, docs, code, party, process, activeProcess,
         }
         documents.push(docs[i].id);
 
-        console.log('found ' + step.document);
+        console.log('found ' + step.document); 
 
         let passOnData = callback(docs[i]);
 
@@ -202,12 +229,15 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step)
             break;
 
         case "Delivery":
-            //Untested
-            docs = await axios.get(`http://localhost:7000/api/jasmin/deliveries/${company.id}`);
-            code = company.customer;
-            item = 'item';
-            party = 'logisticsPartyName';
-            break;
+          docs = await axios.get(`http://localhost:7000/api/jasmin/deliveries/${company.id}`);
+          code = company.customer;
+          item = 'item';
+          party = 'party';
+          await analyseDocs(lastCheck, docs, code, party, process, activeProcess, step, doc => {
+            passOnData['seriesNumber'] = doc.seriesNumber;
+            return passOnData;
+          })
+          break;
 
         case "Purchase Invoice":
             //Untested
@@ -229,17 +259,19 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step)
             docs = await axios.get(`http://localhost:7000/api/jasmin/purchase-order/${company.id}`);
             code = company.supplier;
             party = 'sellerSupplierParty';
+            passOnData['buyer'] = company.name;
             await analyseDocs(lastCheck, docs, code, party, process, activeProcess, step, doc => {
+              passOnData["Purchase Order"] = doc.naturalKey;
               passOnData['deliveryTerm'] = doc.deliveryTerm;
               doc.documentLines.forEach(element => {
-                passOnData.documentLines.push({
+                passOnData.documentLines.push({ 
                   item: element['purchasesItem'],
                   quantity: element.quantity,
                   unitPrice: element.unitPrice
                 })
               });
               return passOnData;
-            })
+            });
             break;
 
         case "Goods Receipt":
