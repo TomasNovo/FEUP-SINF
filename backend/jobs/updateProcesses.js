@@ -5,7 +5,7 @@ const axios = require('axios');
 let documents = ["9eab2694-401f-ea11-8454-0003ff24768f", "a0bb6719-541f-ea11-8454-0003ff24768f"];
 let data = {};
  
-const date = new Date(2019, 11, 14);
+const date = new Date(2019, 11, 15);
 // const date = new Date(Date.now);
 
 async function updateProcesses(job)
@@ -65,6 +65,7 @@ async function executeStep(activeProcess, process, step)
             for(let i=0; i<documentLines.length; i++) {
             const { item, quantity, unitPrice } = documentLines[i];
             let itemKey = await axios.get(`http://localhost:7000/api/master-data/${item}/mapping`);
+            // TO DO: Verificar se não deu erro e logs
             itemKey = itemKey.data; 
             body.documentLines.push({
               PurchasesItem: itemKey,
@@ -134,7 +135,7 @@ async function analyseDocs(lastCheck, docs, code, party, process, activeProcess,
   for(let i = docs.length - 1; i >= 0; i--)
   {   
     // IMP: Change to lastCheck once it's done
-      if(new Date(docs[i].modifiedOn) > lastCheck && code === docs[i][party])
+      if(new Date(docs[i].modifiedOn) > date && code === docs[i][party] && !docs[i].autoCreated)
       {
         let repeated = false;
         documents.forEach(element => {
@@ -145,7 +146,7 @@ async function analyseDocs(lastCheck, docs, code, party, process, activeProcess,
         if(repeated) {
           break;
         }
-        documents.push(docs[i].id); 
+        documents.push(docs[i].id);
 
         console.log('found ' + step.document);
 
@@ -225,11 +226,20 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step)
             break;
 
         case "Purchase Order":
-            //Untested
             docs = await axios.get(`http://localhost:7000/api/jasmin/purchase-order/${company.id}`);
             code = company.supplier;
-            item = 'purchasesItem';
-            party = 'sellerSupplierPartyName';
+            party = 'sellerSupplierParty';
+            await analyseDocs(lastCheck, docs, code, party, process, activeProcess, step, doc => {
+              passOnData['deliveryTerm'] = doc.deliveryTerm;
+              doc.documentLines.forEach(element => {
+                passOnData.documentLines.push({
+                  item: element['purchasesItem'],
+                  quantity: element.quantity,
+                  unitPrice: element.unitPrice
+                })
+              });
+              return passOnData;
+            })
             break;
 
         case "Goods Receipt":
@@ -276,52 +286,6 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step)
         default:
             console.log("Unknown document: " + step.document);
     }
-
-
-    // docs = docs.data.result;
- 
-    // for(let i = docs.length - 1; i >= 0; i--)
-    // {   
-    //   // IMP: Change to lastCheck once it's done
-    //     if(new Date(docs[i].createdOn) > date && code === docs[i][party])
-    //     {
-    //       let repeated = false;
-    //       documents.forEach(element => {
-    //         if(element === docs[i].id) {
-    //           repeated = true;
-    //         }
-    //       });
-    //       if(repeated) {
-    //         break;
-    //       }
-
-    //       console.log('found ' + step.document);
-          
-    //       passOnData.doc = docs[i].naturalKey;
-    //       docs[i].documentLines.forEach(element => {
-    //         passOnData.documentLines.push({
-    //           item: element[item],
-    //           quantity: element.quantity,
-    //           unitPrice: element.unitPrice,
-    //           discountAmount: element.discountAmount,
-    //         })
-    //       });
-
-    //         if(activeProcess)
-    //             await incrementStep(activeProcess, process);
-    //         else {
-    //             await axios.post("http://localhost:7000/api/active-process", {
-    //                 processId: process._id,
-    //                 currentStep: 2, 
-    //                 data: passOnData
-    //             })
-    //             .catch(error => {
-    //                 console.log(error);
-    //             })
-    //           }
-    //       documents.push(docs[i].id); 
-    //     } 
-    // }  
 }
 
 async function incrementStep(activeProcess, process)
