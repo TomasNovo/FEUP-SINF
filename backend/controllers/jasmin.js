@@ -543,12 +543,12 @@ function createPurchaseInvoice(req, res) {
     },
   })
 	.then((response) => {
-    console.log('criou', response.data);
+    console.log('criou purchase invoice', response.data);
 		let data = response.data;
 		res.status(200).json({success: true, result: data});
 	})
 	.catch((error) => {
-    console.log('não criou', error.response.data);
+    console.log('não criou purchase invoice, retrying', error.response.data);
 		if (error.response.status !== undefined && error.response.status === 401) {
 			getToken(() => createPurchaseInvoice(req, res), company);
 		} else {

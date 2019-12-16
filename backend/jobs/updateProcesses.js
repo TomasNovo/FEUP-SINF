@@ -20,7 +20,7 @@ async function updateProcesses(job)
             await executeStep(ap[i], proc, currentStep);
         else
             await checkJasminDocs(lastCheck, proc, ap[i], currentStep);
-    }
+    } 
 
     const processes = await process.find();
 
@@ -118,6 +118,46 @@ async function executeStep(activeProcess, process, step)
     Receivable | postingDate | company | financialAccount
 */
 
+async function analyseDocs(lastCheck, docs, code, party, process, activeProcess, step, callback) {
+  docs = docs.data.result;
+
+  for(let i = docs.length - 1; i >= 0; i--)
+  {   
+    // IMP: Change to lastCheck once it's done
+      if(new Date(docs[i].createdOn) > date && code === docs[i][party])
+      {
+        let repeated = false;
+        documents.forEach(element => {
+          if(element === docs[i].id) {
+            repeated = true;
+          }
+        });
+        if(repeated) {
+          break;
+        }
+        documents.push(docs[i].id); 
+
+        console.log('found ' + step.document);
+
+        let passOnData = callback(docs[i]);
+
+          if(activeProcess) {
+            await axios.put(`http://localhost:7000/api/active-process/${activeProcess._id}`, {data: passOnData});
+            await incrementStep(activeProcess, process);
+          }
+          else {
+              await axios.post("http://localhost:7000/api/active-process", {
+                  processId: process._id,
+                  currentStep: 2, 
+                  data: passOnData,
+              })
+              .catch(error => {
+                  console.log(error);
+              })
+            }
+      } 
+  }  
+}
 
 async function checkJasminDocs(lastCheck, process, activeProcess, step)
 {
@@ -126,9 +166,16 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step)
 
     let docs = [];
     let code;
-    let passOnData = {
-      documentLines: []
-    };
+
+    let passOnData;
+    if(activeProcess) {
+      passOnData = activeProcess.data;
+    } else {
+      passOnData = {
+        documentLines: [],
+      };
+    }
+    
     let item;
     let party;
 
@@ -184,11 +231,22 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step)
             // party = 'sellerSupplierPartyName'; ???
             break;
 
-        case "Sales Invoice":
+        case "Sales Invoice": 
           docs = await axios.get(`http://localhost:7000/api/jasmin/sales-invoice/${company.id}`);
           code = company.customer;
-          item = 'salesItem';
+          // item = 'salesItem'; 
           party = 'buyerCustomerParty';
+
+          await analyseDocs(lastCheck, docs, code, party, process, activeProcess, step, doc => {
+            doc.documentLines.forEach(element => {
+              passOnData.documentLines.push({
+                item: element['salesItem'],
+                quantity: element.quantity,
+                unitPrice: element.unitPrice
+              })
+            });
+            return passOnData;
+          });
           break;
 
         case "Payment":
@@ -202,50 +260,50 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step)
     }
 
 
-    docs = docs.data.result;
+    // docs = docs.data.result;
  
-    for(let i = docs.length - 1; i >= 0; i--)
-    {   
-      // IMP: Change to lastCheck once it's done
-        if(new Date(docs[i].createdOn) > date && code === docs[i][party])
-        {
-          let repeated = false;
-          documents.forEach(element => {
-            if(element === docs[i].id) {
-              repeated = true;
-            }
-          });
-          if(repeated) {
-            break;
-          }
+    // for(let i = docs.length - 1; i >= 0; i--)
+    // {   
+    //   // IMP: Change to lastCheck once it's done
+    //     if(new Date(docs[i].createdOn) > date && code === docs[i][party])
+    //     {
+    //       let repeated = false;
+    //       documents.forEach(element => {
+    //         if(element === docs[i].id) {
+    //           repeated = true;
+    //         }
+    //       });
+    //       if(repeated) {
+    //         break;
+    //       }
 
-          console.log('found ' + step.document);
+    //       console.log('found ' + step.document);
           
-          passOnData.doc = docs[i].naturalKey;
-          docs[i].documentLines.forEach(element => {
-            passOnData.documentLines.push({
-              item: element[item],
-              quantity: element.quantity,
-              unitPrice: element.unitPrice,
-              discountAmount: element.discountAmount,
-            })
-          });
+    //       passOnData.doc = docs[i].naturalKey;
+    //       docs[i].documentLines.forEach(element => {
+    //         passOnData.documentLines.push({
+    //           item: element[item],
+    //           quantity: element.quantity,
+    //           unitPrice: element.unitPrice,
+    //           discountAmount: element.discountAmount,
+    //         })
+    //       });
 
-            if(activeProcess)
-                await incrementStep(activeProcess, process);
-            else {
-                await axios.post("http://localhost:7000/api/active-process", {
-                    processId: process._id,
-                    currentStep: 2, 
-                    data: passOnData
-                })
-                .catch(error => {
-                    console.log(error);
-                })
-              }
-          documents.push(docs[i].id); 
-        } 
-    }  
+    //         if(activeProcess)
+    //             await incrementStep(activeProcess, process);
+    //         else {
+    //             await axios.post("http://localhost:7000/api/active-process", {
+    //                 processId: process._id,
+    //                 currentStep: 2, 
+    //                 data: passOnData
+    //             })
+    //             .catch(error => {
+    //                 console.log(error);
+    //             })
+    //           }
+    //       documents.push(docs[i].id); 
+    //     } 
+    // }  
 }
 
 async function incrementStep(activeProcess, process)
