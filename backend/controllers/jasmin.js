@@ -675,10 +675,12 @@ function createReceivable(req, res) {
 	  },
 	  })
 	  .then((response) => {
+      console.log('criou receivable', response.data);
 		  let data = response.data;
 		  res.status(200).json({success: true, result: data});
 	  })
 	  .catch((error) => {
+    console.log('não criou receivable, retrying', error.response.data);
 		  if (error.response.status !== undefined && error.response.status === 401) {
 			  getToken(() => createReceivable(req, res), company);
 		  } else {

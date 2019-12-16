@@ -13,6 +13,8 @@ async function updateProcesses(job)
     const lastCheck = job.attrs.data.lastCheck;
     const ap = await activeProcess.find();
 
+    console.log("checked @" + lastCheck);
+
     for(let i = 0; i < ap.length; i++) {
         const proc = await process.findById(ap[i].processId); 
         const currentStep = proc.steps[ap[i].currentStep - 1];
@@ -37,7 +39,9 @@ async function updateProcesses(job)
 async function executeStep(activeProcess, process, step)
 {
   let company = await axios.get(`http://localhost:7000/api/company/index/${step.company}`);
-  company = company.data; //Company B
+  company = company.data;
+
+  let response;
 
     //TODO Check item mappings
     switch(step.document)
@@ -68,8 +72,7 @@ async function executeStep(activeProcess, process, step)
               unitPrice,
             })
           };
-
-          let response = await axios.post(`http://localhost:7000/api/jasmin/purchase-invoice/${company.id}`, body);
+          response = await axios.post(`http://localhost:7000/api/jasmin/purchase-invoice/${company.id}`, body);
           if (response.data.success) {
             documents.push(response.data.result);
           } 
@@ -78,8 +81,15 @@ async function executeStep(activeProcess, process, step)
           break;
 
         case "Receivable":
-
-            break;
+          const sourceDoc = activeProcess.data["Sales Invoice"];
+          const { discount, settled, buyer } = activeProcess.data;
+          response = await axios.post(`http://localhost:7000/api/jasmin/receivable/${company.id}/${buyer}`,
+            [{sourceDoc, discount, settled}]
+          );
+          if(response.data.success) {  
+            documents.push(response.data.result); 
+          }
+          break;
 
         case "Purchase Order":
 
@@ -124,7 +134,7 @@ async function analyseDocs(lastCheck, docs, code, party, process, activeProcess,
   for(let i = docs.length - 1; i >= 0; i--)
   {   
     // IMP: Change to lastCheck once it's done
-      if(new Date(docs[i].createdOn) > date && code === docs[i][party])
+      if(new Date(docs[i].modifiedOn) > lastCheck && code === docs[i][party])
       {
         let repeated = false;
         documents.forEach(element => {
@@ -236,8 +246,11 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step)
           code = company.customer;
           // item = 'salesItem'; 
           party = 'buyerCustomerParty';
-
           await analyseDocs(lastCheck, docs, code, party, process, activeProcess, step, doc => {
+            passOnData['Sales Invoice'] = doc.naturalKey;
+            passOnData['discount'] = doc.discount;
+            passOnData['settled'] = doc.payableAmount.amount; 
+            passOnData['supplier'] = company.name;
             doc.documentLines.forEach(element => {
               passOnData.documentLines.push({
                 item: element['salesItem'],
@@ -250,10 +263,15 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step)
           break;
 
         case "Payment":
-            docs = await axios.get(`http://localhost:7000/api/jasmin/payments/${company.id}`);
-            code = company.customer;
-            party = 'accountingParty'; 
-            break;
+          docs = await axios.get(`http://localhost:7000/api/jasmin/payments/${company.id}`);
+          code = company.supplier;
+          party = 'accountingParty'; 
+          
+          await analyseDocs(lastCheck, docs, code, party, process, activeProcess, step, doc => {
+            passOnData['buyer'] = company.name;
+            return passOnData;
+          });
+          break;
 
         default:
             console.log("Unknown document: " + step.document);
