@@ -104,6 +104,21 @@ async function executeStep(activeProcess, process, step)
     await incrementStep(activeProcess, process);
 }
 
+
+/*
+    Name | date | origin | recipient
+    --------------------------------
+    Sales Order | postingDate | company | buyerCustomerPartyName
+    Purchase Order | postingDate | company | sellerSupplierPartyName
+    Delivery | postingDate | company | logisticsPartyName ?? 
+    Goods Receipt | postingDate?? | company?? | 
+    Sales Invoice | createdOn | company | buyerCustomerParty
+    Purchase Invoice | postingDate | company | sellerSupplierPartyName
+    Payment | ??? | ??? | accountingParty
+    Receivable | postingDate | company | financialAccount
+*/
+
+
 async function checkJasminDocs(lastCheck, process, activeProcess, step)
 {
     let company = await axios.get(`http://localhost:7000/api/company/index/${step.company}`);
@@ -121,27 +136,52 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step)
     switch(step.document)
     {
         case "Sales Order":
-            docs = await axios.get(`http://localhost:7000/api/jasmin/getSalesOrder/${company.id}`);
+            //Untested
+            docs = await axios.get(`http://localhost:7000/api/jasmin/sales-order/${company.id}`);
+            code = company.customer;
+            item = 'salesItem';
+            party = 'buyerCustomerPartyName';
             break;
 
         case "Delivery":
-            docs = await axios.get();
+            //Untested
+            docs = await axios.get(`http://localhost:7000/api/jasmin/deliveries/${company.id}`);
+            code = company.customer;
+            item = 'item';
+            party = 'logisticsPartyName';
             break;
 
         case "Purchase Invoice":
-
+            //Untested
+            docs = await axios.get(`http://localhost:7000/api/jasmin/purchase-invoice/${company.id}`);
+            code = company.supplier;
+            item = 'purchasesItem';
+            party = 'sellerSupplierPartyName';
             break;
 
         case "Receivable":
-
+            //Untested
+            docs = await axios.get(`http://localhost:7000/api/jasmin/receivable/${company.id}`);
+            code = company.customer;
+            item = 'cashFlowItem'; //???
+            party = 'accountingParty';
             break;
 
         case "Purchase Order":
-
+            //Untested
+            docs = await axios.get(`http://localhost:7000/api/jasmin/purchase-order/${company.id}`);
+            code = company.supplier;
+            item = 'purchasesItem';
+            party = 'sellerSupplierPartyName';
             break;
 
         case "Goods Receipt":
-
+            //Untested
+            //Check controller function
+            docs = await axios.get(`http://localhost:7000/api/jasmin/goods-receipt/${company.id}/${company.name}`);
+            code = company.supplier;
+            //item = 'purchasesItem'; ???
+            // party = 'sellerSupplierPartyName'; ???
             break;
 
         case "Sales Invoice":
@@ -206,22 +246,6 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step)
           documents.push(docs[i].id); 
         } 
     }  
-}
-
-function checkDocument(document, step)
-{
-    /*
-        Name | date | origin | recipient
-        --------------------------------
-        Sales Order | postingDate | company | buyerCustomerPartyName
-        Purchase Order | postingDate | company | sellerSupplierPartyName
-        Delivery | postingDate | company | logisticsPartyName ?? 
-        Goods Receipt | postingDate?? | company?? | 
-        Sales Invoice | createdOn | company | buyerCustomerParty
-        Purchase Invoice | postingDate | company | sellerSupplierPartyName
-        Payment | ??? | ??? | accountingParty
-        Receivable | postingDate | company | financialAccount
-    */
 }
 
 async function incrementStep(activeProcess, process)
