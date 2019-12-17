@@ -136,7 +136,6 @@ async function executeStep(activeProcess, process, step)
             
 
             itemKey = itemKey.data; 
-            console.log(itemKey)
             PIbody.documentLines.push({
               PurchasesItem: itemKey,
               quantity,
@@ -399,13 +398,15 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step)
             passOnData['discount'] = doc.discount;
             passOnData['settled'] = doc.payableAmount.amount; 
             passOnData['supplier'] = company.name;
-            doc.documentLines.forEach(element => {
-              passOnData.documentLines.push({
-                item: element['salesItem'],
-                quantity: element.quantity,
-                unitPrice: element.unitPrice
-              })
-            });
+            if(passOnData.documentLines.length == 0) {
+              doc.documentLines.forEach(element => {
+                passOnData.documentLines.push({
+                  item: element['salesItem'],
+                  quantity: element.quantity,
+                  unitPrice: element.unitPrice
+                })
+              });
+            }
             return passOnData;
           });
           break;
