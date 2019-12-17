@@ -5,7 +5,6 @@ const Company = require('../database/models/company');
 const Log = require('../database/models/log');
 const MasterData = require('../database/models/masterData');
 const Process = require('../database/models/process');
-const Step = require('../database/models/step');
 
 const jasmin = require('./jasmin');
 
@@ -84,13 +83,6 @@ function deleteDatabase() {
   });
 
   Process.deleteMany({})
-  .then(info => {
-  })
-  .catch(err => {
-    console.log(err);
-  });
-
-  Step.deleteMany({})
   .then(info => {
   })
   .catch(err => {

@@ -121,8 +121,6 @@ async function executeStep(activeProcess, process, step)
             await axios.get(`http://localhost:7000/api/master-data/${item}/mapping`).then(result => {
               itemKey = result;
             }).catch(error => itemKey = error.response.status);
-
-            console.log(itemKey.data)
             
             if(itemKey == 404)
             {
@@ -155,7 +153,8 @@ async function executeStep(activeProcess, process, step)
         case "Receivable":
           const sourceDoc = activeProcess.data["Sales Invoice"];
           const { discount, settled, buyer } = activeProcess.data;
-          response = await axios.post(`http://localhost:7000/api/jasmin/receivable/${company.id}/${buyer}`,
+
+          response = await axios.post(`http://localhost:7000/api/jasmin/receivable/${company.id}/${company.name}`,
             [{sourceDoc, discount, settled}]
           );
           if(response.data.success) {  
