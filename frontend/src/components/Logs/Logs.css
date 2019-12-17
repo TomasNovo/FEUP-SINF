@@ -29,9 +29,8 @@
 
 #logs-table td
 {
-    background-color:   #303030;
-    color: white;
-    overflow-x: auto;
+    background-color: rgb(255, 255, 255);
+    color: black;
+    overflow-x: scroll;
     white-space: nowrap;
-    max-width: 90px;
 }

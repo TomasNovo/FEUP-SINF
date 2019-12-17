@@ -43,6 +43,8 @@ async function executeStep(activeProcess, process, step)
   company = company.data;
 
   let response; 
+  let error = true, message = step.document, itemKey;
+  let item, quantity, unitPrice, body;
 
     //TODO Check item mappings
     switch(step.document)
@@ -52,7 +54,7 @@ async function executeStep(activeProcess, process, step)
           const POdocumentLines = activeProcess.data.documentLines;
           const POdeliveryTerm = activeProcess.data.deliveryTerm;
           const PObuyer = activeProcess.data.buyer;
-          let body = {
+          body = {
             deliveryTerm: POdeliveryTerm,
             company: PObuyer,
             buyerCustomerParty: company.customer,
@@ -60,9 +62,29 @@ async function executeStep(activeProcess, process, step)
           }
 
           for(let i=0; i<POdocumentLines.length; i++) {
-            const { item, quantity, unitPrice } = POdocumentLines[i];
-            let itemKey = await axios.get(`http://localhost:7000/api/master-data/${item}/mapping`);
-            // TO DO: Verificar se não deu erro e logs
+            item = POdocumentLines[i].line;
+            quantity = POdocumentLines[i].quantity;
+            unitPrice = POdocumentLines[i].unitPrice;
+
+            await axios.get(`http://localhost:7000/api/master-data/${item}/mapping`).then(result => {
+              itemKey = result;
+            }).catch(error => itemKey = error.response.status);
+
+            if(itemKey == 404)
+            {
+              await axios.post('http://localhost:7000/api/log/', {
+                type: "Error",
+                processId: process.name,
+                stepId: activeProcess.currentStep,
+                message: `Ìtem ${item} is not mapped in one of the companies`
+              });
+
+              //Delete or stop??
+              await axios.delete(`http://localhost:7000/api/active-processes/${activeProcess._id}`);
+
+              return;
+            }
+
             itemKey = itemKey.data; 
             body.documentLines.push({
               salesItem: itemKey,
@@ -71,10 +93,11 @@ async function executeStep(activeProcess, process, step)
             })
           };
           response = await axios.post(`http://localhost:7000/api/jasmin/sales-order/${company.id}`, body);
+          
           if (response.data.success) {
             documents.push(response.data.result);
           } 
-          // TO DO: Logs
+
           break;
 
         case "Delivery":
@@ -83,6 +106,7 @@ async function executeStep(activeProcess, process, step)
 
         case "Purchase Invoice":
           const { documentLines } = activeProcess.data;
+      
           body = {
             company: company.name,
             sellerSupplierParty: company.supplier,
@@ -90,9 +114,31 @@ async function executeStep(activeProcess, process, step)
           }
 
             for(let i=0; i<documentLines.length; i++) {
-            const { item, quantity, unitPrice } = documentLines[i];
-            let itemKey = await axios.get(`http://localhost:7000/api/master-data/${item}/mapping`);
-            // TO DO: Verificar se não deu erro e logs
+              item = documentLines[i].item;
+              quantity = documentLines[i].quantity;
+              unitPrice = documentLines[i].unitPrice;
+
+            await axios.get(`http://localhost:7000/api/master-data/${item}/mapping`).then(result => {
+              itemKey = result;
+            }).catch(error => itemKey = error.response.status);
+
+            console.log(itemKey.data)
+            
+            if(itemKey == 404)
+            {
+              await axios.post('http://localhost:7000/api/log/', {
+                type: "Error",
+                processId: process.name,
+                stepId: activeProcess.currentStep,
+                message: `Ìtem ${item} is not mapped in one of the companies`
+              });
+
+              //Delete or stop??
+              await axios.delete(`http://localhost:7000/api/active-process/${activeProcess._id}`);
+              return;
+            }
+            
+
             itemKey = itemKey.data; 
             body.documentLines.push({
               PurchasesItem: itemKey,
@@ -104,8 +150,6 @@ async function executeStep(activeProcess, process, step)
           if (response.data.success) {
             documents.push(response.data.result);
           } 
-          // TO DO: Logs
-  
           break;
 
         case "Receivable":
@@ -139,6 +183,28 @@ async function executeStep(activeProcess, process, step)
             console.log("Unknown document: " + step.document);
     }
 
+    error = response.data.success;
+
+    let logMessage, type;
+
+    if(error) {
+      logMessage = `Could not create ${message}`;
+      type = "Error";
+    } 
+    else {
+      logMessage = `Created ${message}`;
+      type = "Success";
+    }
+      
+    await axios.post('http://localhost:7000/api/log/', {
+        type: type,
+        processId: process.name,
+        stepId: activeProcess.currentStep,
+        message: logMessage
+      });
+
+      
+
     await incrementStep(activeProcess, process);
 }
 
@@ -162,7 +228,7 @@ async function analyseDocs(lastCheck, docs, code, party, process, activeProcess,
   for(let i = docs.length - 1; i >= 0; i--)
   {   
     // IMP: Change to lastCheck once it's done
-      if(new Date(docs[i].modifiedOn) > date && code === docs[i][party] && (!docs[i].autoCreated || step.document == 'Delivery'))
+      if(new Date(docs[i].modifiedOn) > lastCheck && code === docs[i][party] && (!docs[i].autoCreated || step.document == 'Delivery'))
       {
         let repeated = false;
         documents.forEach(element => {
@@ -182,6 +248,13 @@ async function analyseDocs(lastCheck, docs, code, party, process, activeProcess,
           if(activeProcess) {
             await axios.put(`http://localhost:7000/api/active-process/${activeProcess._id}`, {data: passOnData});
             await incrementStep(activeProcess, process);
+
+            await axios.post('http://localhost:7000/api/log/', {
+                type: "Success",
+                processId: process.name,
+                stepId: activeProcess.currentStep,
+                message: `New ${step.document} found, advancing process`
+              });
           }
           else {
               await axios.post("http://localhost:7000/api/active-process", {
@@ -191,7 +264,14 @@ async function analyseDocs(lastCheck, docs, code, party, process, activeProcess,
               })
               .catch(error => {
                   console.log(error);
-              })
+              });
+
+              await axios.post('http://localhost:7000/api/log/', {
+                type: "Success",
+                processId: process.name,
+                stepId: 1,
+                message: "Started process"
+              });
             }
       } 
   }  

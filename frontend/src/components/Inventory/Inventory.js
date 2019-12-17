@@ -244,6 +244,7 @@ class Inventory extends React.Component
 
         this.setState({ masterData: masterData});
         this.generateResults();
+        event.preventDefault();
     }
 
     generateResults() {

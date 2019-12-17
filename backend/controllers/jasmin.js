@@ -536,7 +536,7 @@ function createPurchaseInvoice(req, res) {
 		res.status(400).json({success: false, error: 'company is either 0 or 1'});
 		return;
   }
-
+  	console.log(companyIds[company]);
 	axios.post(apiLink + companyIds[company] + '/invoiceReceipt/invoices', req.body, {
 		headers: {
       'Authorization': tokens[company],
