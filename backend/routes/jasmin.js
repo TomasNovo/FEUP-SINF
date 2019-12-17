@@ -8,6 +8,7 @@ router.get('/salesItems/:company', controller.getSalesItems);
 router.get('/businessItems/:company', controller.getBusinessItems);
 router.get('/warehouses/:company', controller.getWarehouses);
 router.get('/sales-order/:company', controller.getSalesOrders);
+router.get('/sales-order/:company/:id', controller.getSalesOrder);
 router.get('/deliveries/:company', controller.getDeliveries);
 router.get('/purchase-invoice/:company', controller.getPurchaseInvoice);
 router.get('/receivable/:company', controller.getReceivable);

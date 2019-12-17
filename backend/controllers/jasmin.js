@@ -220,6 +220,40 @@ function getSalesOrders(req, res)
 	});
 }
 
+function getSalesOrder(req, res) {
+	const {company, id} = req.params;
+
+	if (company === undefined) {
+		res.status(400).json({success: false, error: 'company parameter is required!'});
+		return;
+	}
+
+	if (company !== "0" && company !== "1") {
+		res.status(400).json({success: false, error: 'company is either 0 or 1'});
+		return;
+	}
+
+	axios.get(apiLink + companyIds[company] + '/sales/orders/' + id, {
+		headers: {
+			'Authorization': tokens[company]
+		}
+	})
+	.then((response) => {
+
+		let data = response.data;
+
+		res.status(200).json({success: true, result: data});
+	})
+	.catch((error) => {
+
+		if (error.response.status !== undefined && error.response.status === 401) {
+			getToken(() => getSalesOrder(req, res), company);
+		} else {
+			res.status(400).json({success: false, error: error.statusText});
+		}
+	});
+}
+
 function getDeliveries(req, res)
 {
 	const {company} = req.params;
@@ -610,23 +644,25 @@ function createPayment(req, res) {
 }
 
 function createGoodsReceipt(req, res) {
-	const {company} = req.params;
+	const {company, name} = req.params;
   
 	  if (company !== "0" && company !== "1") {
 		  res.status(400).json({success: false, error: 'company is either 0 or 1'});
 		  return;
 	}
   
-	  axios.post(apiLink + companyIds[company] + `/shipping/processOrders/${req.params.name}`, req.body, {
+	  axios.post(apiLink + companyIds[company] + `/goodsreceipt/processOrders/${name}`, req.body, {
 		  headers: {
 			  'Authorization': tokens[company]
 	  },
 	  })
 	  .then((response) => {
+      console.log('criou goods receipt', response.data);
 		  let data = response.data;
 		  res.status(200).json({success: true, result: data});
 	  })
 	  .catch((error) => {
+      console.log('não criou goods receipt, retrying', error.response.data);
 		  if (error.response.status !== undefined && error.response.status === 401) {
 			  getToken(() => createGoodsReceipt(req, res), company);
 		  } else {
@@ -752,7 +788,8 @@ module.exports = {
 	getWarehouses: getWarehouses,
 	getToken: getToken,
 	initializeSettings: initializeSettings,
-	getSalesOrders: getSalesOrders,
+  getSalesOrders: getSalesOrders,
+  getSalesOrder,
 	getDeliveries: getDeliveries,
 	getPurchaseInvoice: getPurchaseInvoice,
 	getReceivable: getReceivable,
