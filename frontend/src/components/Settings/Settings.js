@@ -75,8 +75,11 @@ class Settings extends React.Component
             let clientSecret = event.target['clientSecret'+i].value;
             let tenant = event.target['tenant'+i].value;
             let organization = event.target['organization'+i].value;
+            let link = 'http://localhost:7000/api/company/' + i;
 
-            axios.put('http://localhost:7000/api/company/' + i, querystring.stringify({
+            console.log(link);
+
+            axios.put(link, querystring.stringify({
                 appId: clientId,
                 appSecret: clientSecret,
                 tenant: tenant,

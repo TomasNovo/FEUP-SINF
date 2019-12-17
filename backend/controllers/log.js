@@ -2,6 +2,29 @@
 
 const Log = require('../database/models/log');
 
+function addLog(type, processId, stepId, message) {
+  
+  if (processId === "")
+    processId = undefined;
+
+  if (stepId === "")
+    stepId = undefined;
+
+  const newLog = new Log({
+    type,
+    processId,
+    stepId,
+    message,
+  });
+  newLog.save()
+    .then(log => {
+     return true;
+    })
+    .catch(err => {
+      return false;
+    });
+}
+
 function create(req, res) {
   const { type, processId, stepId, message } = req.body;
   const newLog = new Log({
@@ -66,6 +89,7 @@ function remove(req, res) {
 }
 
 module.exports = {
+  addLog,
   create,
   read,
   readAll,

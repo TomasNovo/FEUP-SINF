@@ -1,6 +1,12 @@
 'use strict';
 
+const ActiveProcess = require('../database/models/activeProcess');
 const Company = require('../database/models/company');
+const Log = require('../database/models/log');
+const MasterData = require('../database/models/masterData');
+const Process = require('../database/models/process');
+const Step = require('../database/models/step');
+
 const jasmin = require('./jasmin');
 
 function read(req, res) {
@@ -25,16 +31,20 @@ function readAll(req, res) {
 }
 
 function update(req, res) {
-  const company_id = req.params.id;
-  let query = {'id' : company_id};
-  Company.findOneAndUpdate(query, req.body, { new: true })
+  const { id } = req.params;
+  const { appId, appSecret, tenant, organization, name } = req.body;
+
+  Company.findOneAndUpdate({ 'id': id }, { appId, appSecret, tenant, organization, name }, { new: true })
   .then(updated => {
 
     jasmin.initializeSettings();
 
+    deleteDatabase();
+
     res.status(200).send(updated);
   })
   .catch(err => {
+    console.log(err);
     res.status(404).send(err);
   })
 }
@@ -48,6 +58,46 @@ function getCompanyIndex(req, res) {
   .catch(err => {
     res.status(404).send(err);
   })
+}
+
+function deleteDatabase() {
+
+  ActiveProcess.deleteMany({})
+  .then(info => {
+  })
+  .catch(err => {
+    console.log(err);
+  });
+
+  Log.deleteMany({})
+  .then(info => {
+  })
+  .catch(err => {
+    console.log(err);
+  });
+
+  MasterData.deleteMany({})
+  .then(info => {
+  })
+  .catch(err => {
+    console.log(err);
+  });
+
+  Process.deleteMany({})
+  .then(info => {
+  })
+  .catch(err => {
+    console.log(err);
+  });
+
+  Step.deleteMany({})
+  .then(info => {
+  })
+  .catch(err => {
+    console.log(err);
+  });
+
+  console.log("Deleted database for new company");
 }
 
 module.exports = {
