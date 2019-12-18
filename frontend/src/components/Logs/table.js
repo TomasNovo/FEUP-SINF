@@ -12,14 +12,14 @@ const columns = [
   { id: 'type', label: 'Log', minWidth: 40 },
   {
     id: 'processId',
-    label: 'ProcessID',
+    label: 'Process',
     minWidth: 50,
     align: 'right',
     format: value => value.toLocaleString(),
   },
   {
     id: 'stepId',
-    label: 'StepID',
+    label: 'Step',
     minWidth: 50,
     align: 'right',
     format: value => value.toLocaleString(),

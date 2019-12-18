@@ -58,6 +58,7 @@ class Inventory extends React.Component
     }
 
     submitCompanyAtt(event){
+        event.preventDefault();
 
         let target = event.target.childNodes[0].childNodes[0].name.split("-");
         let value = event.target.childNodes[0].childNodes[0].value;
@@ -70,7 +71,6 @@ class Inventory extends React.Component
                 customer: value
             }))
             .then((response) => {
-                console.log(response.status);
                 axios.post(host + '/api/log', querystring.stringify({
                     type:"success" ,
                     processId: "none",
@@ -78,7 +78,8 @@ class Inventory extends React.Component
                     message: "Update customer ["+ this.state.companies[target[1]].name+"]" + " to " + value
                 }))
                 .then((response)=>{
-                    console.log(response.status)
+                    console.log(response.status);
+                    window.location.reload();
                 })
                 .catch((error)=>{
                     console.log(error);
@@ -116,7 +117,7 @@ class Inventory extends React.Component
             });
         }   
 
-        event.preventDefault();
+
     }
 
 

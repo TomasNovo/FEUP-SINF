@@ -62,7 +62,7 @@ class Processes extends React.Component
                 for(let j = 0; j < response.data[i].steps.length; j++) {
                     steps.push(
                         <div className="step" key={i + "-" + j}>
-                            <span>{j}</span>
+                            <span>{j + 1}</span>
                             {response.data[i].steps[j].fromJasmin ? this.addTooltip(jasmin) : this.addTooltip(logo)}
                             <span>{response.data[i].steps[j].company}</span>
                             <i className="glyphicon glyphicon-arrow-right"></i>

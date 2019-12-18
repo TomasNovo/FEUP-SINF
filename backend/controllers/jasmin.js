@@ -609,18 +609,21 @@ function createPurchaseInvoice(req, res) {
 		res.status(400).json({success: false, error: 'company is either 0 or 1'});
 		return;
   }
-  	console.log(companyIds[company]);
+
 	axios.post(apiLink + companyIds[company] + '/invoiceReceipt/invoices', req.body, {
 		headers: {
       'Authorization': tokens[company],
     },
   })
 	.then((response) => {
+
     console.log('criou purchase invoice', response.data);
 		let data = response.data;
 		res.status(200).json({success: true, result: data});
 	})
 	.catch((error) => {
+
+			
     console.log('não criou purchase invoice, retrying', error.response.data);
 		if (error.response.status !== undefined && error.response.status === 401) {
 			getToken(() => createPurchaseInvoice(req, res), company);
