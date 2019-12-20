@@ -48,19 +48,18 @@ async function executeStep(activeProcess, process, step) {
       console.log('sales order')
       const POdocumentLines = activeProcess.data.documentLines;
       const POdeliveryTerm = activeProcess.data.deliveryTerm;
-      const PObuyer = activeProcess.data.buyer;
       body = {
         deliveryTerm: POdeliveryTerm,
-        company: PObuyer,
+        company: company.name,
         buyerCustomerParty: company.customer,
         documentLines: [],
       }
 
       for (let i = 0; i < POdocumentLines.length; i++) {
-        item = POdocumentLines[i].line;
-        quantity = POdocumentLines[i].quantity;
+        item = POdocumentLines[i].item; 
+        quantity = POdocumentLines[i].quantity; 
         unitPrice = POdocumentLines[i].unitPrice;
-
+ 
         await axios.get(`http://localhost:7000/api/master-data/${item}/mapping`).then(result => {
           itemKey = result;
         }).catch(error => itemKey = error.response.status);
