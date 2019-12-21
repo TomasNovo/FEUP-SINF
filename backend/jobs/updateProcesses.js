@@ -109,7 +109,7 @@ async function executeStep(activeProcess, process, step) {
         unitPrice = documentLines[i].unitPrice;
 
         await axios.get(`http://localhost:7000/api/master-data/${item}/mapping`).then(result => {
-          itemKey = result;
+          itemKey = result.data;
         }).catch(error => itemKey = error.response.status);
 
         if (itemKey == 404) {
@@ -122,6 +122,10 @@ async function executeStep(activeProcess, process, step) {
 
           await axios.delete(`http://localhost:7000/api/active-process/${activeProcess._id}`);
           return;
+        }
+
+        if(activeProcess.data['alteredDocumentLines'] != company.name) {
+          item = itemKey;
         }
 
         PIbody.documentLines.push({
@@ -307,6 +311,7 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step) {
         passOnData["Purchase Order"] = doc.naturalKey;
         passOnData['deliveryTerm'] = doc.deliveryTerm;
         passOnData['taxTotal'] = doc.taxTotal;
+        passOnData['alteredDocumentLines'] = company.name;
         doc.documentLines.forEach(element => {
           passOnData.documentLines.push({
             item: element['purchasesItem'],
@@ -337,6 +342,7 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step) {
         passOnData['settled'] = doc.payableAmount.amount;
         passOnData['supplier'] = company.name;
         if (passOnData.documentLines.length == 0) {
+          passOnData['alteredDocumentLines'] = company.name;
           doc.documentLines.forEach(element => {
             passOnData.documentLines.push({
               item: element['salesItem'],
