@@ -1,3 +1,6 @@
+const Agenda = require('agenda');
+const updateProcesses = require('./jobs/updateProcesses');
+
 const express = require('express');
 const bodyParser = require('body-parser');
 var cors = require('cors');
@@ -28,3 +31,13 @@ const server = app.listen(7000, () =>
 {
 	console.log(`Express running → PORT ${server.address().port}`);
 });
+
+const agenda = new Agenda({db: {address: 'mongodb://localhost:27017/masterData'}});
+
+agenda.on('ready', async function() {
+	await agenda.cancel({name: 'update processes'});
+	agenda.define('update processes', updateProcesses);
+	await agenda.start();
+	//Array associativo de activeProcess ids com data
+	await agenda.every('20 seconds', 'update processes', {lastCheck: new Date(), lastData: []});
+})

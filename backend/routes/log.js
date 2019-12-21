@@ -13,4 +13,6 @@ router.put('/:_id', controller.update);
 
 router.delete('/:_id', controller.remove);
 
+router.delete('/', controller.removeAll);
+
 module.exports = router;

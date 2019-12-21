@@ -31,6 +31,7 @@ class Inventory extends React.Component
         console.log(process.env.REACT_APP_BACK_END_HOST);
 
         this.submitMapping = this.submitMapping.bind(this);
+        this.submitCompanyAtt = this.submitCompanyAtt.bind(this);
     }
 
     findById(array, name, company)
@@ -54,6 +55,69 @@ class Inventory extends React.Component
         }
 
         return -1;
+    }
+
+    submitCompanyAtt(event){
+        event.preventDefault();
+
+        let target = event.target.childNodes[0].childNodes[0].name.split("-");
+        let value = event.target.childNodes[0].childNodes[0].value;
+
+        let host = process.env.REACT_APP_BACK_END_HOST || 'http://localhost:7000';
+
+        if(target[0] === "customer"){
+
+            axios.put(host + '/api/company/' + target[1], querystring.stringify({
+                customer: value
+            }))
+            .then((response) => {
+                axios.post(host + '/api/log', querystring.stringify({
+                    type:"success" ,
+                    processId: "none",
+                    stepId: "none",
+                    message: "Update customer ["+ this.state.companies[target[1]].name+"]" + " to " + value
+                }))
+                .then((response)=>{
+                    console.log(response.status);
+                    window.location.reload();
+                })
+                .catch((error)=>{
+                    console.log(error);
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+
+        }
+
+        if(target[0] === "supplier"){
+
+            axios.put(host + '/api/company/' + target[1], querystring.stringify({
+                supplier: value
+            }))
+            .then((response) => {
+                console.log(response.status);
+                axios.post(host + '/api/log', querystring.stringify({
+                    type:"success",
+                    processId: "none",
+                    stepId: "none",
+                    message: "Update supplier ["+ this.state.companies[target[1]].name+"]" + " to " + value
+                }))
+                .then((response)=>{
+                    console.log(response.status);
+                })
+                .catch((error)=>{
+                    console.log(error);
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        }   
+
+
     }
 
 
@@ -181,6 +245,7 @@ class Inventory extends React.Component
 
         this.setState({ masterData: masterData});
         this.generateResults();
+        event.preventDefault();
     }
 
     generateResults() {
@@ -260,21 +325,49 @@ class Inventory extends React.Component
                 <TableHead>
                     <TableRow>
                         <TableCell>
-                            EDU
-                    </TableCell>
+                            {this.state.companies[0].name}-customer
+                        </TableCell>
                         <TableCell>
-                            BOA PESSOA
-                    </TableCell>
+                            {this.state.companies[0].name}-supplier
+                        </TableCell>
+                        <TableCell>
+                            {this.state.companies[1].name}-customer
+                        </TableCell>
+                        <TableCell>
+                            {this.state.companies[1].name}-supplier
+                        </TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     <TableRow>
                         <TableCell>
-                            EDU É MESMO
-                    </TableCell>
+                            <form id="customer0" onSubmit={(event) => { this.submitCompanyAtt(event); }}>
+                                <div className="form-group">
+                                    <input type="text" name="customer-0" className="form-control" size="1" defaultValue={this.state.companies[0].customer} />
+                                </div>
+                            </form>
+                        </TableCell>
                         <TableCell>
-                            MUITO BOA PESSOA
-                    </TableCell>
+                            <form id="supp0" onSubmit={(event) => { this.submitCompanyAtt(event); }}>
+                                <div className="form-group">
+                                    <input type="text" name="supplier-0" className="form-control" size="1" defaultValue={this.state.companies[0].supplier} />
+                                </div>
+                            </form>
+                        </TableCell>
+                        <TableCell>
+                            <form id="customer1" onSubmit={(event) => { this.submitCompanyAtt(event); }}>
+                                <div className="form-group">
+                                    <input type="text" name="customer-1" className="form-control" size="1" defaultValue={this.state.companies[1].customer} />
+                                </div>
+                            </form>
+                        </TableCell>
+                        <TableCell>
+                            <form id="supp1" onSubmit={(event) => { this.submitCompanyAtt(event); }}>
+                                <div className="form-group">
+                                    <input type="text" name="supplier-1" className="form-control" size="1" defaultValue={this.state.companies[1].supplier} />
+                                </div>
+                            </form>
+                        </TableCell>
                     </TableRow>
                 </TableBody>
             </Table>;

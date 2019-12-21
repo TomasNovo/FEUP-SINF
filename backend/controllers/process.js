@@ -1,11 +1,11 @@
 'use strict';
 
 const Process = require('../database/models/process');
-const Step = require('../database/models/step');
+const ActiveProcess = require('../database/models/activeProcess');
 
 function create(req, res) {
-  const { steps } = req.body;
-  const newProcess = new Process({ steps });
+  const { name, steps } = req.body;
+  const newProcess = new Process({ name, steps });
   newProcess.save()
   .then(process => {
     res.status(201).json(process);
@@ -52,9 +52,11 @@ function update(req, res) {
 function remove(req, res) {
   const { _id } = req.params;
 
+  ActiveProcess.deleteMany({ processId: _id });
+
   Process.findByIdAndDelete(_id)
   .then(deleted => {
-    res.status(200).send(deleted);
+    res.status(200).send(deleted);  
   })
   .catch(err => {
     res.status(404).send(err);
@@ -63,22 +65,10 @@ function remove(req, res) {
 
 function createStep(req, res) {
   const { processId } = req.params;
-  const { number, company, fromJasmin, document } = req.body;
-  const newStep = new Step({
-    number,
-    company,
-    fromJasmin,
-    document,
-  });
-  newStep.save()
-  .then(step => {
-    Process.findByIdAndUpdate(processId, { "$push": { "steps": step._id } })
-    .then(() => {
-      res.status(201).json(step);
-    })
-    .catch(err => {
-      res.status(400).send(err);
-    });
+
+  Process.findByIdAndUpdate(processId, { "$push": { "steps": req.body } })
+  .then(() => {
+    res.status(201).json(step);
   })
   .catch(err => {
     res.status(400).send(err);
@@ -86,11 +76,22 @@ function createStep(req, res) {
 }
 
 function readStep(req, res) {
-  const { stepId } = req.params;
+  const { processId, stepNumber } = req.params;
 
-  Step.findById(stepId)
-  .then(step => {
-    res.status(200).json(step);
+  Process.findById(processId)
+  .then(process => {
+    let step = null;
+    process.steps.forEach(element => {
+      if(element.number == stepNumber) {
+        step = element;
+      }
+    });
+    if(step != null) {
+      res.status(200).json(step);
+    }
+    else {
+      res.status(404).send(err);
+    }
   })
   .catch(err => {
     res.status(404).send(err);
@@ -108,36 +109,6 @@ function readAllSteps(req, res) {
   })
 }
 
-function updateStep(req, res) {
-  const { stepId } = req.params;
-  
-  Step.findByIdAndUpdate(stepId, req.body, { new: true })
-  .then(updated => {
-    res.status(200).send(updated);
-  })
-  .catch(err => {
-    res.status(404).send(err);
-  })
-}
-
-function removeStep(req, res) {
-  const { processId, stepId } = req.params;
-
-  Step.findByIdAndDelete(stepId)
-  .then(deleted => {
-    Process.findByIdAndUpdate(processId, { $pull: { steps: deleted._id } })
-    .then(() => {
-      res.status(200).send(deleted);
-    })
-    .catch(err => {
-      res.status(404).send(err);  
-    })
-  })
-  .catch(err => {
-    res.status(404).send(err);
-  })
-}
-
 module.exports = {
   create,
   read,
@@ -146,7 +117,5 @@ module.exports = {
   remove,
   readStep,
   createStep,
-  readAllSteps,
-  updateStep,
-  removeStep,
+  readAllSteps
 };

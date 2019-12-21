@@ -57,21 +57,25 @@ class AddProcess extends React.Component
                         <hr/>
                         <div id="add-step">
                             <div className="step" id="step-template">
-                                <span>1</span>
+                                <span id="template-step">1</span>
                                 <select id="new-step-execution-point"> 
                                     <option value="intercomp">InterComp</option>
                                     <option value="jasmin">Jasmin</option>
                                 </select>
-                                <select id="new-step-company"> 
-                                    <option>Company A</option>
-                                    <option>Company B</option>
+                                <select id="new-step-company" disabled> 
+                                    <option></option>
+                                    <option></option>
                                 </select>
                                 <i className="glyphicon glyphicon-arrow-right"></i>
                                 <select id="new-step-document"> 
                                     <option>Sales Order</option>
-                                    <option>Sales Invoice</option>
-                                    <option>Purchase Order</option>
+                                    <option>Delivery</option>
                                     <option>Purchase Invoice</option>
+                                    <option>Receivable</option>
+                                    <option>Purchase Order</option>
+                                    <option>Goods Receipt</option>
+                                    <option>Sales Invoice</option>
+                                    <option>Payment</option>
                                 </select>
                             </div>
                             <Fab aria-label="add" onClick={this.addStep}>
@@ -100,42 +104,51 @@ class AddProcess extends React.Component
             <span>${document.getElementById("new-step-document").value}</span>`;
 
         document.getElementById("steps").appendChild(newStep);
+        document.getElementById("template-step").textContent++;
     }
 
     createProcess(event)
     {
-        const stepsElem = document.getElementById("steps");
-
         event.preventDefault();
+
+        const stepsElem = document.getElementById("steps");
+        let steps = [];
 
         if(stepsElem.childElementCount <= 1)
             return;
 
+        for(let i = 1; i < stepsElem.children.length; i++)
+            steps.push(
+            {
+                number: stepsElem.children[i].querySelector("span:first-child").textContent,
+                fromJasmin: stepsElem.children[i].querySelector(":nth-child(2)").getAttribute("alt") === "Jasmin",
+                company: stepsElem.children[i].querySelector(":nth-child(3)").textContent,
+                document: stepsElem.children[i].querySelector(":last-child").textContent
+            });
+
         //Create process
         axios.post('http://localhost:7000/api/process', {
-            steps: []
-        }).then((response) => {
-            let stepsPromises = [];
-
-            for(let i = 1; i < stepsElem.children.length; i++)
-                stepsPromises.push(
-                    axios.post(`http://localhost:7000/api/process/${response.data._id}/step`, {
-                        number: stepsElem.children[i].querySelector("span:first-child").textContent,
-                        fromJasmin: stepsElem.children[i].querySelector(":nth-child(2)").getAttribute("alt") === "Jasmin",
-                        company: stepsElem.children[i].querySelector(":nth-child(3)").textContent,
-                        document: stepsElem.children[i].querySelector(":last-child").textContent
-                    }));
-
-        Promise.all(stepsPromises).then(() => {
-            this.props.history.push('/processes')
+            name: document.querySelector("#add-process-form > input:first-child").value,
+            steps: steps
         })
-        
-        }).catch(error => console.log(error));
+        .then(() => {
+            this.props.history.push('/processes');
+        })
+        .catch(error => console.log(error));
     }
 
     componentDidMount()
     {
         document.title = "Add Process";
+
+        axios.get('http://localhost:7000/api/company').then((companies) => {
+            const options = document.querySelectorAll('#new-step-company > *');
+
+            options[0].textContent = companies.data[0].name;
+            options[1].textContent = companies.data[1].name;
+
+            options[0].parentElement.disabled = false;
+        });
     }
 }
 

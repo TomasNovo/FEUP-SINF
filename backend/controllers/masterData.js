@@ -74,10 +74,28 @@ function remove(req, res) {
   })
 }
 
+function getMappedId(req, res) {
+  const { id } = req.params;
+
+  MasterData.findOne({$or:[{ idA: id }, { idB: id }]}).orFail()
+  .then(mapping => {
+    if(mapping.idA === id) {
+      res.status(200).json(mapping.idB);
+    }
+    else {
+      res.status(200).json(mapping.idA);
+    }
+  })
+  .catch(err => {
+    res.status(404).send(err);
+  })
+}
+
 module.exports = {
   create,
   read,
   readAll,
   update,
   remove,
+  getMappedId,
 };

@@ -5,7 +5,6 @@ const Company = require('../database/models/company');
 const Log = require('../database/models/log');
 const MasterData = require('../database/models/masterData');
 const Process = require('../database/models/process');
-const Step = require('../database/models/step');
 
 const jasmin = require('./jasmin');
 
@@ -49,6 +48,17 @@ function update(req, res) {
   })
 }
 
+function getCompanyIndex(req, res) {
+  let query = {'name' : req.params.name};
+  Company.findOne(query)
+  .then(company => {
+    res.status(200).send(company);
+  })
+  .catch(err => {
+    res.status(404).send(err);
+  })
+}
+
 function deleteDatabase() {
 
   ActiveProcess.deleteMany({})
@@ -79,13 +89,6 @@ function deleteDatabase() {
     console.log(err);
   });
 
-  Step.deleteMany({})
-  .then(info => {
-  })
-  .catch(err => {
-    console.log(err);
-  });
-
   console.log("Deleted database for new company");
 }
 
@@ -93,4 +96,5 @@ module.exports = {
   read,
   readAll,
   update,
+  getCompanyIndex
 };

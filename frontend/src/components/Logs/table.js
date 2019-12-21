@@ -12,14 +12,14 @@ const columns = [
   { id: 'type', label: 'Log', minWidth: 40 },
   {
     id: 'processId',
-    label: 'ProcessID',
+    label: 'Process',
     minWidth: 50,
     align: 'right',
     format: value => value.toLocaleString(),
   },
   {
     id: 'stepId',
-    label: 'StepID',
+    label: 'Step',
     minWidth: 50,
     align: 'right',
     format: value => value.toLocaleString(),
@@ -73,7 +73,7 @@ export default function StickyHeadTable(props) {
   return (
     <Paper id="logs-table" className={classes.root}>
       <div className={classes.tableWrapper}>
-        <Table stickyHeader aria-label="sticky table">
+        <Table aria-label="sticky table">
           <TableHead>
             <TableRow>
               {columns.map(column => (

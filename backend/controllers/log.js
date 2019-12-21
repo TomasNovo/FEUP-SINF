@@ -88,6 +88,16 @@ function remove(req, res) {
   })
 }
 
+function removeAll(req, res) {
+  Log.deleteMany({})
+  .then(logs => {
+    res.status(200).send(logs);
+  })
+  .catch(err => {
+    res.status(401).send(err);
+  });
+}
+
 module.exports = {
   addLog,
   create,
@@ -95,4 +105,5 @@ module.exports = {
   readAll,
   update,
   remove,
+  removeAll
 };
