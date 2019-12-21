@@ -42,7 +42,6 @@ async function executeStep(activeProcess, process, step) {
   let error = true, message = step.document, itemKey;
   let item, quantity, unitPrice, body;
 
-  //TODO Check item mappings
   switch (step.document) {
     case "Sales Order":
       console.log('sales order')
@@ -69,11 +68,10 @@ async function executeStep(activeProcess, process, step) {
             type: "Error",
             processId: process.name,
             stepId: activeProcess.currentStep,
-            message: `Ìtem ${item} is not mapped in one of the companies`
+            message: `Item ${item} is not mapped in one of the companies`
           });
 
-          //Delete or stop??
-          await axios.delete(`http://localhost:7000/api/active-processes/${activeProcess._id}`);
+          await axios.delete(`http://localhost:7000/api/active-process/${activeProcess._id}`);
 
           return;
         }
@@ -94,7 +92,6 @@ async function executeStep(activeProcess, process, step) {
       break;
 
     case "Delivery":
-      // TO DO: ERROR LOG, DELIVERIES ARE CREATED MANUALLY
       break;
 
     case "Purchase Invoice":
@@ -106,6 +103,8 @@ async function executeStep(activeProcess, process, step) {
       }
       for (let i = 0; i < documentLines.length; i++) {
         item = documentLines[i].item;
+
+        console.log(item);
         quantity = documentLines[i].quantity;
         unitPrice = documentLines[i].unitPrice;
 
@@ -118,18 +117,15 @@ async function executeStep(activeProcess, process, step) {
             type: "Error",
             processId: process.name,
             stepId: activeProcess.currentStep,
-            message: `Ìtem ${item} is not mapped in one of the companies`
+            message: `Item ${item} is not mapped in one of the companies`
           });
 
-          //Delete or stop??
           await axios.delete(`http://localhost:7000/api/active-process/${activeProcess._id}`);
           return;
         }
 
-
-        itemKey = itemKey.data;
         PIbody.documentLines.push({
-          PurchasesItem: itemKey,
+          PurchasesItem: item,
           quantity,
           unitPrice,
         })
@@ -153,11 +149,9 @@ async function executeStep(activeProcess, process, step) {
       break;
 
     case "Purchase Order":
-      // TO DO: ERROR LOG, PURCHASE ORDERS ARE CREATED MANUALLY
       break;
 
     case "Goods Receipt":
-      console.log('goods receipt')
       const GRdocumentLines = activeProcess.data.documentLines;
       const GRsourceDocKey = activeProcess.data["Purchase Order"];
       let GRbody = [];
@@ -179,11 +173,9 @@ async function executeStep(activeProcess, process, step) {
       break;
 
     case "Sales Invoice":
-      // TO DO: ERROR LOG, SALES INVOICE ARE CREATED MANUALLY
       break;
 
     case "Payment":
-      // TO DO: ERROR LOG, PAYMENTS ARE CREATED MANUALLY
       break;
 
     default:
@@ -203,20 +195,6 @@ async function executeStep(activeProcess, process, step) {
 
   await incrementStep(activeProcess, process);
 }
-
-
-/*
-    Name | date | origin | recipient
-    --------------------------------
-    Sales Order | postingDate | company | buyerCustomerPartyName
-    Purchase Order | postingDate | company | sellerSupplierPartyName
-    Delivery | postingDate | company | logisticsPartyName ?? 
-    Goods Receipt | postingDate?? | company?? | 
-    Sales Invoice | createdOn | company | buyerCustomerParty
-    Purchase Invoice | postingDate | company | sellerSupplierPartyName
-    Payment | ??? | ??? | accountingParty
-    Receivable | postingDate | company | financialAccount
-*/
 
 async function analyseDocs(lastCheck, docs, code, party, process, activeProcess, step, callback) {
   docs = docs.data.result;
@@ -289,7 +267,6 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step) {
 
   switch (step.document) {
     case "Sales Order":
-      // TO DO: ERROR LOG, SALES ORDER ARE CREATED AUTOMATICALLY
       docs = await axios.get(`http://localhost:7000/api/jasmin/sales-order/${company.id}`);
       code = company.customer;
       item = 'salesItem';
@@ -308,7 +285,6 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step) {
       break;
 
     case "Purchase Invoice":
-      // TO DO: ERROR LOG, PURCHASE INVOICES ARE CREATED AUTOMATICALLY
       docs = await axios.get(`http://localhost:7000/api/jasmin/purchase-invoice/${company.id}`);
       code = company.supplier;
       item = 'purchasesItem';
@@ -316,7 +292,6 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step) {
       break;
 
     case "Receivable":
-      // TO DO: ERROR LOG, RECEIVABLES ARE CREATED AUTOMATICALLY
       docs = await axios.get(`http://localhost:7000/api/jasmin/receivable/${company.id}`);
       code = company.customer;
       item = 'cashFlowItem'; //???
@@ -345,7 +320,6 @@ async function checkJasminDocs(lastCheck, process, activeProcess, step) {
       break;
 
     case "Goods Receipt":
-      // TO DO: ERROR LOG, GOODS RECEIPTS ARE CREATED AUTOMATICALLY
       docs = await axios.get(`http://localhost:7000/api/jasmin/goods-receipt/${company.id}/${company.name}`);
       code = company.supplier;
       //item = 'purchasesItem'; ???
