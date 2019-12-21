@@ -103,8 +103,6 @@ async function executeStep(activeProcess, process, step) {
       }
       for (let i = 0; i < documentLines.length; i++) {
         item = documentLines[i].item;
-
-        console.log(item);
         quantity = documentLines[i].quantity;
         unitPrice = documentLines[i].unitPrice;
 
