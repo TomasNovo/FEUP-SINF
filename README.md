@@ -25,22 +25,22 @@ Node.js is required. Do **npm -install**.
 ### Core Views 
 
 **Processes**
-<br/>
+<br/><br/>
 ![Processes](https://raw.github.com/TomasNovo/FEUP-SINF/master/docs/process.png)
 <br/><br/><br/>
 **New process**
-<br/>
+<br/><br/>
 ![New process](https://raw.github.com/TomasNovo/FEUP-SINF/master/docs/new.png)
 <br/><br/><br/>
 **Inventory**
-<br/>
+<br/><br/>
 ![Inventory](https://raw.github.com/TomasNovo/FEUP-SINF/master/docs/inventory.png)
 <br/><br/><br/>
-**Warehouses**
+**Warehouses**<br/>
 <br/>
 ![Warehouses](https://raw.github.com/TomasNovo/FEUP-SINF/master/docs/warehouses.png)
 <br/><br/><br/>
-**Settings**
+**Settings**<br/>
 <br/>
 ![Settings](https://raw.github.com/TomasNovo/FEUP-SINF/master/docs/settings.png)
 
