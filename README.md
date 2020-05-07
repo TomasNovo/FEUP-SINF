@@ -20,7 +20,7 @@ Process and Purchase and Sales process between two companies
 
 ### Build
 
-Node.js is required. Do **npm -install**. 
+Node.js is required. Do **npm install**. 
 
 ### Core Views 
 
